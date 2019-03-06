@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="mbinary">
+
+
+
+<meta name="description" content="散列表的原理与实现, 包括直接寻址, 链接法, 开放寻址法等">
+<meta name="keywords" content="数据结构,散列表">
+<meta property="og:type" content="article">
+<meta property="og:title" content="『数据结构』散列表">
+<meta property="og:url" content="https://mbinary.xyz/hashTable.html">
+<meta property="og:site_name" content="mbinary&#39;s blog">
+<meta property="og:description" content="散列表的原理与实现, 包括直接寻址, 链接法, 开放寻址法等">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-97d11b25923902c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-8d659aa8fe7de1a9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-01-30T10:59:18.088Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="『数据结构』散列表">
+<meta name="twitter:description" content="散列表的原理与实现, 包括直接寻址, 链接法, 开放寻址法等">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/7130568-97d11b25923902c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="mbinary&#39;s blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/yinyang.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>『数据结构』散列表 | mbinary&#39;s blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+
+
+
+</head></html>
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">mbinary</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">淡泊明志, 宁静致远</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="Let me search for you>_<" class="search form-control" autocomplete="off" autocorrect="off" searchonload="false">
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class="no-result">No results found <i class="fa fa-spinner fa-pulse"></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/archives/">归档</a></li>
+                        
+                            <li><a href="/tags/">标签</a></li>
+                        
+                            <li><a href="/leetcode/">编程</a></li>
+                        
+                            <li><a href="/about/">关于</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Github" href="https://github.com/mbinary" title="Github"></a>
+                            
+                                <a class="fa Leetcode" href="https://leetcode-cn.com/mbinary/" title="Leetcode"></a>
+                            
+                                <a class="fa LinkedIn" href="http://www.linkedin.com/in/cs-heqin-zhu" title="LinkedIn"></a>
+                            
+                                <a class="fa Email" href="mailto:zhuheqin1@gmail.com" title="Email"></a>
+                            
+                                <a class="fa QQ" href="http://wpa.qq.com/msgrd?v=3&uin=414313516&site=qq&menu=yes" title="QQ"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/B树/">B树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/USTC/">USTC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/">api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/common-lisp/">common lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/macro/">macro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/人际交往/">人际交往</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分享/">分享</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动态规划/">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/区块链/">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/图/">图</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/娱乐/">娱乐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串匹配/">字符串匹配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/室友/">室友</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/影视/">影视</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/总结/">总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/惰性学习/">惰性学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序/">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/散列表/">散列表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数字货币/">数字货币</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/斐波那契堆/">斐波那契堆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机械键盘/">机械键盘</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树/">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/比特币/">比特币</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编/">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/红黑树/">红黑树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机组成原理/">计算机组成原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逆向/">逆向</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/选择/">选择</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/黑客/">黑客</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://mbinary.xyz/links/">交换友链说明</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.4spaces.org">4spaces</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">mbinary</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">mbinary</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">淡泊明志, 宁静致远</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">归档</a></li>
+                
+                    <li><a href="/tags/">标签</a></li>
+                
+                    <li><a href="/leetcode/">编程</a></li>
+                
+                    <li><a href="/about/">关于</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Github" target="_blank" href="https://github.com/mbinary" title="Github"></a>
+                            
+                                <a class="fa Leetcode" target="_blank" href="https://leetcode-cn.com/mbinary/" title="Leetcode"></a>
+                            
+                                <a class="fa LinkedIn" target="_blank" href="http://www.linkedin.com/in/cs-heqin-zhu" title="LinkedIn"></a>
+                            
+                                <a class="fa Email" target="_blank" href="mailto:zhuheqin1@gmail.com" title="Email"></a>
+                            
+                                <a class="fa QQ" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=414313516&site=qq&menu=yes" title="QQ"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
+</nav>
+      <div class="body-wrap"><article id="post-hashTable" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/hashTable.html" class="article-date">
+      <time datetime="2018-07-08T15:25:00.000Z" itemprop="datePublished">2018-07-08</time>
+</a>
+
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      『数据结构』散列表
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/数据结构与算法/">数据结构与算法</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/散列表/">散列表</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <script src="/assets/js/APlayer.min.js"> </script><!-- TOC -->
+<ul>
+<li><a href="#1-关键字">1. 关键字</a></li>
+<li><a href="#2-映射">2. 映射</a><ul>
+<li><a href="#21-散列函数hash">2.1. 散列函数(hash)</a><ul>
+<li><a href="#211-简单一致散列">2.1.1. 简单一致散列</a></li>
+<li><a href="#212-碰撞collision">2.1.2. 碰撞(collision)</a></li>
+<li><a href="#213-str2int-的方法">2.1.3. str2int 的方法</a></li>
+</ul>
+</li>
+<li><a href="#22-直接寻址法">2.2. 直接寻址法</a></li>
+<li><a href="#23-链接法">2.3. 链接法</a><ul>
+<li><a href="#231-全域散列universal-hashing">2.3.1. 全域散列(universal hashing)</a><ul>
+<li><a href="#2311-定义">2.3.1.1. 定义</a></li>
+<li><a href="#2312-性质">2.3.1.2. 性质</a></li>
+<li><a href="#2313-实现">2.3.1.3. 实现</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#24-开放寻址法">2.4. 开放寻址法</a><ul>
+<li><a href="#241-不成功查找的探查数的期望">2.4.1. 不成功查找的探查数的期望</a><ul>
+<li><a href="#2411-插入探查数的期望">2.4.1.1. 插入探查数的期望</a></li>
+<li><a href="#2412-成功查找的探查数的期望">2.4.1.2. 成功查找的探查数的期望</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<!-- /TOC -->
+<p>哈希表 (hash table) , 可以实现 $O(1)$ 的 read, write, update<br>相对应 python 中的 dict, c语言中的 map</p>
+<p>其实数组也能实现, 只是数组用来索引的关键字是下标, 是整数.<br>而哈希表就是将各种关键字映射到数组下标的一种”数组”</p>
+<p><a id="markdown-1-关键字" name="1-关键字"></a></p>
+<h1 id="1-关键字"><a href="#1-关键字" class="headerlink" title="1. 关键字"></a>1. 关键字</h1><p>由于关键字是用来索引数据的, 所以要求它不能变动(如果变动,实际上就是一个新的关键字插入了), 在python 中表现为 immutable. 常为字符串.</p>
+<p><a id="markdown-2-映射" name="2-映射"></a></p>
+<h1 id="2-映射"><a href="#2-映射" class="headerlink" title="2. 映射"></a>2. 映射</h1><p><a id="markdown-21-散列函数hash" name="21-散列函数hash"></a></p>
+<h2 id="2-1-散列函数-hash"><a href="#2-1-散列函数-hash" class="headerlink" title="2.1. 散列函数(hash)"></a>2.1. 散列函数(hash)</h2><p>将关键字 k 进行映射, 映射函数 $h$, 映射后的数组地址 $h(k)$.</p>
+<p><a id="markdown-211-简单一致散列" name="211-简单一致散列"></a></p>
+<h3 id="2-1-1-简单一致散列"><a href="#2-1-1-简单一致散列" class="headerlink" title="2.1.1. 简单一致散列"></a>2.1.1. 简单一致散列</h3><blockquote>
+<ul>
+<li>简单一致假设:元素散列到每个链表的可能性是相同的, 且与其他已被散列的元素独立无关.</li>
+<li>简单一致散列(simple uniform hashing): 满足简单一致假设的散列</li>
+</ul>
+</blockquote>
+<p>好的散列函数应 满足简单一致假设<br>例如</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+&(1) \text{除法散列} \quad h(k) = k \ mod\ m \\
+&(2) \text{乘法散列} \quad h(k) = \lfloor {m(kA \ mod\  1)\rfloor}  \text{,(0< A<  1)}\\
+&\quad\text{任何 A 都适用,最佳的选择与散列的数据特征有关.}\\
+&\quad\text{  Knuth 认为,最理想的是黄金分割数}\frac{\sqrt{5} -1}{2} \approx 0.618
+\end{aligned}</script><p><a id="markdown-212-碰撞collision" name="212-碰撞collision"></a></p>
+<h3 id="2-1-2-碰撞-collision"><a href="#2-1-2-碰撞-collision" class="headerlink" title="2.1.2. 碰撞(collision)"></a>2.1.2. 碰撞(collision)</h3><p> 由于关键字值域大于映射后的地址值域, 所以可能出现两个关键字有相同的映射地址</p>
+<p><a id="markdown-213-str2int-的方法" name="213-str2int-的方法"></a></p>
+<h3 id="2-1-3-str2int-的方法"><a href="#2-1-3-str2int-的方法" class="headerlink" title="2.1.3. str2int 的方法"></a>2.1.3. str2int 的方法</h3><p>可以先用 ascii 值,然后</p>
+<ul>
+<li>各位相加</li>
+<li>两位叠加</li>
+<li>循环移位</li>
+<li>…</li>
+</ul>
+<p><a id="markdown-22-直接寻址法" name="22-直接寻址法"></a></p>
+<h2 id="2-2-直接寻址法"><a href="#2-2-直接寻址法" class="headerlink" title="2.2. 直接寻址法"></a>2.2. 直接寻址法</h2><p>将关键字直接对应到数组地址, 即 $h(k)=k$</p>
+<p>缺点: 如果关键字值域范围大, 但是数量小, 就会浪费空间, 有可能还不能储存这么大的值域范围.</p>
+<p><a id="markdown-23-链接法" name="23-链接法"></a></p>
+<h2 id="2-3-链接法"><a href="#2-3-链接法" class="headerlink" title="2.3. 链接法"></a>2.3. 链接法</h2><p>通过链接法来解决碰撞</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/7130568-97d11b25923902c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>记有 m 个链表, n 个元素 $\alpha = \frac{n}{m}$ 为每个链表的期望元素个数(长度)</p>
+<p>则查找成功,或者不成功的时间复杂度为 $\Theta(1+\alpha)$<br>如果 $n=O(m), namely \quad \alpha=\frac{O(m)}{m}=O(1)$, 则上面的链接法满足 $O(1)$的速度</p>
+<p><a id="markdown-231-全域散列universal-hashing" name="231-全域散列universal-hashing"></a></p>
+<h3 id="2-3-1-全域散列-universal-hashing"><a href="#2-3-1-全域散列-universal-hashing" class="headerlink" title="2.3.1. 全域散列(universal hashing)"></a>2.3.1. 全域散列(universal hashing)</h3><p> 随机地选择散列函数, 使之独立于要存储的关键字<br><a id="markdown-2311-定义" name="2311-定义"></a></p>
+<h4 id="2-3-1-1-定义"><a href="#2-3-1-1-定义" class="headerlink" title="2.3.1.1. 定义"></a>2.3.1.1. 定义</h4><p>设一组散列函数 $H=\{h_1,h_2,\ldots,h_i\}$, 将 关键字域 U 映射到 $\{0,1,\ldots,m-1\}$ , 全域的函数组, 满足</p>
+<script type="math/tex; mode=display">
+for \ k \neq l \ \in U, h(k) = h(l), \text{这样的 h 的个数不超过}\frac{|H|}{m}</script><p>即从 H 中任选一个散列函数, 当关键字不相等时, 发生碰撞的概率不超过 $\frac{1}{m}$</p>
+<p><a id="markdown-2312-性质" name="2312-性质"></a></p>
+<h4 id="2-3-1-2-性质"><a href="#2-3-1-2-性质" class="headerlink" title="2.3.1.2. 性质"></a>2.3.1.2. 性质</h4><p>对于 m 个槽位的表, 只需 $\Theta(n)$的期望时间来处理 n 个元素的 insert, search, delete,其中  有$O(m)$个insert 操作<br><a id="markdown-2313-实现" name="2313-实现"></a></p>
+<h4 id="2-3-1-3-实现"><a href="#2-3-1-3-实现" class="headerlink" title="2.3.1.3. 实现"></a>2.3.1.3. 实现</h4><p>选择足够大的 prime p, 记 $Z_p=\{0,1,\ldots,p-1\}$,  $Z_p^{<em>}=\{1,\ldots,p-1\}$<br>令$h_{a,b}(k) = ((ak+b)mod\ p) mod\ m$<br>则 $H_{p,m}=\{h_{a,b}|a\in Z_p^{</em>},b\in Z_p\}$</p>
+<p>每一个散列函数 $h_{a,b}$ 都将 $Z_p$ 映射到 $Z_m$, m 可以是任意的, 不用是一个素数<br><a id="markdown-24-开放寻址法" name="24-开放寻址法"></a></p>
+<h2 id="2-4-开放寻址法"><a href="#2-4-开放寻址法" class="headerlink" title="2.4. 开放寻址法"></a>2.4. 开放寻址法</h2><p>所有表项都在散列表中, 没有链表.<br>且散列表装载因子$\alpha=\frac{n}{m}\leqslant1$<br>这里散列函数再接受一个参数, 作为探测序号<br>逐一试探 $h(k,0),h(k,1),\ldots,h(k,m-1)$,这要有满足的,就插入, 不再计算后面的 hash值</p>
+<p>探测序列一般分有三种</p>
+<ul>
+<li>线性$\ 0,1,\ldots,m-1$</li>
+</ul>
+<p>存在一次聚集问题</p>
+<ul>
+<li>二次$\ 0,1,\ldots,(m-1)^2$</li>
+</ul>
+<p>存在二次聚集问题</p>
+<ul>
+<li>双重探查</li>
+</ul>
+<p>$h(k,i) = (h_1(k)+i*h_2(k))mod\ m$<br>为了能查找整个表, 即要为模 m 的完系, 则 h_2(k)要与 m 互质.<br>如可以取 $h_1(k) = k\ mod \ m,h_2(k) = 1+(k\ mod\ {m-1})$</p>
+<p>注意删除时, 不能直接删除掉(如果有元素插入在其后插入时探测过此地址,删除后就不能访问到那个元素了), 应该 只是做个标记为删除</p>
+<p><a id="markdown-241-不成功查找的探查数的期望" name="241-不成功查找的探查数的期望"></a></p>
+<h3 id="2-4-1-不成功查找的探查数的期望"><a href="#2-4-1-不成功查找的探查数的期望" class="headerlink" title="2.4.1. 不成功查找的探查数的期望"></a>2.4.1. 不成功查找的探查数的期望</h3><p>对于开放寻址散列表,且 $\alpha&lt;1$,一次不成功的查找,是这样的: 已经装填了 n 个, 总共有m 个,则空槽有 m-n 个.<br>不成功的探查是这样的: 一直探查到已经装填的元素(但是不是要找的元素),  直到遇到没有装填的空槽. 所以这服从几何分布, 即</p>
+<script type="math/tex; mode=display">
+p(\text{不成功探查})=p(\text{第一次找到空槽})=\frac{m-n}{m}</script><p> 有</p>
+<script type="math/tex; mode=display">E(\text{探查数})=\frac{1}{p}\leqslant \frac{1}{1-\alpha}</script><p><img src="https://upload-images.jianshu.io/upload_images/7130568-8d659aa8fe7de1a9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><a id="markdown-2411-插入探查数的期望" name="2411-插入探查数的期望"></a></p>
+<h4 id="2-4-1-1-插入探查数的期望"><a href="#2-4-1-1-插入探查数的期望" class="headerlink" title="2.4.1.1. 插入探查数的期望"></a>2.4.1.1. 插入探查数的期望</h4><p>所以, 插入一个关键字, 也最多需要 $\frac{1}{1-\alpha}$次, 因为插入过程就是前面都是被占用了的槽, 最后遇到一个空槽.与探查不成功是一样的过程<br><a id="markdown-2412-成功查找的探查数的期望" name="2412-成功查找的探查数的期望"></a></p>
+<h4 id="2-4-1-2-成功查找的探查数的期望"><a href="#2-4-1-2-成功查找的探查数的期望" class="headerlink" title="2.4.1.2. 成功查找的探查数的期望"></a>2.4.1.2. 成功查找的探查数的期望</h4><p>成功查找的探查过程与插入是一样的. 所以查找关键字 k 相当于 插入它, 设为第 i+1 个插入的(前面插入了i个,装载因子$\alpha=\frac{i}{m}$. 那么期望探查数就是 </p>
+<script type="math/tex; mode=display">\frac{1}{1-\alpha}=\frac{1}{1-\frac{i}{m}}=\frac{m}{m-i}</script><p>则成功查找的期望探查数为</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\frac{1}{n}\sum_{i=0}^{n-1}\frac{m}{m-i}=\frac{m}{n}\sum_{i=0}^{n-1}\frac{1}{m-i} &= \frac{m}{n}\sum_{i=m-n+1}^{m}\frac{1}{i}\\
+&\leqslant  \frac{1}{\alpha} \int_{m-n}^m\frac{1}{x}dx\\
+&=\frac{1}{\alpha}ln\frac{1}{1-\alpha}
+\end{aligned}</script><p>代码</p>
+<p><strong><a href="https://github.com/mbinary/algorithm-in-python.git" target="_blank" rel="noopener">github地址</a></strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">item</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,key,val,nextItem=None)</span>:</span></span><br><span class="line">        self.key = key</span><br><span class="line">        self.val = val</span><br><span class="line">        self.next = nextItem</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">to</span><span class="params">(self,it)</span>:</span></span><br><span class="line">        self.next = it</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__eq__</span><span class="params">(self,it)</span>:</span></span><br><span class="line">        <span class="string">'''using  keyword &lt;in&gt; '''</span></span><br><span class="line">        <span class="keyword">return</span> self.key == it.key</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__bool__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.key <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        li = []</span><br><span class="line">        nd = self</span><br><span class="line">        <span class="keyword">while</span> nd:</span><br><span class="line">            li.append(<span class="string">f'(<span class="subst">&#123;nd.key&#125;</span>:<span class="subst">&#123;nd.val&#125;</span>)'</span>)</span><br><span class="line">            nd = nd.next</span><br><span class="line">        <span class="keyword">return</span> <span class="string">' -&gt; '</span>.join(li)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">f'item(<span class="subst">&#123;self.key&#125;</span>,<span class="subst">&#123;self.val&#125;</span>)'</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">hashTable</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,size=<span class="number">100</span>)</span>:</span></span><br><span class="line">        self.size = size</span><br><span class="line">        self.slots=[item(<span class="keyword">None</span>,<span class="keyword">None</span>) <span class="keyword">for</span> i <span class="keyword">in</span> range(self.size)]</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__setitem__</span><span class="params">(self,key,val)</span>:</span></span><br><span class="line">        nd = self.slots[self.myhash(key)]</span><br><span class="line">        <span class="keyword">while</span> nd.next:</span><br><span class="line">            <span class="keyword">if</span> nd.key ==key:</span><br><span class="line">                <span class="keyword">if</span> nd.val!=val: nd.val=val</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            nd  = nd.next</span><br><span class="line">        nd.next = item(key,val)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">myhash</span><span class="params">(self,key)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> isinstance(key,str):</span><br><span class="line">            key = sum(ord(i) <span class="keyword">for</span> i <span class="keyword">in</span> key)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> isinstance(key,int):</span><br><span class="line">            key = hash(key)</span><br><span class="line">        <span class="keyword">return</span> key % self.size</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">'''when using keyword &lt;in&gt;, such as ' if key in dic',</span></span><br><span class="line"><span class="string">            the dic's  __iter__ method will be called,(if hasn't, calls __getitem__</span></span><br><span class="line"><span class="string">            then  ~iterate~  dic's keys to compare whether one equls to the key</span></span><br><span class="line"><span class="string">        '''</span></span><br><span class="line">        <span class="keyword">for</span> nd <span class="keyword">in</span> self.slots:</span><br><span class="line">            nd = nd.next</span><br><span class="line">            <span class="keyword">while</span> nd :</span><br><span class="line">                <span class="keyword">yield</span> nd.key</span><br><span class="line">                nd = nd.next</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self,key)</span>:</span></span><br><span class="line">        nd =self.slots[ self.myhash(key)].next</span><br><span class="line">        <span class="keyword">while</span> nd:</span><br><span class="line">            <span class="keyword">if</span> nd.key==key:</span><br><span class="line">                <span class="keyword">return</span> nd.val</span><br><span class="line">            nd = nd.next</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">f'[KeyError]: <span class="subst">&#123;self.__class__.__name__&#125;</span> has no key <span class="subst">&#123;key&#125;</span>'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__delitem__</span><span class="params">(self,key)</span>:</span></span><br><span class="line">        <span class="string">'''note that None item and item(None,None) differ with each other,</span></span><br><span class="line"><span class="string">            which means you should take care of them and correctly cop with None item</span></span><br><span class="line"><span class="string">            especially when deleting items</span></span><br><span class="line"><span class="string">        '''</span></span><br><span class="line">        n = self.myhash(key)</span><br><span class="line">        nd = self.slots[n].next</span><br><span class="line">        <span class="keyword">if</span> nd.key == key:</span><br><span class="line">            <span class="keyword">if</span> nd.next <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">                self.slots[n] =  item(<span class="keyword">None</span>,<span class="keyword">None</span>) <span class="comment"># be careful</span></span><br><span class="line">            <span class="keyword">else</span>:self.slots[n] = nd.next</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">while</span> nd:</span><br><span class="line">            <span class="keyword">if</span> nd.next <span class="keyword">is</span> <span class="keyword">None</span>: <span class="keyword">break</span>  <span class="comment"># necessary</span></span><br><span class="line">            <span class="keyword">if</span> nd.next.key ==key:</span><br><span class="line">                nd.next = nd.next.next</span><br><span class="line">            nd = nd.next</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        li = [<span class="string">'\n\n'</span>+<span class="string">'-'</span>*<span class="number">5</span>+<span class="string">'hashTable'</span>+<span class="string">'-'</span>*<span class="number">5</span>]</span><br><span class="line">        <span class="keyword">for</span> i,nd <span class="keyword">in</span> enumerate(self.slots):</span><br><span class="line">            li.append(<span class="string">f'<span class="subst">&#123;i&#125;</span>: '</span>+str(nd.next))</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'\n'</span>.join(li)</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/hashTable.html">『数据结构』散列表</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">mbinary</a></p>
+        <p><span>发布时间:</span>2018-07-08, 23:25:00</p>
+        <p><span>最后更新:</span>2019-01-30, 18:59:18</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/hashTable.html" title="『数据结构』散列表">https://mbinary.xyz/hashTable.html</a>
+            <span class="copy-path" data-clipboard-text="原文: https://mbinary.xyz/hashTable.html　　作者: mbinary" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/tree.html">
+                    『数据结构』树
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/sort.html">
+                    『算法』排序
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-关键字"><span class="toc-number">1.</span> <span class="toc-text">1. 关键字</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-映射"><span class="toc-number">2.</span> <span class="toc-text">2. 映射</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-散列函数-hash"><span class="toc-number">2.1.</span> <span class="toc-text">2.1. 散列函数(hash)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-1-简单一致散列"><span class="toc-number">2.1.1.</span> <span class="toc-text">2.1.1. 简单一致散列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-2-碰撞-collision"><span class="toc-number">2.1.2.</span> <span class="toc-text">2.1.2. 碰撞(collision)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-3-str2int-的方法"><span class="toc-number">2.1.3.</span> <span class="toc-text">2.1.3. str2int 的方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-直接寻址法"><span class="toc-number">2.2.</span> <span class="toc-text">2.2. 直接寻址法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-链接法"><span class="toc-number">2.3.</span> <span class="toc-text">2.3. 链接法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-1-全域散列-universal-hashing"><span class="toc-number">2.3.1.</span> <span class="toc-text">2.3.1. 全域散列(universal hashing)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-1-定义"><span class="toc-number">2.3.1.1.</span> <span class="toc-text">2.3.1.1. 定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-2-性质"><span class="toc-number">2.3.1.2.</span> <span class="toc-text">2.3.1.2. 性质</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-3-实现"><span class="toc-number">2.3.1.3.</span> <span class="toc-text">2.3.1.3. 实现</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-开放寻址法"><span class="toc-number">2.4.</span> <span class="toc-text">2.4. 开放寻址法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-1-不成功查找的探查数的期望"><span class="toc-number">2.4.1.</span> <span class="toc-text">2.4.1. 不成功查找的探查数的期望</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-1-1-插入探查数的期望"><span class="toc-number">2.4.1.1.</span> <span class="toc-text">2.4.1.1. 插入探查数的期望</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-1-2-成功查找的探查数的期望"><span class="toc-number">2.4.1.2.</span> <span class="toc-text">2.4.1.2. 成功查找的探查数的期望</span></a></li></ol></li></ol></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-6 i,
+        .toc-level-6 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"『数据结构』散列表　| mbinary's blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+
+<!--<script src="//cdn.jsdelivr.net/npm/leancloud-storage@latest/dist/av-min.js"></script>
+<script src='//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js'></script>-->
+
+<div id="vcomments"></div>
+<script>
+    var notify = false == true ? true : false;
+    var verify = false == true ? true : false;
+    var visitor = true == true ? true : false;
+new Valine({
+    el: '#vcomments',
+    notify: notify,
+    verify: verify,
+    appId: 'ArpEYbLUBmpXK3f245hKNu4A-gzGzoHsz',
+    appKey: 'X5cHcMU1ATb8q0prtPGEqIPX',
+    lang: 'en',
+    placeholder: '留下你的小脚印^_^ (支持 markdown, 上面三项 昵称,邮件(可用于回复),网址都是可选填的)',
+    avatar: 'monsterid',
+    pageSize: 10,
+    visitor: visitor
+    });
+</script>
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/tree.html" title="上一篇: 『数据结构』树">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/sort.html" title="下一篇: 『算法』排序">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/number-theory.html">Number-Theory</a></li><li class="post-list-item"><a class="post-list-link" href="/string-matching.html">String-Mathching-Algorithm</a></li><li class="post-list-item"><a class="post-list-link" href="/graph.html">图算法</a></li><li class="post-list-item"><a class="post-list-link" href="/fib-heap.html">『数据结构』Fibonacci-heap</a></li><li class="post-list-item"><a class="post-list-link" href="/b-tree.html">『数据结构』B树(B-Tree)及其变体 B+树,B*树</a></li><li class="post-list-item"><a class="post-list-link" href="/introduction-to-bitcoin.html">『比特币』概述</a></li><li class="post-list-item"><a class="post-list-link" href="/introduction-to-blockchain.html">『区块链』简介</a></li><li class="post-list-item"><a class="post-list-link" href="/algorithm-general.html">『算法』概述</a></li><li class="post-list-item"><a class="post-list-link" href="/red-black-tree.html">『数据结构』红黑树(red-black tree)</a></li><li class="post-list-item"><a class="post-list-link" href="/tree.html">『数据结构』树</a></li><li class="post-list-item"><a class="post-list-link" href="/hashTable.html">『数据结构』散列表</a></li><li class="post-list-item"><a class="post-list-link" href="/sort.html">『算法』排序</a></li><li class="post-list-item"><a class="post-list-link" href="/bus.html">『计算机组成原理』总线</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-device.html">『现代操作系统』IO设备</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-software.html">『现代操作系统』IO软件原理</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-hardware.html">『现代操作系统』IO硬件原理</a></li><li class="post-list-item"><a class="post-list-link" href="/os-general.html">『现代操作系统』操作系统引论</a></li><li class="post-list-item"><a class="post-list-link" href="/linux-file-io.html">『Unix环境高级编程』linux 文件 I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/multiprocessor.html">『现代操作系统』多处理机</a></li><li class="post-list-item"><a class="post-list-link" href="/simple-shell.html">『linux』c 语言实现一个简易的 shell</a></li><li class="post-list-item"><a class="post-list-link" href="/deadlock.html">『现代操作系统』死锁</a></li><li class="post-list-item"><a class="post-list-link" href="/risk-predict.html">信用卡持卡人风险预测</a></li><li class="post-list-item"><a class="post-list-link" href="/comics-about-staying-up.html">『小仓鼠漫画』熬夜的危害与防护</a></li><li class="post-list-item"><a class="post-list-link" href="/ctf-basic.html">『CTF』网络信息安全攻防实验室之基础关 writeup</a></li><li class="post-list-item"><a class="post-list-link" href="/send-blog-automatically.html">『WEB』用 python 发送 csdn 博客</a></li><li class="post-list-item"><a class="post-list-link" href="/the-roommate-that-uses-mechanical-keyboard.html">用机械键盘的室友</a></li><li class="post-list-item"><a class="post-list-link" href="/csapp-bomb-lab-report.html">CSAPP-BOMB-LAB</a></li><li class="post-list-item"><a class="post-list-link" href="/learning-and-forgetting.html">学习与遗忘</a></li><li class="post-list-item"><a class="post-list-link" href="/20-years-old-summary.html">2017 年，20 岁，大二寒假总结与感悟</a></li><li class="post-list-item"><a class="post-list-link" href="/decrypt-netease-music.html">『WEB』从网易云音乐缓存文件得到MP3</a></li><li class="post-list-item"><a class="post-list-link" href="/all-one-data-structure.html">『数据结构』inc,dec,getMin,getMax 均为 O(1)</a></li><li class="post-list-item"><a class="post-list-link" href="/video.html">影视作品观后感</a></li><li class="post-list-item"><a class="post-list-link" href="/books.html">书籍总结与推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/common-lisp-macro.html">『common lisp』宏及函数的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/hacker-and-painter.html">『读书笔记』黑客与画家</a></li><li class="post-list-item"><a class="post-list-link" href="/from-chem-to-cs.html">从化院到计院</a></li><li class="post-list-item"><a class="post-list-link" href="/from-zhuzhong-to-ustc.html">从竹中到科大</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017-2019 mbinary
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+    </div>
+</footer>
+
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+<!-->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<--!>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>

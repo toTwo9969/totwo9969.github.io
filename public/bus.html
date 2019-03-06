@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="mbinary">
+
+
+
+<meta name="description" content="总线的结构, 控制, 周期, 标准, 通信方式等">
+<meta name="keywords" content="计算机组成原理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="『计算机组成原理』总线">
+<meta property="og:url" content="https://mbinary.xyz/bus.html">
+<meta property="og:site_name" content="mbinary&#39;s blog">
+<meta property="og:description" content="总线的结构, 控制, 周期, 标准, 通信方式等">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-086f81263d6f9aa8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-f14a87e692745448.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-70083c92ac7630f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-794ed9ae438b4423.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-40ed1a3129cd4a66.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-60e223afbc1a07a8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-9e2515f3cf7b0b01.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-d69f183709dd8d91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-b58d4454d9e6da1c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-dea70cabf7a85189.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-01-30T11:00:04.881Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="『计算机组成原理』总线">
+<meta name="twitter:description" content="总线的结构, 控制, 周期, 标准, 通信方式等">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/7130568-086f81263d6f9aa8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="mbinary&#39;s blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/yinyang.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>『计算机组成原理』总线 | mbinary&#39;s blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+
+
+
+</head></html>
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">mbinary</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">淡泊明志, 宁静致远</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="Let me search for you>_<" class="search form-control" autocomplete="off" autocorrect="off" searchonload="false">
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class="no-result">No results found <i class="fa fa-spinner fa-pulse"></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/archives/">归档</a></li>
+                        
+                            <li><a href="/tags/">标签</a></li>
+                        
+                            <li><a href="/leetcode/">编程</a></li>
+                        
+                            <li><a href="/about/">关于</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Github" href="https://github.com/mbinary" title="Github"></a>
+                            
+                                <a class="fa Leetcode" href="https://leetcode-cn.com/mbinary/" title="Leetcode"></a>
+                            
+                                <a class="fa LinkedIn" href="http://www.linkedin.com/in/cs-heqin-zhu" title="LinkedIn"></a>
+                            
+                                <a class="fa Email" href="mailto:zhuheqin1@gmail.com" title="Email"></a>
+                            
+                                <a class="fa QQ" href="http://wpa.qq.com/msgrd?v=3&uin=414313516&site=qq&menu=yes" title="QQ"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/B树/">B树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/USTC/">USTC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/">api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/common-lisp/">common lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/macro/">macro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/人际交往/">人际交往</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分享/">分享</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动态规划/">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/区块链/">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/图/">图</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/娱乐/">娱乐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串匹配/">字符串匹配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/室友/">室友</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/影视/">影视</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/总结/">总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/惰性学习/">惰性学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序/">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/散列表/">散列表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数字货币/">数字货币</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/斐波那契堆/">斐波那契堆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机械键盘/">机械键盘</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树/">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/比特币/">比特币</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编/">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/红黑树/">红黑树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机组成原理/">计算机组成原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逆向/">逆向</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/选择/">选择</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/黑客/">黑客</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://mbinary.xyz/links/">交换友链说明</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.4spaces.org">4spaces</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">mbinary</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">mbinary</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">淡泊明志, 宁静致远</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">归档</a></li>
+                
+                    <li><a href="/tags/">标签</a></li>
+                
+                    <li><a href="/leetcode/">编程</a></li>
+                
+                    <li><a href="/about/">关于</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Github" target="_blank" href="https://github.com/mbinary" title="Github"></a>
+                            
+                                <a class="fa Leetcode" target="_blank" href="https://leetcode-cn.com/mbinary/" title="Leetcode"></a>
+                            
+                                <a class="fa LinkedIn" target="_blank" href="http://www.linkedin.com/in/cs-heqin-zhu" title="LinkedIn"></a>
+                            
+                                <a class="fa Email" target="_blank" href="mailto:zhuheqin1@gmail.com" title="Email"></a>
+                            
+                                <a class="fa QQ" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=414313516&site=qq&menu=yes" title="QQ"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
+</nav>
+      <div class="body-wrap"><article id="post-bus" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/bus.html" class="article-date">
+      <time datetime="2018-06-18T12:57:27.000Z" itemprop="datePublished">2018-06-18</time>
+</a>
+
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      『计算机组成原理』总线
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/计算机基础/">计算机基础</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/计算机组成原理/">计算机组成原理</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <script src="/assets/js/APlayer.min.js"> </script><p><strong>总线</strong><br><!-- TOC --></p>
+<ul>
+<li><a href="#历史">历史</a></li>
+<li><a href="#分类">分类</a></li>
+<li><a href="#特性">特性</a></li>
+<li><a href="#性能指标">性能指标</a></li>
+<li><a href="#总线结构">总线结构</a></li>
+<li><a href="#总线控制">总线控制</a></li>
+<li><a href="#总线周期">总线周期</a></li>
+<li><a href="#总线标准">总线标准</a><ul>
+<li><a href="#pci">PCI</a></li>
+<li><a href="#usb">USB</a></li>
+</ul>
+</li>
+<li><a href="#通信方式">通信方式</a><ul>
+<li><a href="#同步">同步</a></li>
+<li><a href="#异步">异步</a></li>
+<li><a href="#半同步">半同步</a></li>
+<li><a href="#分离式">分离式</a><ul>
+<li><a href="#引入">引入</a></li>
+<li><a href="#原理">原理</a></li>
+<li><a href="#特点">特点</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<!-- /TOC -->
+<p><a id="markdown-历史" name="历史"></a></p>
+<h2 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h2><ul>
+<li>以 ALU 为中心</li>
+<li>以 MEM 为中心</li>
+<li>总线</li>
+</ul>
+<p><a id="markdown-分类" name="分类"></a></p>
+<h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><ul>
+<li>根据数据传送方式: 串, 并</li>
+<li>根据宽度: 8,16,32,64</li>
+<li>根据使用范围: 计算机外设总线, 测控总线, 总线</li>
+<li><p>根据连接部件</p>
+<ul>
+<li>片内总线(芯片内)</li>
+<li>系统总线: CPU, MEM, IO之间信息传输<br>根据传递的信息功能分类<ul>
+<li>数据总线</li>
+<li>地址总线</li>
+<li>控制总线</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><a id="markdown-特性" name="特性"></a></p>
+<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><ul>
+<li>机械特性: 规定几何尺寸,形状,引脚等</li>
+<li>电器特性: 信号方向, 电平范围等</li>
+<li>功能特性: 多跟线不同的功能</li>
+<li>时间特性: 时序</li>
+</ul>
+<p><a id="markdown-性能指标" name="性能指标"></a></p>
+<h2 id="性能指标"><a href="#性能指标" class="headerlink" title="性能指标"></a>性能指标</h2><p><img src="https://upload-images.jianshu.io/upload_images/7130568-086f81263d6f9aa8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>总线宽度：通常指数据总线的根数；<br>总线带宽：总线的数据传输率，指单位时间内总线上传输数据的位数；<br>总线复用：指同一条信号线可以分时传输不同的信号。<br>总线的主设备（主模块）：指一次总线传输期间，拥有总线控制权的设备（模块）；<br>总线的从设备（从模块）：指一次总线传输期间，配合主设备完成数据传输的设备（模块），它只能被动接受主设备发来的命令；<br>总线的传输周期：指总线完成一次完整而可靠的传输所需时间；<br>总线的通信控制：指总线传送过程中双方的时间配合方式。</p>
+<p><a id="markdown-总线结构" name="总线结构"></a></p>
+<h2 id="总线结构"><a href="#总线结构" class="headerlink" title="总线结构"></a>总线结构</h2><ul>
+<li>单总线</li>
+<li>双总线(引入通道)</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/7130568-f14a87e692745448.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<ul>
+<li>三总线1</li>
+</ul>
+<p>IO总线, DMA 总线, 主存总线<br><img src="https://upload-images.jianshu.io/upload_images/7130568-70083c92ac7630f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<ul>
+<li>三总线2</li>
+</ul>
+<p>局部总线,  系统总线, 扩展总线<br><img src="https://upload-images.jianshu.io/upload_images/7130568-794ed9ae438b4423.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<ul>
+<li>四总线</li>
+</ul>
+<p>局部总线,  系统总线, 扩展总线, <mark>高速总线</mark> ( 适用高速 I/O 设备)<br><img src="https://upload-images.jianshu.io/upload_images/7130568-40ed1a3129cd4a66.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="四总线"></p>
+<p><a id="markdown-总线控制" name="总线控制"></a></p>
+<h2 id="总线控制"><a href="#总线控制" class="headerlink" title="总线控制"></a>总线控制</h2><ul>
+<li>判优</li>
+</ul>
+<ul>
+<li><p>仲裁逻辑</p>
+<ul>
+<li><p>链式查询 <img src="https://upload-images.jianshu.io/upload_images/7130568-60e223afbc1a07a8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+</li>
+<li><p>计数器定时查询 <img src="https://upload-images.jianshu.io/upload_images/7130568-9e2515f3cf7b0b01.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+</li>
+</ul>
+</li>
+<li><p>独立请求 <img src="https://upload-images.jianshu.io/upload_images/7130568-d69f183709dd8d91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+</li>
+</ul>
+<p>比较</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>每个设备用的总线数</th>
+<th>实现</th>
+<th>特点</th>
+<th>原理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>链式查询</td>
+<td>2</td>
+<td>简单</td>
+<td>近的优先,对电路故障最敏感</td>
+<td>BS总线忙,BR总线请求,BG总线同意.<br>BG信号串行地从近到远传递到下一个IO接口, 如果此接口有总线请求, 总 BG 不再向下传,此接口得到总线使用权</td>
+</tr>
+<tr>
+<td>计数器定时查询</td>
+<td>~log<sub>2</sub>n</td>
+<td>稍复杂</td>
+<td>平等,对故障不敏感</td>
+<td>多了一组设备地址先,少了BG. 总线未被使用时,BS=0. 总线控制部件的计数器开始计数,然后通过设备地址先,向各设备发出一组地址信号. 到设备地址值与计数器值相同时,就获得总线使用权</td>
+</tr>
+<tr>
+<td>独立请求</td>
+<td>2n</td>
+<td>很复杂</td>
+<td>响应速度快,优先次序灵活(通过程序改变)</td>
+<td>设备发出对应的请求信号,总线控制部件中有一个排队电路, 可根据优先次序确定响应设备.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>通信</li>
+</ul>
+<p><a id="markdown-总线周期" name="总线周期"></a></p>
+<h2 id="总线周期"><a href="#总线周期" class="headerlink" title="总线周期"></a>总线周期</h2><p>申请分配 -&gt; 寻址 -&gt; 传输/通信 -&gt; 结束 -&gt; 申请分配…<br><a id="markdown-总线标准" name="总线标准"></a></p>
+<h2 id="总线标准"><a href="#总线标准" class="headerlink" title="总线标准"></a>总线标准</h2><p><a id="markdown-pci" name="pci"></a></p>
+<h3 id="PCI"><a href="#PCI" class="headerlink" title="PCI"></a>PCI</h3><ul>
+<li>高性能</li>
+<li>不依附于 CPU</li>
+<li>良好的兼容性</li>
+<li>即插即用(Plug and Play)</li>
+</ul>
+<p>每个 PCI 设备配有此设备的 reg, 供 BIOS 自动获取, 无需手动设置</p>
+<p><a id="markdown-usb" name="usb"></a></p>
+<h3 id="USB"><a href="#USB" class="headerlink" title="USB"></a>USB</h3><ul>
+<li>即插即用</li>
+<li>通过 HUB 扩展连接</li>
+<li>速度快</li>
+<li>标准统一</li>
+<li>有4根线, 两根信号, 两根电源</li>
+</ul>
+<p><a id="markdown-通信方式" name="通信方式"></a></p>
+<h2 id="通信方式"><a href="#通信方式" class="headerlink" title="通信方式"></a>通信方式</h2><p><a id="markdown-同步" name="同步"></a></p>
+<h3 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h3><p>通信双方由统一时标控制数据传送<br><img src="https://upload-images.jianshu.io/upload_images/7130568-b58d4454d9e6da1c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br><img src="https://upload-images.jianshu.io/upload_images/7130568-dea70cabf7a85189.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><a id="markdown-异步" name="异步"></a></p>
+<h3 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h3><p>允许各模块速度不一致,更加灵活. 没有公共的时钟标准,不一颗球所有部件严格统一操作时间, 而是应用<code>应答方式</code>(又称 <code>握手方式</code>)</p>
+<ul>
+<li>不互锁</li>
+<li>半互锁</li>
+<li>全互锁<br><a id="markdown-半同步" name="半同步"></a><h3 id="半同步"><a href="#半同步" class="headerlink" title="半同步"></a>半同步</h3>半同步通信既能像同步通信那样由统一时钟控制，又能像异步通信那样允许传输时间不一致，因此工作效率介于两者之间。<br><a id="markdown-分离式" name="分离式"></a><h3 id="分离式"><a href="#分离式" class="headerlink" title="分离式"></a>分离式</h3><a id="markdown-引入" name="引入"></a><h4 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h4>以上三种通信方式都是从主模块发出地址和读写命令开始，直到数据传输结输周期中，系统总线的使用权完全由占有使用权的主模块和由它选中的从模块占据。<br>进一步分析读命令传输周期，<ul>
+<li>主模块通过传输总线向从模块发送地址和命令。</li>
+<li>从模块按照命令进行读数据的必要准备。</li>
+<li>从模块经数据总线向主模块提供数据。．</li>
+</ul>
+</li>
+</ul>
+<p>由第二点可见，对系统总线而言，从模块内部读数据过程并无实质性的信息传输，总线空闲。为了克服和利用这种消极等待，尤其在大型刘算机系统中，总线的负载已处于饱和状态，<br>充分挖掘系统总线每瞬间的潜力，对提高系统性能起到极大作用。<br>提出了“分离式”的通信方式<br><a id="markdown-原理" name="原理"></a></p>
+<h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>其基本思想是将一个传输周期（或总线周期）分解为两个子周期。在第一个子周期中，主模块A在得到总线使用权后将命令、地址以及其他有关信息，包括该主模块编号（当有多个主模块时，此号尤为重要）发到系统总线上，经总线传输后，由有关的从模块B接收下来。</p>
+<p>主模块A向系统总线发布这些信息只占用总线很短的时间，一旦发送完，立即放弃总线使用权，<br>以便其他模块使用。在第二个子周期中，当B模块收到A模块发来的有关命令信号后，经选择、<br>译码、读取等一系列内部作，将A模块所需的数据准备好，使由B模块中请总线使用权，一旦<br>获准，B模块便将A模块的号、B模块的地址、A模块所需的数据等一系列信息送到总线上，供<br>A模块接收。很明显，上述两个传输子周期都只单方向的信息流，每个模块都变成了主模块。</p>
+<p><a id="markdown-特点" name="特点"></a></p>
+<h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><ul>
+<li>各模块欲占用总线使用权都必须提出串请。</li>
+<li>在得到总线使用权后，主模块在限定的间内向对力传送信息，采用同步方式传送，不再</li>
+</ul>
+<p>等待对方的回答信号。</p>
+<ul>
+<li>各模块在准备数据的过程中都不占用总线，使总线可接受其他模块的请求。</li>
+<li>总线被占用，或者通过它发送命令，或通过它传送数据，不存在空闲等待时间，充分地利用了总线的有效占用，从而实现了总线在多个主、从模块间进行信息交叉重叠并行式传送.</li>
+</ul>
+<p>这种方式控制比较复杂，一般用于大型计算机系统</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/bus.html">『计算机组成原理』总线</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">mbinary</a></p>
+        <p><span>发布时间:</span>2018-06-18, 20:57:27</p>
+        <p><span>最后更新:</span>2019-01-30, 19:00:04</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/bus.html" title="『计算机组成原理』总线">https://mbinary.xyz/bus.html</a>
+            <span class="copy-path" data-clipboard-text="原文: https://mbinary.xyz/bus.html　　作者: mbinary" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/sort.html">
+                    『算法』排序
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/IO-device.html">
+                    『现代操作系统』IO设备
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#历史"><span class="toc-number">1.</span> <span class="toc-text">历史</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分类"><span class="toc-number">2.</span> <span class="toc-text">分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#特性"><span class="toc-number">3.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#性能指标"><span class="toc-number">4.</span> <span class="toc-text">性能指标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总线结构"><span class="toc-number">5.</span> <span class="toc-text">总线结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总线控制"><span class="toc-number">6.</span> <span class="toc-text">总线控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总线周期"><span class="toc-number">7.</span> <span class="toc-text">总线周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总线标准"><span class="toc-number">8.</span> <span class="toc-text">总线标准</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PCI"><span class="toc-number">8.1.</span> <span class="toc-text">PCI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#USB"><span class="toc-number">8.2.</span> <span class="toc-text">USB</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通信方式"><span class="toc-number">9.</span> <span class="toc-text">通信方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#同步"><span class="toc-number">9.1.</span> <span class="toc-text">同步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#异步"><span class="toc-number">9.2.</span> <span class="toc-text">异步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#半同步"><span class="toc-number">9.3.</span> <span class="toc-text">半同步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分离式"><span class="toc-number">9.4.</span> <span class="toc-text">分离式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#引入"><span class="toc-number">9.4.1.</span> <span class="toc-text">引入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#原理"><span class="toc-number">9.4.2.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#特点"><span class="toc-number">9.4.3.</span> <span class="toc-text">特点</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-6 i,
+        .toc-level-6 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"『计算机组成原理』总线　| mbinary's blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+
+<!--<script src="//cdn.jsdelivr.net/npm/leancloud-storage@latest/dist/av-min.js"></script>
+<script src='//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js'></script>-->
+
+<div id="vcomments"></div>
+<script>
+    var notify = false == true ? true : false;
+    var verify = false == true ? true : false;
+    var visitor = true == true ? true : false;
+new Valine({
+    el: '#vcomments',
+    notify: notify,
+    verify: verify,
+    appId: 'ArpEYbLUBmpXK3f245hKNu4A-gzGzoHsz',
+    appKey: 'X5cHcMU1ATb8q0prtPGEqIPX',
+    lang: 'en',
+    placeholder: '留下你的小脚印^_^ (支持 markdown, 上面三项 昵称,邮件(可用于回复),网址都是可选填的)',
+    avatar: 'monsterid',
+    pageSize: 10,
+    visitor: visitor
+    });
+</script>
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/sort.html" title="上一篇: 『算法』排序">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/IO-device.html" title="下一篇: 『现代操作系统』IO设备">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/number-theory.html">Number-Theory</a></li><li class="post-list-item"><a class="post-list-link" href="/string-matching.html">String-Mathching-Algorithm</a></li><li class="post-list-item"><a class="post-list-link" href="/graph.html">图算法</a></li><li class="post-list-item"><a class="post-list-link" href="/fib-heap.html">『数据结构』Fibonacci-heap</a></li><li class="post-list-item"><a class="post-list-link" href="/b-tree.html">『数据结构』B树(B-Tree)及其变体 B+树,B*树</a></li><li class="post-list-item"><a class="post-list-link" href="/introduction-to-bitcoin.html">『比特币』概述</a></li><li class="post-list-item"><a class="post-list-link" href="/introduction-to-blockchain.html">『区块链』简介</a></li><li class="post-list-item"><a class="post-list-link" href="/algorithm-general.html">『算法』概述</a></li><li class="post-list-item"><a class="post-list-link" href="/red-black-tree.html">『数据结构』红黑树(red-black tree)</a></li><li class="post-list-item"><a class="post-list-link" href="/tree.html">『数据结构』树</a></li><li class="post-list-item"><a class="post-list-link" href="/hashTable.html">『数据结构』散列表</a></li><li class="post-list-item"><a class="post-list-link" href="/sort.html">『算法』排序</a></li><li class="post-list-item"><a class="post-list-link" href="/bus.html">『计算机组成原理』总线</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-device.html">『现代操作系统』IO设备</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-software.html">『现代操作系统』IO软件原理</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-hardware.html">『现代操作系统』IO硬件原理</a></li><li class="post-list-item"><a class="post-list-link" href="/os-general.html">『现代操作系统』操作系统引论</a></li><li class="post-list-item"><a class="post-list-link" href="/linux-file-io.html">『Unix环境高级编程』linux 文件 I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/multiprocessor.html">『现代操作系统』多处理机</a></li><li class="post-list-item"><a class="post-list-link" href="/simple-shell.html">『linux』c 语言实现一个简易的 shell</a></li><li class="post-list-item"><a class="post-list-link" href="/deadlock.html">『现代操作系统』死锁</a></li><li class="post-list-item"><a class="post-list-link" href="/risk-predict.html">信用卡持卡人风险预测</a></li><li class="post-list-item"><a class="post-list-link" href="/comics-about-staying-up.html">『小仓鼠漫画』熬夜的危害与防护</a></li><li class="post-list-item"><a class="post-list-link" href="/ctf-basic.html">『CTF』网络信息安全攻防实验室之基础关 writeup</a></li><li class="post-list-item"><a class="post-list-link" href="/send-blog-automatically.html">『WEB』用 python 发送 csdn 博客</a></li><li class="post-list-item"><a class="post-list-link" href="/the-roommate-that-uses-mechanical-keyboard.html">用机械键盘的室友</a></li><li class="post-list-item"><a class="post-list-link" href="/csapp-bomb-lab-report.html">CSAPP-BOMB-LAB</a></li><li class="post-list-item"><a class="post-list-link" href="/learning-and-forgetting.html">学习与遗忘</a></li><li class="post-list-item"><a class="post-list-link" href="/20-years-old-summary.html">2017 年，20 岁，大二寒假总结与感悟</a></li><li class="post-list-item"><a class="post-list-link" href="/decrypt-netease-music.html">『WEB』从网易云音乐缓存文件得到MP3</a></li><li class="post-list-item"><a class="post-list-link" href="/all-one-data-structure.html">『数据结构』inc,dec,getMin,getMax 均为 O(1)</a></li><li class="post-list-item"><a class="post-list-link" href="/video.html">影视作品观后感</a></li><li class="post-list-item"><a class="post-list-link" href="/books.html">书籍总结与推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/common-lisp-macro.html">『common lisp』宏及函数的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/hacker-and-painter.html">『读书笔记』黑客与画家</a></li><li class="post-list-item"><a class="post-list-link" href="/from-chem-to-cs.html">从化院到计院</a></li><li class="post-list-item"><a class="post-list-link" href="/from-zhuzhong-to-ustc.html">从竹中到科大</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017-2019 mbinary
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+    </div>
+</footer>
+
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+<!-->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<--!>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>

@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="mbinary">
+
+
+
+<meta name="description" content="七大排序算法">
+<meta name="keywords" content="算法,排序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="『算法』排序">
+<meta property="og:url" content="https://mbinary.xyz/sort.html">
+<meta property="og:site_name" content="mbinary&#39;s blog">
+<meta property="og:description" content="七大排序算法">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-4a45706be7eb399f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-236aee14b7b29d7a.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-60e532a24fa09883.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-01-31T00:11:05.448Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="『算法』排序">
+<meta name="twitter:description" content="七大排序算法">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/7130568-4a45706be7eb399f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="mbinary&#39;s blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/yinyang.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>『算法』排序 | mbinary&#39;s blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+
+
+
+</head></html>
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">mbinary</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">淡泊明志, 宁静致远</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="Let me search for you>_<" class="search form-control" autocomplete="off" autocorrect="off" searchonload="false">
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class="no-result">No results found <i class="fa fa-spinner fa-pulse"></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/archives/">归档</a></li>
+                        
+                            <li><a href="/tags/">标签</a></li>
+                        
+                            <li><a href="/leetcode/">编程</a></li>
+                        
+                            <li><a href="/about/">关于</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Github" href="https://github.com/mbinary" title="Github"></a>
+                            
+                                <a class="fa Leetcode" href="https://leetcode-cn.com/mbinary/" title="Leetcode"></a>
+                            
+                                <a class="fa LinkedIn" href="http://www.linkedin.com/in/cs-heqin-zhu" title="LinkedIn"></a>
+                            
+                                <a class="fa Email" href="mailto:zhuheqin1@gmail.com" title="Email"></a>
+                            
+                                <a class="fa QQ" href="http://wpa.qq.com/msgrd?v=3&uin=414313516&site=qq&menu=yes" title="QQ"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/B树/">B树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/USTC/">USTC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/">api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/common-lisp/">common lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/macro/">macro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/人际交往/">人际交往</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分享/">分享</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动态规划/">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/区块链/">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/图/">图</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/娱乐/">娱乐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串匹配/">字符串匹配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/室友/">室友</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/影视/">影视</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/总结/">总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/惰性学习/">惰性学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序/">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/散列表/">散列表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数字货币/">数字货币</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/斐波那契堆/">斐波那契堆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机械键盘/">机械键盘</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树/">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/比特币/">比特币</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编/">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/红黑树/">红黑树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机组成原理/">计算机组成原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逆向/">逆向</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/选择/">选择</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/黑客/">黑客</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://mbinary.xyz/links/">交换友链说明</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.4spaces.org">4spaces</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">mbinary</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">mbinary</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">淡泊明志, 宁静致远</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">归档</a></li>
+                
+                    <li><a href="/tags/">标签</a></li>
+                
+                    <li><a href="/leetcode/">编程</a></li>
+                
+                    <li><a href="/about/">关于</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Github" target="_blank" href="https://github.com/mbinary" title="Github"></a>
+                            
+                                <a class="fa Leetcode" target="_blank" href="https://leetcode-cn.com/mbinary/" title="Leetcode"></a>
+                            
+                                <a class="fa LinkedIn" target="_blank" href="http://www.linkedin.com/in/cs-heqin-zhu" title="LinkedIn"></a>
+                            
+                                <a class="fa Email" target="_blank" href="mailto:zhuheqin1@gmail.com" title="Email"></a>
+                            
+                                <a class="fa QQ" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=414313516&site=qq&menu=yes" title="QQ"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
+</nav>
+      <div class="body-wrap"><article id="post-sort" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/sort.html" class="article-date">
+      <time datetime="2018-07-05T16:00:00.000Z" itemprop="datePublished">2018-07-06</time>
+</a>
+
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      『算法』排序
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/数据结构与算法/">数据结构与算法</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/排序/">排序</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <script src="/assets/js/APlayer.min.js"> </script><!-- TOC -->
+<ul>
+<li><a href="#1-希尔排序shellsort">1. 希尔排序(shellSort)</a></li>
+<li><a href="#2-堆排序heapsort">2. 堆排序(heapSort)</a><ul>
+<li><a href="#21-建堆">2.1. 建堆</a></li>
+<li><a href="#22-访问最元">2.2. 访问最元</a></li>
+<li><a href="#23-取出最元">2.3. 取出最元</a></li>
+<li><a href="#24-堆排序">2.4. 堆排序</a></li>
+</ul>
+</li>
+<li><a href="#3-快速排序quicksort">3. 快速排序(quickSort)</a><ul>
+<li><a href="#31-partition的实现">3.1. partition的实现</a></li>
+<li><a href="#32-选择枢纽元">3.2. 选择枢纽元</a></li>
+<li><a href="#33-快速排序的性能">3.3. 快速排序的性能</a><ul>
+<li><a href="#331-最坏情况">3.3.1. 最坏情况</a></li>
+<li><a href="#332-最佳情况">3.3.2. 最佳情况</a></li>
+<li><a href="#333-平衡的划分">3.3.3. 平衡的划分</a></li>
+</ul>
+</li>
+<li><a href="#34-期望运行时间">3.4. 期望运行时间</a></li>
+<li><a href="#35-堆栈深度">3.5. 堆栈深度</a></li>
+<li><a href="#36-测试">3.6. 测试</a></li>
+</ul>
+</li>
+<li><a href="#4-计数排序countsort">4. 计数排序(countSort)</a></li>
+<li><a href="#5-基数排序radixsort">5. 基数排序(radixSort)</a><ul>
+<li><a href="#51-原理">5.1. 原理</a></li>
+<li><a href="#52-实现">5.2. 实现</a></li>
+<li><a href="#53-扩展">5.3. 扩展</a></li>
+<li><a href="#54-测试">5.4. 测试</a></li>
+</ul>
+</li>
+<li><a href="#6-桶排序bucketsort">6. 桶排序(bucketSort)</a></li>
+<li><a href="#7-选择问题select">7. 选择问题(select)</a></li>
+</ul>
+<!-- /TOC -->
+<p><img src="https://upload-images.jianshu.io/upload_images/7130568-4a45706be7eb399f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>排序的本质就是减少逆序数, 根据是否进行比较,可以分为如下两类.</p>
+<ul>
+<li>比较排序</li>
+</ul>
+<p>如希尔排序,堆排序, 快速排序, 合并排序等<br>可以证明 比较排序的下界 是 $\Omega(nlogn)$</p>
+<ul>
+<li>非比较排序</li>
+</ul>
+<p>如 计数排序, 桶排序, 基数排序 不依靠比较来进行排序的, 可以达到 线性时间的复杂度</p>
+<p><a id="markdown-1-希尔排序shellsort" name="1-希尔排序shellsort"></a></p>
+<h1 id="1-希尔排序-shellSort"><a href="#1-希尔排序-shellSort" class="headerlink" title="1. 希尔排序(shellSort)"></a>1. 希尔排序(shellSort)</h1><p>希尔排序是选择排序的改进, 通过在较远的距离进行交换, 可以更快的减少逆序数. 这个距离即增量, 由自己选择一组, 从大到小进行, 而且最后一个增量必须是  1. 要选得到好的性能, 一般选择$2^k-1$<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">def shellSort(s,inc = None):</span><br><span class="line">    if inc is None: inc = [1,3,5,7,11,13,17,19]</span><br><span class="line">    num = len(s)</span><br><span class="line">    inc.sort(reverse=True)</span><br><span class="line">    for i in inc:</span><br><span class="line">        for j in range(i,num):</span><br><span class="line">            cur = j</span><br><span class="line">            while cur&gt;=i and s[j] &gt; s[cur-i]:</span><br><span class="line">                s[cur] = s[cur-i]</span><br><span class="line">                cur-=i</span><br><span class="line">            s[cur] = s[j]</span><br><span class="line">    return s</span><br></pre></td></tr></table></figure></p>
+<p>可以证明 希尔排序时间复杂度可以达到$O(n^{\frac{4}{3}})$<br><a id="markdown-2-堆排序heapsort" name="2-堆排序heapsort"></a></p>
+<h1 id="2-堆排序-heapSort"><a href="#2-堆排序-heapSort" class="headerlink" title="2. 堆排序(heapSort)"></a>2. 堆排序(heapSort)</h1><p><a id="markdown-21-建堆" name="21-建堆"></a></p>
+<h2 id="2-1-建堆"><a href="#2-1-建堆" class="headerlink" title="2.1. 建堆"></a>2.1. 建堆</h2><p>是将一个数组(列表) heapify 的过程. 方法就是对每一个结点, 都自底向上的比较,然后操作,这个过程称为 上浮.<br>粗略的计算, 每个结点上浮的比较次数的上界是 层数, 即 logn, 则 n 个结点, 总的比较次数为 nlogn<br>但是可以发现, 不同高度 h 的结点比较的次数不同, 上界实际上应该是 $O(h)$,每层结点数上界 $\lfloor 2^h \rfloor$<br>则 总比较次数为 </p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\sum_{h=1}^{\lfloor{log_2 n}\rfloor} O(h)\lceil 2^{h} \rceil  & = \sum_{h=0}^{ {log_2 n}-1} O(h\frac{n}{2^h})\\
+                                                          & = n*O(\sum_{h=0}^{log_2 n}\frac{h}{2^h}) \\    
+                                                          & = n*O(1)   \\
+                                                          & = O(n)  
+\end{aligned}</script><p><a id="markdown-22-访问最元" name="22-访问最元"></a></p>
+<h2 id="2-2-访问最元"><a href="#2-2-访问最元" class="headerlink" title="2.2. 访问最元"></a>2.2. 访问最元</h2><p>最大堆对应最大元,最小堆对于最小元, 可以 $O(1)$ 内实现<br><a id="markdown-23-取出最元" name="23-取出最元"></a></p>
+<h2 id="2-3-取出最元"><a href="#2-3-取出最元" class="headerlink" title="2.3. 取出最元"></a>2.3. 取出最元</h2><p>最大堆取最大元,最小堆取最小元,由于元素取出了, 要进行调整.<br>从堆顶开始, 依次和其两个孩子比较, 如果是最大堆, 就将此结点(父亲)的值赋为较大的孩子的值,最小堆反之.<br>然后对那个孩子进行同样的操作,一直到达堆底,即最下面的一层. 这个过程称为 下滤.<br>最后将最后一个元素与最下面一层那个元素(与上一层交换的)交换, 再删除最后一个元素.<br>时间复杂度为 $O(logn)$<br><a id="markdown-24-堆排序" namie="24-堆排序"></a></p>
+<h2 id="2-4-堆排序"><a href="#2-4-堆排序" class="headerlink" title="2.4. 堆排序"></a>2.4. 堆排序</h2><p>建立堆之后, 一直进行 <code>取出最元</code>操作, 即得有序序列</p>
+<p>代码<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> partial</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">heap</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,lst,reverse = False)</span>:</span></span><br><span class="line">        self.data= heapify(lst,reverse)</span><br><span class="line">        self.cmp = partial(<span class="keyword">lambda</span> i,j,r:cmp(self.data[i],self.data[j],r),r=  reverse)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">getTop</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.data[<span class="number">0</span>]</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self,idx)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.data[idx]</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__bool__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.data != []</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">popTop</span><span class="params">(self)</span>:</span></span><br><span class="line">        ret = self.data[<span class="number">0</span>]</span><br><span class="line">        n = len(self.data)</span><br><span class="line">        cur = <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> cur * <span class="number">2</span>&lt;=n:</span><br><span class="line">            chd = cur<span class="number">-1</span></span><br><span class="line">            r_idx = cur*<span class="number">2</span></span><br><span class="line">            l_idx = r_idx<span class="number">-1</span></span><br><span class="line">            <span class="keyword">if</span> r_idx==n:</span><br><span class="line">                self.data[chd] = self.data[l_idx]</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            j = l_idx <span class="keyword">if</span> self.cmp(l_idx,r_idx)&lt;<span class="number">0</span> <span class="keyword">else</span> r_idx</span><br><span class="line">            self.data[chd] = self.data[j]</span><br><span class="line">            cur = j+<span class="number">1</span></span><br><span class="line">        self.data[cur<span class="number">-1</span>] = self.data[<span class="number">-1</span>]</span><br><span class="line">        self.data.pop()</span><br><span class="line">        <span class="keyword">return</span> ret</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">addNode</span><span class="params">(self,val)</span>:</span></span><br><span class="line">        self.data.append(val)</span><br><span class="line">        self.data = one_heapify(len(self.data)<span class="number">-1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cmp</span><span class="params">(n1,n2,reverse=False)</span>:</span></span><br><span class="line">    fac = <span class="number">-1</span> <span class="keyword">if</span> reverse <span class="keyword">else</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> n1 &lt; n2: <span class="keyword">return</span> -fac</span><br><span class="line">    <span class="keyword">elif</span> n1 &gt; n2: <span class="keyword">return</span> fac</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">heapify</span><span class="params">(lst,reverse = False)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(lst)):</span><br><span class="line">        lst = one_heapify(lst,i,reverse)</span><br><span class="line">    <span class="keyword">return</span> lst</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">one_heapify</span><span class="params">(lst,cur,reverse = False)</span>:</span></span><br><span class="line">    cur +=<span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> cur&gt;<span class="number">1</span>:</span><br><span class="line">        chd = cur<span class="number">-1</span></span><br><span class="line">        prt = cur//<span class="number">2</span><span class="number">-1</span></span><br><span class="line">        <span class="keyword">if</span> cmp(lst[prt],lst[chd],reverse)&lt;<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        lst[prt],lst[chd] = lst[chd], lst[prt]</span><br><span class="line">        cur = prt+<span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> lst</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">heapSort</span><span class="params">(lst,reverse = False)</span>:</span></span><br><span class="line">    lst = lst.copy()</span><br><span class="line">    hp = heap(lst,reverse)</span><br><span class="line">    ret = []</span><br><span class="line">    <span class="keyword">while</span> hp:</span><br><span class="line">        ret.append(hp.popTop())</span><br><span class="line">    <span class="keyword">return</span> ret</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">from</span> random <span class="keyword">import</span> randint</span><br><span class="line">    n = randint(<span class="number">10</span>,<span class="number">20</span>)</span><br><span class="line">    lst = [randint(<span class="number">0</span>,<span class="number">100</span>) <span class="keyword">for</span> i <span class="keyword">in</span> range(n)]</span><br><span class="line">    print(<span class="string">'random    : '</span>, lst)</span><br><span class="line">    print(<span class="string">'small-heap: '</span>, heapify(lst))</span><br><span class="line">    print(<span class="string">'big-heap  : '</span>, heapify(lst,<span class="keyword">True</span>))</span><br><span class="line">    print(<span class="string">'ascend    : '</span>, heapSort(lst))</span><br><span class="line">    print(<span class="string">'descend   : '</span>, heapSort(lst,<span class="keyword">True</span>))</span><br></pre></td></tr></table></figure></p>
+<p><a id="markdown-3-快速排序quicksort" name="3-快速排序quicksort"></a></p>
+<h1 id="3-快速排序-quickSort"><a href="#3-快速排序-quickSort" class="headerlink" title="3. 快速排序(quickSort)"></a>3. 快速排序(quickSort)</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quickSort</span><span class="params">(lst)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_sort</span><span class="params">(a,b)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> a&gt;=b:<span class="keyword">return</span> </span><br><span class="line">        CHOOSE PIVOT <span class="comment">#选取适当的枢纽元, 一般是三数取中值</span></span><br><span class="line">        pos = partition(a,b)</span><br><span class="line">        _sort(a,pos<span class="number">-1</span>)</span><br><span class="line">        _sort(pos+<span class="number">1</span>,b)</span><br><span class="line">    _sort(<span class="number">0</span>,len(lst))</span><br></pre></td></tr></table></figure>
+<p>快排大体结构就是这样,使用分治的思想, 在原地进行排列.<br>关键就在于选择枢纽元.</p>
+<p>这里的 partition 就是根据枢纽元,分别将 大于,小于或等于的枢纽元的元素放在列表两边, 分割开.<br><a id="markdown-31-partition的实现" name="31-partition的实现"></a></p>
+<h2 id="3-1-partition的实现"><a href="#3-1-partition的实现" class="headerlink" title="3.1. partition的实现"></a>3.1. partition的实现</h2><p>partition 有不同的实现. 下面列出两种</p>
+<ul>
+<li>第一种实现</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">partition</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    pivot = lst[a]</span><br><span class="line">    <span class="keyword">while</span> a!=b:</span><br><span class="line">        <span class="keyword">while</span> a&lt;b <span class="keyword">and</span> lst[b]&gt;pivot: b-=<span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> a&lt;b:</span><br><span class="line">            lst[a] = lst[b]</span><br><span class="line">            a+=<span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> a&lt;b <span class="keyword">and</span> lst[a]&lt;pivot: a+=<span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> a&lt;b:</span><br><span class="line">            lst[b] = lst[a]</span><br><span class="line">            b-=<span class="number">1</span></span><br><span class="line">    lst[a] = pivot</span><br><span class="line">    <span class="keyword">return</span> a</span><br></pre></td></tr></table></figure>
+<ul>
+<li>第二种实现</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">partition</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    pivot = lst[b]</span><br><span class="line">    j = a<span class="number">-1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(a,b):</span><br><span class="line">        <span class="keyword">if</span> lst[i]&lt;=pivot:</span><br><span class="line">            j+=<span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> i!=j: lst[i], lst[j] = lst[j], lst[i]</span><br><span class="line">    lst[j+<span class="number">1</span>],lst[b] = lst[b],lst[j+<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">return</span> j+<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>第二种是算法导论上的,可以发现,第二种交换赋值的次数比第一种要多,而且如果序列的逆序数较大,第二种一次交换减少的逆序数很少, 而第一种就比较多(交换的两个元素相距较远)<br>然后我用随机数测试了一下, 确实是第一种较快, 特别是要排序的序列较长时,如在 5000 个元素时, 第一种要比第二种快几倍, Amazing!</p>
+<p>完整代码<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quickSort</span><span class="params">(lst)</span>:</span></span><br><span class="line">    <span class="string">'''A optimized version of Hoare partition'''</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">partition</span><span class="params">(a,b)</span>:</span></span><br><span class="line">        pivot = lst[a]</span><br><span class="line">        <span class="keyword">while</span> a!=b:</span><br><span class="line">            <span class="keyword">while</span> a&lt;b <span class="keyword">and</span> lst[b]&gt;pivot: b-=<span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> a&lt;b:</span><br><span class="line">                lst[a] = lst[b]</span><br><span class="line">                a+=<span class="number">1</span></span><br><span class="line">            <span class="keyword">while</span> a&lt;b <span class="keyword">and</span> lst[a]&lt;pivot: a+=<span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> a&lt;b:</span><br><span class="line">                lst[b] = lst[a]</span><br><span class="line">                b-=<span class="number">1</span></span><br><span class="line">        lst[a] = pivot</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    <span class="function"><span class="keyword">def</span>  <span class="title">_sort</span><span class="params">(a,b)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> a&gt;=b:<span class="keyword">return</span> </span><br><span class="line">        mid = (a+b)//<span class="number">2</span></span><br><span class="line">        <span class="comment"># 三数取中值置于第一个作为 pivot</span></span><br><span class="line">        <span class="keyword">if</span> (lst[a]&lt;lst[mid]) ^ (lst[b]&lt;lst[mid]): lst[a],lst[mid] = lst[mid],lst[a]  <span class="comment"># lst[mid] 为中值</span></span><br><span class="line">        <span class="keyword">if</span> (lst[a]&lt;lst[b]) ^ (lst[b]&gt;lst[mid]): lst[a],lst[b] = lst[b],lst[a] <span class="comment"># lst[b] 为中值</span></span><br><span class="line">        i = partition(a,b)</span><br><span class="line">        _sort(a,i<span class="number">-1</span>)</span><br><span class="line">        _sort(i+<span class="number">1</span>,b)</span><br><span class="line">    _sort(<span class="number">0</span>,len(lst)<span class="number">-1</span>)</span><br><span class="line">    <span class="keyword">return</span> lst</span><br></pre></td></tr></table></figure></p>
+<p><a id="markdown-32-选择枢纽元" name="32-选择枢纽元"></a></p>
+<h2 id="3-2-选择枢纽元"><a href="#3-2-选择枢纽元" class="headerlink" title="3.2. 选择枢纽元"></a>3.2. 选择枢纽元</h2><ul>
+<li>端点或中点</li>
+<li>随机</li>
+<li>三数取中(两端点以及中点)</li>
+<li>五数取中</li>
+</ul>
+<p><a id="markdown-33-快速排序的性能" name="33-快速排序的性能"></a></p>
+<h2 id="3-3-快速排序的性能"><a href="#3-3-快速排序的性能" class="headerlink" title="3.3. 快速排序的性能"></a>3.3. 快速排序的性能</h2><p>快速排序性能取决于划分的对称性(即枢纽元的选择), 以及partition 的实现. 如果每次划分很对称(大概在当前序列的中位数为枢纽元), 则与合并算法一样快, 但是如果不对称,在渐近上就和插入算法一样慢<br><a id="markdown-331-最坏情况" name="331-最坏情况"></a></p>
+<h3 id="3-3-1-最坏情况"><a href="#3-3-1-最坏情况" class="headerlink" title="3.3.1. 最坏情况"></a>3.3.1. 最坏情况</h3><p>试想,如果每次划分两个区域分别包含 n-1, 1则易知时间复杂度为 $\Theta(n^2)$, 此外, 如果输入序序列已经排好序,且枢纽元没选好, 比如选的端点, 则同样是这样复杂, 而此时插入排序只需 $O(n)$.</p>
+<p><a id="markdown-332-最佳情况" name="332-最佳情况"></a></p>
+<h3 id="3-3-2-最佳情况"><a href="#3-3-2-最佳情况" class="headerlink" title="3.3.2. 最佳情况"></a>3.3.2. 最佳情况</h3><p>有 $T(n) = 2T(\frac{n}{2})+\Theta(n)$<br>则由主方法为$O(nlogn)$<br><a id="markdown-333-平衡的划分" name="333-平衡的划分"></a></p>
+<h3 id="3-3-3-平衡的划分"><a href="#3-3-3-平衡的划分" class="headerlink" title="3.3.3. 平衡的划分"></a>3.3.3. 平衡的划分</h3><p>如果每次 9:1, $T(n) = T(\frac{9n}{10})+T(\frac{n}{10})+\Theta(n)$<br>用递归树求得在渐近上仍然是 $O(nlogn)$<br>所以任何比值 k:1, 都有如上的渐近时间复杂度</p>
+<p>然而每次划分是不可能完全相同的</p>
+<p><a id="markdown-34-期望运行时间" name="34-期望运行时间"></a></p>
+<h2 id="3-4-期望运行时间"><a href="#3-4-期望运行时间" class="headerlink" title="3.4. 期望运行时间"></a>3.4. 期望运行时间</h2><p>对于 randomized-quicksort, 即随机选择枢纽元<br>设 n 个元素, 从小到大记为 $z_1,z_2,\ldots,z_n$,指示器变量 $X_{ij}$表示 $z_i,z_j$是否进行比较<br>即 </p>
+<script type="math/tex; mode=display">
+X_{ij} = 
+\begin{cases}
+1,\quad z_i,z_j\text{进行比较}\\
+0,\quad z_i,z_j\text{不进行比较}
+\end{cases}</script><p>考察比较次数, 可以发现两个元素进行比较, 一定是一个是枢纽元的情况, 两个元素间不可能进行两次比较.<br>所有总的比较次数不超过,$\sum_{i=1}^{n-1}\sum_{j=i+1}^{n}X_{ij}$<br>求均值</p>
+<script type="math/tex; mode=display">E(\sum_{i=1}^{n-1}\sum_{j=i+1}^{n}X_{ij})=\sum_{i=1}^{n-1}\sum_{j=i+1}^{n}E(X_{ij})=\sum_{i=1}^{n-1}\sum_{j=i+1}^{n}P(z_i,z_j\text{进行比较})</script><p>再分析,$z_i,z_j$ 在$Z_{ij} =  \{z_i,z_{i+1},\ldots,z_j\} $中, 如果集合中的非此两元素,$z_k, i&lt; k&lt; j$作为了枢纽元, 则$z_k$将集合划分{z_i,z_{i+1},\ldots,z_{k-1}},{z_{k+1},\ldots,z_j}, 这两个集合中的元素都不会再和对方中的元素进行比较,<br>所以要使 $z_i,z_j$进行比较, 则两者之一(只能是一个,即互斥)是 $Z_{ij}$上的枢纽元<br>则</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+P(z_i,z_j\text{进行比较}) & = P(z_i,z_j\text{做为}Z_{ij}\text{上的枢纽元})   \\
+                          & = P(z_j\text{做为}Z_{ij}\text{上的枢纽元})+P(z_i\text{做为}Z_{ij}\text{上的枢纽元})\\
+                          & = \frac{1}{j-i+1}+\frac{1}{j-i+1}   
+\\                          & = \frac{2}{j-i+1}\\
+\end{aligned}</script><p>注意第二步是因为两事件互斥才可以直接概率相加</p>
+<p>然后就可以将此概率代入求期望比较次数了,<br>为 $O(nlogn)$ (由于是 O, 放缩一下就行)<br><a id="markdown-35-堆栈深度" name="35-堆栈深度"></a></p>
+<h2 id="3-5-堆栈深度"><a href="#3-5-堆栈深度" class="headerlink" title="3.5. 堆栈深度"></a>3.5. 堆栈深度</h2><p>考察快速排序的堆栈深度,可以从递归树思考,实际上的堆栈变化过程就是前序访问二叉树, 所以深度为 $O(logn)$<br>为了减少深度, 可以进行 尾递归优化, 将函数返回前的递归通过迭代完成<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">QUICKSORT(A,a,b)</span><br><span class="line">    <span class="keyword">while</span> a&lt;b:</span><br><span class="line">        <span class="comment">#partition and sort left subarray</span></span><br><span class="line">        pos = partition(a,b)</span><br><span class="line">        QUICKSORT(A,a,pos<span class="number">-1</span>)</span><br><span class="line">        a = pos+<span class="number">1</span></span><br></pre></td></tr></table></figure></p>
+<p><a id="markdown-36-测试" name="36-测试"></a></p>
+<h2 id="3-6-测试"><a href="#3-6-测试" class="headerlink" title="3.6. 测试"></a>3.6. 测试</h2><p>这是上面三个版本的简单测试结果,<br>前面测试的是各函数用的时间, 后面打印出来的是体现正确性,用的另外的序列了<br><img src="https://upload-images.jianshu.io/upload_images/7130568-236aee14b7b29d7a.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="test.jpg"></p>
+<p><a id="markdown-4-计数排序countsort" name="4-计数排序countsort"></a></p>
+<h1 id="4-计数排序-countSort"><a href="#4-计数排序-countSort" class="headerlink" title="4. 计数排序(countSort)"></a>4. 计数排序(countSort)</h1><p>需要知道元素的取值范围, 而且应该是有限的, 最好范围不大</p>
+<p>不过需要额外的存储空间.<br><mark>计算排序是稳定的: 具有相同值的元素在输出中是原来的相对顺序.</mark><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countSort</span><span class="params">(lst,mn,mx)</span>:</span></span><br><span class="line">    mark = [<span class="number">0</span>]*(mx-mn+<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> lst:</span><br><span class="line">        mark[i-mn]+=<span class="number">1</span></span><br><span class="line">    ret =[]</span><br><span class="line">    <span class="keyword">for</span> n,i <span class="keyword">in</span> enumerate(mark):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(i):</span><br><span class="line">            ret.append(n+mn)</span><br><span class="line">    <span class="keyword">return</span> ret</span><br></pre></td></tr></table></figure></p>
+<p><a id="markdown-5-基数排序radixsort" name="5-基数排序radixsort"></a></p>
+<h1 id="5-基数排序-radixSort"><a href="#5-基数排序-radixSort" class="headerlink" title="5. 基数排序(radixSort)"></a>5. 基数排序(radixSort)</h1><p><a id="markdown-51-原理" name="51-原理"></a></p>
+<h2 id="5-1-原理"><a href="#5-1-原理" class="headerlink" title="5.1. 原理"></a>5.1. 原理</h2><p>由我们平时的直觉, 我们比较两个数时, 是从最高位比较起, 一位一位比较, 直到不相等时就能判断大小,或者相等(位数比完了).</p>
+<p>基数排序有点不一样, 它是从低位比到高位, 这样才能把相同位有相同值的不同数排序.<br>对于 n 个数, 最高 d 位, 用下面的实现, 可时间复杂度为 $\Theta((n+d)*d)$</p>
+<p><a id="markdown-52-实现" name="52-实现"></a></p>
+<h2 id="5-2-实现"><a href="#5-2-实现" class="headerlink" title="5.2. 实现"></a>5.2. 实现</h2><p>下面是一个整数版本的基数排序,比较容易实现<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">radixSort</span><span class="params">(lst,radix=<span class="number">10</span>)</span>:</span></span><br><span class="line">    ls = [[] <span class="keyword">for</span> i <span class="keyword">in</span> range(radix)]</span><br><span class="line">    mx = max(lst)</span><br><span class="line">    weight =  <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> mx &gt;= weight:</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> lst:</span><br><span class="line">            ls[(i // weight)%radix].append(i)</span><br><span class="line">        weight *= radix</span><br><span class="line">        lst =  sum(ls,[])</span><br><span class="line">        ls = [[] <span class="keyword">for</span>  i <span class="keyword">in</span> range(radix)]</span><br><span class="line">    <span class="keyword">return</span> lst</span><br></pre></td></tr></table></figure></p>
+<p><a id="markdown-53-扩展" name="53-扩展"></a></p>
+<h2 id="5-3-扩展"><a href="#5-3-扩展" class="headerlink" title="5.3. 扩展"></a>5.3. 扩展</h2><p>注意到如果有负数,要使用计数排序或者 基数排序,每个数需要加上最小值的相反数, 再排序, 最后再减去, 如果有浮点数, 就需要先乘以一个数, 使所有数变为整数.<br> 我想过用 str 得到一个数的各位, 不过 str 可能比较慢. str 的实现应该也是先算术计算, 再生成 str 对象, 对于基数排序, 生成str 对象是多余的.</p>
+<p><a id="markdown-54-测试" name="54-测试"></a></p>
+<h2 id="5-4-测试"><a href="#5-4-测试" class="headerlink" title="5.4. 测试"></a>5.4. 测试</h2><p>下面是 基数排序与快速排序的比较,测试代码<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">timer</span><span class="params">(funcs,span,num=<span class="number">1000000</span>)</span>:</span></span><br><span class="line">    lst = [randint(<span class="number">0</span>,span) <span class="keyword">for</span> i <span class="keyword">in</span> range(num)]</span><br><span class="line">    print(<span class="string">'range(&#123;&#125;), &#123;&#125; items'</span>.format(span,num))</span><br><span class="line">    <span class="keyword">for</span> func <span class="keyword">in</span> funcs:</span><br><span class="line">        data = lst.copy()</span><br><span class="line">        t = time()</span><br><span class="line">        func(data)</span><br><span class="line">        t = time()-t</span><br><span class="line">        print(<span class="string">'&#123;&#125;: &#123;&#125;s'</span>.format(func.__name__,t))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    timer([quickSort,radixSort],<span class="number">1000000000</span>,<span class="number">100000</span>)</span><br><span class="line">    timer([quickSort,radixSort],<span class="number">1000000000000</span>,<span class="number">10000</span>)</span><br><span class="line">    timer([quickSort,radixSort],<span class="number">10000</span>,<span class="number">100000</span>)</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/7130568-60e532a24fa09883.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="radixSort vs quickSort"></p>
+<p><a id="markdown-6-桶排序bucketsort" name="6-桶排序bucketsort"></a></p>
+<h1 id="6-桶排序-bucketSort"><a href="#6-桶排序-bucketSort" class="headerlink" title="6. 桶排序(bucketSort)"></a>6. 桶排序(bucketSort)</h1><p>适用于均匀分布的序列</p>
+<p>设有 n 个元素, 则设立 n 个桶<br>将各元素通过数值线性映射到桶地址,<br>类似 hash 链表.<br>然后在每个桶内, 进行插入排序($O(n_i^2)$)<br>最后合并所有桶.<br>这里的特点是 n 个桶实现了 $\Theta(n)$的时间复杂度, 但是耗费的空间 为 $\Theta(n)$</p>
+<p>证明</p>
+<ul>
+<li>线性映射部分: $\Theta(n)$</li>
+<li>桶合并部分: $\Theta(n)$</li>
+<li>桶内插入排序部分: 设每个桶内的元素数为随机变量 $n_i$, 易知 $n_i \sim  B(n,\frac{1}{n})$ 记 $p=\frac{1}{n}$</li>
+</ul>
+<script type="math/tex; mode=display">
+\begin{aligned}
+E(\sum_{i=1}^{n}n_i^2) &=\sum_{i=1}^{n}E(n_i^2)   \\
+&=\sum_{i=1}^{n}( Var(n_i)+E^2(n_i)  )  \\
+&= \sum_{i=1}^{n}( np(1-p)+ (np)^2 )\\
+&= \sum_{i=1}^{n}( 2-\frac{1}{n} )\\
+&= 2n-1
+\end{aligned}</script><p>将以上各部分加起来即得时间复杂度 $\Theta(n)$</p>
+<p><a id="markdown-7-选择问题select" name="7-选择问题select"></a></p>
+<h1 id="7-选择问题-select"><a href="#7-选择问题-select" class="headerlink" title="7. 选择问题(select)"></a>7. 选择问题(select)</h1><p>输入个序列 lst, 以及一个数 i, 输出 lst 中 第 i 小的数,即从小到大排列第 i</p>
+<p>解决方法</p>
+<ul>
+<li>全部排序, 取第 i 个, $O(nlogn)$</li>
+<li>长度为 i 的队列(这是得到 lst 中 前</li>
+</ul>
+<p>i 个元素的方法) 仍然 $O(nlogn)$</p>
+<ul>
+<li>randomized-select(仿造快排) 平均情况$O(n)$,最坏情况同上(快排), $\Theta(n^2)$</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">select</span><span class="params">(lst,i)</span>:</span></span><br><span class="line">    lst = lst.copy()</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">partition</span><span class="params">(a,b)</span>:</span></span><br><span class="line">        pivot = lst[a]</span><br><span class="line">        <span class="keyword">while</span> a&lt;b:</span><br><span class="line">            <span class="keyword">while</span> a&lt;b <span class="keyword">and</span> lst[b]&gt;pivot: b-=<span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> a&lt;b:</span><br><span class="line">                lst[a] = lst[b]</span><br><span class="line">                a+=<span class="number">1</span></span><br><span class="line">            <span class="keyword">while</span> a&lt;b <span class="keyword">and</span> lst[a]&lt;pivot: a+=<span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> a&lt;b:</span><br><span class="line">                lst[b] = lst[a]</span><br><span class="line">                b-=<span class="number">1</span></span><br><span class="line">        lst[a]= pivot</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_select</span><span class="params">(a,b)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> a&gt;=b: <span class="keyword">return</span> lst[a]</span><br><span class="line">        <span class="comment"># randomized select</span></span><br><span class="line">        n = randint(a,b)</span><br><span class="line">        lst[a],lst[n] = lst[n],lst[a]</span><br><span class="line">        pos = partition(a,b)</span><br><span class="line">        <span class="keyword">if</span> pos&gt;i:</span><br><span class="line">            <span class="keyword">return</span> _select(a,pos<span class="number">-1</span>)</span><br><span class="line">        <span class="keyword">elif</span> pos&lt;i:</span><br><span class="line">            <span class="keyword">return</span> _select(pos+<span class="number">1</span>,b)</span><br><span class="line">        <span class="keyword">else</span>:<span class="keyword">return</span> lst[pos]</span><br><span class="line">    <span class="keyword">return</span> _select(<span class="number">0</span>,len(lst)<span class="number">-1</span>)</span><br></pre></td></tr></table></figure>
+<p><strong><a href="https://github.com/mbinary/algorithm-in-python.git" target="_blank" rel="noopener">github地址</a></strong></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/sort.html">『算法』排序</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">mbinary</a></p>
+        <p><span>发布时间:</span>2018-07-06, 00:00:00</p>
+        <p><span>最后更新:</span>2019-01-31, 08:11:05</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/sort.html" title="『算法』排序">https://mbinary.xyz/sort.html</a>
+            <span class="copy-path" data-clipboard-text="原文: https://mbinary.xyz/sort.html　　作者: mbinary" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/hashTable.html">
+                    『数据结构』散列表
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/bus.html">
+                    『计算机组成原理』总线
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-希尔排序-shellSort"><span class="toc-number">1.</span> <span class="toc-text">1. 希尔排序(shellSort)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-堆排序-heapSort"><span class="toc-number">2.</span> <span class="toc-text">2. 堆排序(heapSort)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-建堆"><span class="toc-number">2.1.</span> <span class="toc-text">2.1. 建堆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-访问最元"><span class="toc-number">2.2.</span> <span class="toc-text">2.2. 访问最元</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-取出最元"><span class="toc-number">2.3.</span> <span class="toc-text">2.3. 取出最元</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-堆排序"><span class="toc-number">2.4.</span> <span class="toc-text">2.4. 堆排序</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-快速排序-quickSort"><span class="toc-number">3.</span> <span class="toc-text">3. 快速排序(quickSort)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-partition的实现"><span class="toc-number">3.1.</span> <span class="toc-text">3.1. partition的实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-选择枢纽元"><span class="toc-number">3.2.</span> <span class="toc-text">3.2. 选择枢纽元</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-快速排序的性能"><span class="toc-number">3.3.</span> <span class="toc-text">3.3. 快速排序的性能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-1-最坏情况"><span class="toc-number">3.3.1.</span> <span class="toc-text">3.3.1. 最坏情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-2-最佳情况"><span class="toc-number">3.3.2.</span> <span class="toc-text">3.3.2. 最佳情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-3-平衡的划分"><span class="toc-number">3.3.3.</span> <span class="toc-text">3.3.3. 平衡的划分</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-期望运行时间"><span class="toc-number">3.4.</span> <span class="toc-text">3.4. 期望运行时间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-5-堆栈深度"><span class="toc-number">3.5.</span> <span class="toc-text">3.5. 堆栈深度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-6-测试"><span class="toc-number">3.6.</span> <span class="toc-text">3.6. 测试</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-计数排序-countSort"><span class="toc-number">4.</span> <span class="toc-text">4. 计数排序(countSort)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-基数排序-radixSort"><span class="toc-number">5.</span> <span class="toc-text">5. 基数排序(radixSort)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-原理"><span class="toc-number">5.1.</span> <span class="toc-text">5.1. 原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-实现"><span class="toc-number">5.2.</span> <span class="toc-text">5.2. 实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3-扩展"><span class="toc-number">5.3.</span> <span class="toc-text">5.3. 扩展</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-4-测试"><span class="toc-number">5.4.</span> <span class="toc-text">5.4. 测试</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-桶排序-bucketSort"><span class="toc-number">6.</span> <span class="toc-text">6. 桶排序(bucketSort)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-选择问题-select"><span class="toc-number">7.</span> <span class="toc-text">7. 选择问题(select)</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-6 i,
+        .toc-level-6 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"『算法』排序　| mbinary's blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+
+<!--<script src="//cdn.jsdelivr.net/npm/leancloud-storage@latest/dist/av-min.js"></script>
+<script src='//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js'></script>-->
+
+<div id="vcomments"></div>
+<script>
+    var notify = false == true ? true : false;
+    var verify = false == true ? true : false;
+    var visitor = true == true ? true : false;
+new Valine({
+    el: '#vcomments',
+    notify: notify,
+    verify: verify,
+    appId: 'ArpEYbLUBmpXK3f245hKNu4A-gzGzoHsz',
+    appKey: 'X5cHcMU1ATb8q0prtPGEqIPX',
+    lang: 'en',
+    placeholder: '留下你的小脚印^_^ (支持 markdown, 上面三项 昵称,邮件(可用于回复),网址都是可选填的)',
+    avatar: 'monsterid',
+    pageSize: 10,
+    visitor: visitor
+    });
+</script>
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/hashTable.html" title="上一篇: 『数据结构』散列表">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/bus.html" title="下一篇: 『计算机组成原理』总线">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/number-theory.html">Number-Theory</a></li><li class="post-list-item"><a class="post-list-link" href="/string-matching.html">String-Mathching-Algorithm</a></li><li class="post-list-item"><a class="post-list-link" href="/graph.html">图算法</a></li><li class="post-list-item"><a class="post-list-link" href="/fib-heap.html">『数据结构』Fibonacci-heap</a></li><li class="post-list-item"><a class="post-list-link" href="/b-tree.html">『数据结构』B树(B-Tree)及其变体 B+树,B*树</a></li><li class="post-list-item"><a class="post-list-link" href="/introduction-to-bitcoin.html">『比特币』概述</a></li><li class="post-list-item"><a class="post-list-link" href="/introduction-to-blockchain.html">『区块链』简介</a></li><li class="post-list-item"><a class="post-list-link" href="/algorithm-general.html">『算法』概述</a></li><li class="post-list-item"><a class="post-list-link" href="/red-black-tree.html">『数据结构』红黑树(red-black tree)</a></li><li class="post-list-item"><a class="post-list-link" href="/tree.html">『数据结构』树</a></li><li class="post-list-item"><a class="post-list-link" href="/hashTable.html">『数据结构』散列表</a></li><li class="post-list-item"><a class="post-list-link" href="/sort.html">『算法』排序</a></li><li class="post-list-item"><a class="post-list-link" href="/bus.html">『计算机组成原理』总线</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-device.html">『现代操作系统』IO设备</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-software.html">『现代操作系统』IO软件原理</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-hardware.html">『现代操作系统』IO硬件原理</a></li><li class="post-list-item"><a class="post-list-link" href="/os-general.html">『现代操作系统』操作系统引论</a></li><li class="post-list-item"><a class="post-list-link" href="/linux-file-io.html">『Unix环境高级编程』linux 文件 I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/multiprocessor.html">『现代操作系统』多处理机</a></li><li class="post-list-item"><a class="post-list-link" href="/simple-shell.html">『linux』c 语言实现一个简易的 shell</a></li><li class="post-list-item"><a class="post-list-link" href="/deadlock.html">『现代操作系统』死锁</a></li><li class="post-list-item"><a class="post-list-link" href="/risk-predict.html">信用卡持卡人风险预测</a></li><li class="post-list-item"><a class="post-list-link" href="/comics-about-staying-up.html">『小仓鼠漫画』熬夜的危害与防护</a></li><li class="post-list-item"><a class="post-list-link" href="/ctf-basic.html">『CTF』网络信息安全攻防实验室之基础关 writeup</a></li><li class="post-list-item"><a class="post-list-link" href="/send-blog-automatically.html">『WEB』用 python 发送 csdn 博客</a></li><li class="post-list-item"><a class="post-list-link" href="/the-roommate-that-uses-mechanical-keyboard.html">用机械键盘的室友</a></li><li class="post-list-item"><a class="post-list-link" href="/csapp-bomb-lab-report.html">CSAPP-BOMB-LAB</a></li><li class="post-list-item"><a class="post-list-link" href="/learning-and-forgetting.html">学习与遗忘</a></li><li class="post-list-item"><a class="post-list-link" href="/20-years-old-summary.html">2017 年，20 岁，大二寒假总结与感悟</a></li><li class="post-list-item"><a class="post-list-link" href="/decrypt-netease-music.html">『WEB』从网易云音乐缓存文件得到MP3</a></li><li class="post-list-item"><a class="post-list-link" href="/all-one-data-structure.html">『数据结构』inc,dec,getMin,getMax 均为 O(1)</a></li><li class="post-list-item"><a class="post-list-link" href="/video.html">影视作品观后感</a></li><li class="post-list-item"><a class="post-list-link" href="/books.html">书籍总结与推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/common-lisp-macro.html">『common lisp』宏及函数的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/hacker-and-painter.html">『读书笔记』黑客与画家</a></li><li class="post-list-item"><a class="post-list-link" href="/from-chem-to-cs.html">从化院到计院</a></li><li class="post-list-item"><a class="post-list-link" href="/from-zhuzhong-to-ustc.html">从竹中到科大</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017-2019 mbinary
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+    </div>
+</footer>
+
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+<!-->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<--!>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>

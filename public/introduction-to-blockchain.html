@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="mbinary">
+
+
+
+<meta name="description" content="以下内容摘录自 &amp;lt;&amp;lt;区块链原理,设计与应用&amp;gt;&amp;gt;">
+<meta name="keywords" content="区块链,数字货币">
+<meta property="og:type" content="article">
+<meta property="og:title" content="『区块链』简介">
+<meta property="og:url" content="https://mbinary.xyz/introduction-to-blockchain.html">
+<meta property="og:site_name" content="mbinary&#39;s blog">
+<meta property="og:description" content="以下内容摘录自 &amp;lt;&amp;lt;区块链原理,设计与应用&amp;gt;&amp;gt;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-93db8bb86d9dfbe7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-5c780a4871422d75.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-b14b5e444d25539c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-ff6bc22601083712.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-2d0d4ef2034e7ae2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-9fb2724729ebc577.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-b5ff03f1d9c3bf00.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-f3e2dc93063520cc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-01-30T09:46:55.601Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="『区块链』简介">
+<meta name="twitter:description" content="以下内容摘录自 &amp;lt;&amp;lt;区块链原理,设计与应用&amp;gt;&amp;gt;">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/7130568-93db8bb86d9dfbe7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="mbinary&#39;s blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/yinyang.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>『区块链』简介 | mbinary&#39;s blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+
+
+
+</head></html>
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">mbinary</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">淡泊明志, 宁静致远</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="Let me search for you>_<" class="search form-control" autocomplete="off" autocorrect="off" searchonload="false">
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class="no-result">No results found <i class="fa fa-spinner fa-pulse"></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/archives/">归档</a></li>
+                        
+                            <li><a href="/tags/">标签</a></li>
+                        
+                            <li><a href="/leetcode/">编程</a></li>
+                        
+                            <li><a href="/about/">关于</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Github" href="https://github.com/mbinary" title="Github"></a>
+                            
+                                <a class="fa Leetcode" href="https://leetcode-cn.com/mbinary/" title="Leetcode"></a>
+                            
+                                <a class="fa LinkedIn" href="http://www.linkedin.com/in/cs-heqin-zhu" title="LinkedIn"></a>
+                            
+                                <a class="fa Email" href="mailto:zhuheqin1@gmail.com" title="Email"></a>
+                            
+                                <a class="fa QQ" href="http://wpa.qq.com/msgrd?v=3&uin=414313516&site=qq&menu=yes" title="QQ"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/B树/">B树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/USTC/">USTC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/">api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/common-lisp/">common lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/macro/">macro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/人际交往/">人际交往</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分享/">分享</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动态规划/">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/区块链/">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/图/">图</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/娱乐/">娱乐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串匹配/">字符串匹配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/室友/">室友</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/影视/">影视</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/总结/">总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/惰性学习/">惰性学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序/">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/散列表/">散列表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数字货币/">数字货币</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/斐波那契堆/">斐波那契堆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机械键盘/">机械键盘</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树/">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/比特币/">比特币</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编/">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/红黑树/">红黑树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机组成原理/">计算机组成原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逆向/">逆向</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/选择/">选择</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/黑客/">黑客</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://mbinary.xyz/links/">交换友链说明</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.4spaces.org">4spaces</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">mbinary</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">mbinary</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">淡泊明志, 宁静致远</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">归档</a></li>
+                
+                    <li><a href="/tags/">标签</a></li>
+                
+                    <li><a href="/leetcode/">编程</a></li>
+                
+                    <li><a href="/about/">关于</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Github" target="_blank" href="https://github.com/mbinary" title="Github"></a>
+                            
+                                <a class="fa Leetcode" target="_blank" href="https://leetcode-cn.com/mbinary/" title="Leetcode"></a>
+                            
+                                <a class="fa LinkedIn" target="_blank" href="http://www.linkedin.com/in/cs-heqin-zhu" title="LinkedIn"></a>
+                            
+                                <a class="fa Email" target="_blank" href="mailto:zhuheqin1@gmail.com" title="Email"></a>
+                            
+                                <a class="fa QQ" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=414313516&site=qq&menu=yes" title="QQ"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
+</nav>
+      <div class="body-wrap"><article id="post-introduction-to-blockchain" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/introduction-to-blockchain.html" class="article-date">
+      <time datetime="2018-07-23T14:00:00.000Z" itemprop="datePublished">2018-07-23</time>
+</a>
+
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      『区块链』简介
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/区块链/">区块链</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/区块链/">区块链</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数字货币/">数字货币</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <script src="/assets/js/APlayer.min.js"> </script><p>以下内容摘录自 &lt;&lt;区块链原理,设计与应用&gt;&gt;<br><a id="more"></a></p>
+<!-- TOC -->
+<ul>
+<li><a href="#1-分布式记账">1. 分布式记账</a><ul>
+<li><a href="#11-原理">1.1. 原理</a></li>
+<li><a href="#12-重要性">1.2. 重要性</a></li>
+</ul>
+</li>
+<li><a href="#2-区块链的特点">2. 区块链的特点</a></li>
+<li><a href="#3-区块链的定义">3. 区块链的定义</a></li>
+<li><a href="#4-区块链的原理">4. 区块链的原理</a><ul>
+<li><a href="#41-例如比特币">4.1. 例如比特币</a></li>
+</ul>
+</li>
+<li><a href="#5-区块链的演化">5. 区块链的演化</a></li>
+<li><a href="#6-关键问题与挑战">6. 关键问题与挑战</a><ul>
+<li><a href="#61-抗抵赖与隐私保护">6.1. 抗抵赖与隐私保护</a></li>
+<li><a href="#62-分布式共识">6.2. 分布式共识</a></li>
+<li><a href="#63-扩展性">6.3. 扩展性</a></li>
+<li><a href="#64-数据库和存储系统">6.4. 数据库和存储系统</a></li>
+<li><a href="#65-认识上的误区">6.5. 认识上的误区</a></li>
+</ul>
+</li>
+<li><a href="#7-应用场景">7. 应用场景</a><ul>
+<li><a href="#71-金融服务">7.1. 金融服务</a></li>
+<li><a href="#72-征信管理">7.2. 征信管理</a></li>
+<li><a href="#73-权属管理">7.3. 权属管理</a></li>
+<li><a href="#74-资源共享">7.4. 资源共享</a></li>
+<li><a href="#75-贸易管理">7.5. 贸易管理</a></li>
+<li><a href="#76-物联网">7.6. 物联网</a></li>
+</ul>
+</li>
+<li><a href="#8-分布式系统">8. 分布式系统</a><ul>
+<li><a href="#81-一致性问题consistency">8.1. 一致性问题(Consistency)</a><ul>
+<li><a href="#811-理想一致性">8.1.1. 理想一致性</a></li>
+<li><a href="#812-带约束的一致性">8.1.2. 带约束的一致性</a></li>
+</ul>
+</li>
+<li><a href="#82-共识算法">8.2. 共识算法</a><ul>
+<li><a href="#821-paxos--raft">8.2.1. Paxos &amp; Raft</a></li>
+<li><a href="#822-flp不可能原理">8.2.2. FLP不可能原理</a></li>
+</ul>
+</li>
+<li><a href="#83-cap原理">8.3. CAP原理</a></li>
+<li><a href="#84-acid-原则">8.4. ACID 原则</a></li>
+</ul>
+</li>
+<li><a href="#9-密码学技术">9. 密码学技术</a><ul>
+<li><a href="#91-hash算法">9.1. hash算法</a></li>
+<li><a href="#92-加解密算法">9.2. 加解密算法</a><ul>
+<li><a href="#921-对称">9.2.1. 对称</a></li>
+<li><a href="#922-非对称加密">9.2.2. 非对称加密</a></li>
+<li><a href="#923-混合加密机制">9.2.3. 混合加密机制</a></li>
+</ul>
+</li>
+<li><a href="#93-数字签名">9.3. 数字签名</a></li>
+<li><a href="#94-数字证书">9.4. 数字证书</a></li>
+<li><a href="#95-merkle-树">9.5. Merkle 树</a><ul>
+<li><a href="#951-定义">9.5.1. 定义</a></li>
+<li><a href="#952-特点">9.5.2. 特点</a></li>
+<li><a href="#953-应用场景">9.5.3. 应用场景</a></li>
+</ul>
+</li>
+<li><a href="#96-同态加密">9.6. 同态加密</a></li>
+</ul>
+</li>
+<li><a href="#10-比特币">10. 比特币</a><ul>
+<li><a href="#101-从实体货币到数字货币">10.1. 从实体货币到数字货币</a></li>
+<li><a href="#102-去中心化实现数字货币的难题">10.2. 去中心化实现数字货币的难题</a></li>
+<li><a href="#103-原理与设计">10.3. 原理与设计</a><ul>
+<li><a href="#1031-基本交易过程">10.3.1. 基本交易过程</a></li>
+<li><a href="#1032-概念">10.3.2. 概念</a></li>
+</ul>
+</li>
+<li><a href="#104-闪电网络">10.4. 闪电网络</a></li>
+<li><a href="#105-侧链">10.5. 侧链</a></li>
+</ul>
+</li>
+<li><a href="#11-以太坊">11. 以太坊</a><ul>
+<li><a href="#111-特点">11.1. 特点</a></li>
+<li><a href="#112-概念">11.2. 概念</a></li>
+<li><a href="#113-主要设计">11.3. 主要设计</a></li>
+</ul>
+</li>
+<li><a href="#12-超级账本-hyperldger">12. 超级账本-Hyperldger</a></li>
+</ul>
+<!-- /TOC -->
+<p><a id="markdown-1-分布式记账" name="1-分布式记账"></a></p>
+<h1 id="1-分布式记账"><a href="#1-分布式记账" class="headerlink" title="1. 分布式记账"></a>1. 分布式记账</h1><p><a id="markdown-11-原理" name="11-原理"></a></p>
+<h2 id="1-1-原理"><a href="#1-1-原理" class="headerlink" title="1.1. 原理"></a>1.1. 原理</h2><p>商业活动参与者首先要寻找一个多方均信任的第三方来记账, 确保交易的准确.</p>
+<p>可以很容易设计出一个简单粗暴的分布式记账结构，如下图。多方均允许对账本进行任意读写，一旦发生新的交易即追加到账本上。这种情况下，如果参与多方均诚实可靠，则该方案可以正常工作；但是一旦有参与方恶意篡改已发生过的记录，则无法确保账本记录的正确性。<br><img src="https://upload-images.jianshu.io/upload_images/7130568-93db8bb86d9dfbe7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>为防止恶意篡改, 可以引入验证机制. 使用<code>数字摘要技术(digital digest)</code>. 每当有新交易记录被追加到账本上, 记录前面交易历史的 hash 值, 此后每个时刻, 参与者都可以重新计算 hash, 看是否与记录的 hash 匹配. 不匹配说明修改过, 也可以容易地定位修改的交易记录了</p>
+<p>不必要每次都计算前面所有历史的 hash, 可以计算 上次的 hash 加上当前交易 的 内容的 hash<br><img src="https://upload-images.jianshu.io/upload_images/7130568-5c780a4871422d75.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>这正是一个区块链结构.</p>
+<p><a id="markdown-12-重要性" name="12-重要性"></a></p>
+<h2 id="1-2-重要性"><a href="#1-2-重要性" class="headerlink" title="1.2. 重要性"></a>1.2. 重要性</h2><p>分布式记账问题为何重要？可以类比互联网出现后对社会带来的重大影响。<br>互联网是人类历史上最大的分布式互联系统。作为信息社会的基础设施，它很好地解决了传递信息的问题。然而，由于早期设计上的缺陷，互联网无法确保所传递信息的可靠性，这大大制约了人们利用互联网进行大规模协作的能力。而以区块链为基础的分布式账本科技则可能解决传递可信信息的问题。这意味着基于分布式账本科技的未来商业网络，将成为新一代的文明基础设施——大规模的协作网络。</p>
+<p>分布式账本科技的核心价值在于为未来多方协同网络提供可信基础。区块链引发的记账科技的演进，将促使商业协作和组织形态发生变革。</p>
+<p><a id="markdown-2-区块链的特点" name="2-区块链的特点"></a></p>
+<h1 id="2-区块链的特点"><a href="#2-区块链的特点" class="headerlink" title="2. 区块链的特点"></a>2. 区块链的特点</h1><ul>
+<li>分布式容错性：分布式网络极其 robust , 能够容忍部分节点的异常状态；</li>
+<li>不可篡改性：一致提交后的数据会一直存在，不可被销毁或修改；</li>
+<li>隐私保护性：密码学保证了数据隐私，即便数据泄露，也无法解析。</li>
+</ul>
+<p>可能带来的业务特性</p>
+<ul>
+<li>可信任性：区块链技术可以提供天然可信的分布式账本平台，不需要额外第三方中介机构参与；</li>
+<li>降低成本：跟传统技术相比，区块链技术可能带来更短的时间、更少的人力，降低维护成本；</li>
+<li>增强安全：区块链技术将有利于安全、可靠的审计管理和账目清算，减少犯罪风险。</li>
+</ul>
+<p><a id="markdown-3-区块链的定义" name="3-区块链的定义"></a></p>
+<h1 id="3-区块链的定义"><a href="#3-区块链的定义" class="headerlink" title="3. 区块链的定义"></a>3. 区块链的定义</h1><p>狭义上，区块链是一种以区块为基本单位的链式数据结构，区块中利用数字摘要对之前的交易历史进行校验，适合分布式记账场景下防篡改和可扩展性的需求。<br>广义上，区块链还指代基于区块链结构实现的分布式记账技术，还包括分布式共识、隐私与安全保护、点对点通信技术、网络协议、智能合约等。</p>
+<p><a id="markdown-4-区块链的原理" name="4-区块链的原理"></a></p>
+<h1 id="4-区块链的原理"><a href="#4-区块链的原理" class="headerlink" title="4. 区块链的原理"></a>4. 区块链的原理</h1><ul>
+<li>交易(transaction): 一次对账本的操作,导致账本状态的一次改变.</li>
+<li>区块(block): 记录一段时间内发生的所有交易和状态结果.,是对当前账本状态的一次共识</li>
+<li>链(chain): 由区块按照发生顺序串联而成,是整个版本状态变化的日志记录</li>
+</ul>
+<p>在实现上, 首先假设存在一个分布式的数据记录账本,只允许添加,不允许删除.</p>
+<p><a id="markdown-41-例如比特币" name="41-例如比特币"></a></p>
+<h2 id="4-1-例如比特币"><a href="#4-1-例如比特币" class="headerlink" title="4.1. 例如比特币"></a>4.1. 例如比特币</h2><p>首先，比特币客户端发起一项交易，广播到比特币网络中并等待确认。网络中的节点会将一些收到的等待确认的交易记录打包在一起（此外还要包括前一个区块头部的哈希值等信息），组成一个候选区块。然后，试图找到一个    nonce    串（随机串）放到区块里，使得候选区块的哈希结果满足一定条件（比如小于某个值）。这个nonce    串的查找需要一定的时间进行计算尝试。<br>一旦节点算出来满足条件的    nonce    串，这个区块在格式上就被认为是“合法”了，就可以尝试在网络中将它广播出去。其它节点收到候选区块，进行验证，发现确实符合约定条件了，就承认这个区块是一个合法的新区块，并添加到自己维护的区块链上。当大部分节点都将区块添加到自己维护的区块链结构上时，该区块被网络接受，区块中所包括的交易也就得到确认。</p>
+<p>这种基于算力寻找 nonce 串的共识机制成为 PoW(Proof of Work). (还有很多其他共识机制 PoX, 如 PoS (stake)…) </p>
+<p><a id="markdown-5-区块链的演化" name="5-区块链的演化"></a></p>
+<h1 id="5-区块链的演化"><a href="#5-区块链的演化" class="headerlink" title="5. 区块链的演化"></a>5. 区块链的演化</h1><p>比特币区块链支持简单的脚本计算, 仅限于数字画笔相关的处理. 还可以将区块链上执行的处理过程进一步泛化,即提供 智能合约 Smart Contract. 由此提供除货币交易功能外更灵活的合约共功能,执行更为复杂的操作.</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/7130568-b14b5e444d25539c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><a id="markdown-6-关键问题与挑战" name="6-关键问题与挑战"></a></p>
+<h1 id="6-关键问题与挑战"><a href="#6-关键问题与挑战" class="headerlink" title="6. 关键问题与挑战"></a>6. 关键问题与挑战</h1><p><a id="markdown-61-抗抵赖与隐私保护" name="61-抗抵赖与隐私保护"></a></p>
+<h2 id="6-1-抗抵赖与隐私保护"><a href="#6-1-抗抵赖与隐私保护" class="headerlink" title="6.1. 抗抵赖与隐私保护"></a>6.1. 抗抵赖与隐私保护</h2><ul>
+<li>怎么防止交易记录被篡改</li>
+<li>怎么证明交易双方的身份</li>
+<li>怎么保护交易双方的隐私</li>
+</ul>
+<p><a id="markdown-62-分布式共识" name="62-分布式共识"></a></p>
+<h2 id="6-2-分布式共识"><a href="#6-2-分布式共识" class="headerlink" title="6.2. 分布式共识"></a>6.2. 分布式共识</h2><p>指标: 容错的结点比例, 决策收敛速度, 出错后的恢复,动态特性等.<br><a id="markdown-63-扩展性" name="63-扩展性"></a></p>
+<h2 id="6-3-扩展性"><a href="#6-3-扩展性" class="headerlink" title="6.3. 扩展性"></a>6.3. 扩展性</h2><p>不能简单得增加结点来扩展整个系统的处理能力.</p>
+<p>对于比特币和以太坊区块链而言，网络中每个参与维护的核心节点都要保持一份完整的存储，并且进行智能合约的处理。此时，整个网络的总存储和计算能力，取决于单个节点的能力。甚至当网络中节点数过多时，可能会因为一致性的达成过程延迟降低整个网络的性能。尤其在公有网络中，由于大量低性能处理节点的存在，问题将更加明显。</p>
+<p>要解决这个问题，根本上是放松对每个节点都必须参与完整处理的限制（当然，网络中节点要能合作完成完整的处理），这个思路已经在超级账本中得到应用；同时尽量减少核心层的处理工作。</p>
+<p>在联盟链模式下，还可以专门采用高性能的节点作为核心节点，用相对较弱的节点仅作为代理访问节点。</p>
+<p><a id="markdown-64-数据库和存储系统" name="64-数据库和存储系统"></a></p>
+<h2 id="6-4-数据库和存储系统"><a href="#6-4-数据库和存储系统" class="headerlink" title="6.4. 数据库和存储系统"></a>6.4. 数据库和存储系统</h2><p>区块链网络中的大量信息需要写到文件和数据库中进行存储。</p>
+<p>预测将可能出现更具针对性的“块数据库（BlockDB）”，专门服务类似区块链这样的新型数据业务，其中每条记录将包括一个完整的区块信息，并天然地跟历史信息进行关联，一旦写入确认则无法修改。所有操作的最小单位将是一个块。为了实现这种结构，需要原生支持高效的签名和加解密处理。</p>
+<p><a id="markdown-65-认识上的误区" name="65-认识上的误区"></a></p>
+<h2 id="6-5-认识上的误区"><a href="#6-5-认识上的误区" class="headerlink" title="6.5. 认识上的误区"></a>6.5. 认识上的误区</h2><p>区块链不等于数据库。虽然区块链也可以用来存储数据，但它要解决的核心问题是多方的互信问题。单纯从存储数据角度，它的效率可能不高，不建议把大量的原始数据放到区块链系统上。</p>
+<p><a id="markdown-7-应用场景" name="7-应用场景"></a></p>
+<h1 id="7-应用场景"><a href="#7-应用场景" class="headerlink" title="7. 应用场景"></a>7. 应用场景</h1><p><a id="markdown-71-金融服务" name="71-金融服务"></a></p>
+<h2 id="7-1-金融服务"><a href="#7-1-金融服务" class="headerlink" title="7.1. 金融服务"></a>7.1. 金融服务</h2><p>区块链带来的潜在优势包括降低交易成本、减少跨组织交易风险等。</p>
+<p><a id="markdown-72-征信管理" name="72-征信管理"></a></p>
+<h2 id="7-2-征信管理"><a href="#7-2-征信管理" class="headerlink" title="7.2. 征信管理"></a>7.2. 征信管理</h2><p>区块链平台将可能提供前所未有规模的相关性极高的数据，这些数据可以在时空中准确定位，并严格关联到用户。因此，基于区块链提供数据进行征信管理，将大大提高信用评估的准确率，同时降低评估成本</p>
+<p>另外，跟传统依靠人工的审核过程不同，区块链中交易处理完全遵循约定自动化执行。基于区块链的信用机制将天然具备稳定性和中立性。</p>
+<p><a id="markdown-73-权属管理" name="73-权属管理"></a></p>
+<h2 id="7-3-权属管理"><a href="#7-3-权属管理" class="headerlink" title="7.3. 权属管理"></a>7.3. 权属管理</h2><p>区块链技术可以用于产权、版权等所有权的管理和追踪。其中包括汽车、房屋、艺术品等各种贵重物品的交易等，也包括数字出版物，以及可以标记的数字资源。<br>目前权属管理领域存在的几个难题是：</p>
+<ul>
+<li>物品所有权的确认和管理；</li>
+<li>交易的安全性和可靠性保障；</li>
+<li>必要的隐私保护机制。</li>
+</ul>
+<p>利用区块链技术，物品的所有权是写在数字链上的，谁都无法修改。并且一旦出现合同中约定情况，区块链技术将确保合同能得到准确执行。这能有效减少传统情况下纠纷仲裁环节的人工干预和执行成本</p>
+<p><a id="markdown-74-资源共享" name="74-资源共享"></a></p>
+<h2 id="7-4-资源共享"><a href="#7-4-资源共享" class="headerlink" title="7.4. 资源共享"></a>7.4. 资源共享</h2><p>相比于依赖于中间方的资源共享模式，基于区块链的模式有潜力更直接的连接资源的供给方和需求方，其透明、不可篡改的特性有助于减小摩擦。<br><a id="markdown-75-贸易管理" name="75-贸易管理"></a></p>
+<h2 id="7-5-贸易管理"><a href="#7-5-贸易管理" class="headerlink" title="7.5. 贸易管理"></a>7.5. 贸易管理</h2><p>区块链技术可以帮助自动化国际贸易和物流供应链领域中繁琐的手续和流程。基于区块链设计的贸易管理方案会为参与的多方企业带来极大的便利。另外，贸易中销售和法律合同的数字化、货物监控与检测、实时支付等方向都可能成为创业公司的</p>
+<p><a id="markdown-76-物联网" name="76-物联网"></a></p>
+<h2 id="7-6-物联网"><a href="#7-6-物联网" class="headerlink" title="7.6. 物联网"></a>7.6. 物联网</h2><p>物联网络中每一个设备分配地址，给该地址所关联一个账户，用户通过向账户中支付费用可以租借设备，以执行相关动作，从而达到租借物联网的应用。</p>
+<p>典型的应用包括    PM2.5    监测点的数据获取、温度检测服务、服务器租赁、网络摄像头数据调用等等。</p>
+<p>另外，随着物联网设备的增多、边沿计算需求的增强，大量设备之间形成分布式自组织的管理模式，并且对容错性要求很高。区块链自身分布式和抗攻击的特点可以很好地融合到这一场景中。</p>
+<p><a id="markdown-8-分布式系统" name="8-分布式系统"></a></p>
+<h1 id="8-分布式系统"><a href="#8-分布式系统" class="headerlink" title="8. 分布式系统"></a>8. 分布式系统</h1><p><a id="markdown-81-一致性问题consistency" name="81-一致性问题consistency"></a></p>
+<h2 id="8-1-一致性问题-Consistency"><a href="#8-1-一致性问题-Consistency" class="headerlink" title="8.1. 一致性问题(Consistency)"></a>8.1. 一致性问题(Consistency)</h2><p>对于系统中的多个服务结点,给定一系列操作, 在协议(某种共识算法)保障下, 使得它们对处理结果达成某种程度的一致存在的问题</p>
+<ul>
+<li>节点之间的网络通讯是不可靠的，包括任意延迟和内容故障；</li>
+<li>节点的处理可能是错误的，甚至节点自身随时可能宕机；</li>
+<li>同步调用会让系统变得不具备可扩展性。</li>
+</ul>
+<blockquote>
+<blockquote>
+<p>解决的基本思想: 将可能引发不一致的并行操作串行化</p>
+</blockquote>
+</blockquote>
+<p><a id="markdown-811-理想一致性" name="811-理想一致性"></a></p>
+<h3 id="8-1-1-理想一致性"><a href="#8-1-1-理想一致性" class="headerlink" title="8.1.1. 理想一致性"></a>8.1.1. 理想一致性</h3><p>分布式系统一致性应满足</p>
+<ul>
+<li>可终止性（Termination）：一致的结果在有限时间内能完成；</li>
+<li>共识性（Consensus）：不同节点最终完成决策的结果应该相同；</li>
+<li>合法性（Validity）：决策的结果必须是其它进程提出的提案。</li>
+</ul>
+<p><a id="markdown-812-带约束的一致性" name="812-带约束的一致性"></a></p>
+<h3 id="8-1-2-带约束的一致性"><a href="#8-1-2-带约束的一致性" class="headerlink" title="8.1.2. 带约束的一致性"></a>8.1.2. 带约束的一致性</h3><p>理想情况的强一致性是很难达到的. 其实实际需求并没有那么强,可以适当放宽一致性要求.</p>
+<p><a id="markdown-82-共识算法" name="82-共识算法"></a></p>
+<h2 id="8-2-共识算法"><a href="#8-2-共识算法" class="headerlink" title="8.2. 共识算法"></a>8.2. 共识算法</h2><p>由于响应请求往往存在时延、网络会发生中断、节点会发生故障、甚至存在恶意节点故意要破坏系统, 不能简单地通过多播过程投票.</p>
+<p>一般地，把故障（不响应）的情况称为“非拜占庭错误”，恶意响应的情况称为“拜占庭错误”（对应节点为拜占庭节点）。</p>
+<p><a id="markdown-821-paxos--raft" name="821-paxos--raft"></a></p>
+<h3 id="8-2-1-Paxos-amp-Raft"><a href="#8-2-1-Paxos-amp-Raft" class="headerlink" title="8.2.1. Paxos &amp; Raft"></a>8.2.1. Paxos &amp; Raft</h3><p>这种算法解决的是对于 分布式系统中存在故障(fault), 但不存在恶意(corrupt)结点场景(即可能消息丢失或重复, 但无错误信息)下的共识达成(consensus)问题.</p>
+<p><a id="markdown-822-flp不可能原理" name="822-flp不可能原理"></a></p>
+<h3 id="8-2-2-FLP不可能原理"><a href="#8-2-2-FLP不可能原理" class="headerlink" title="8.2.2. FLP不可能原理"></a>8.2.2. FLP不可能原理</h3><blockquote>
+<p>在网络可靠，存在节点失效（即便只有一个）的最小化异步模型系统中，不存在一个可以解决一致性问题的确定性算法。</p>
+</blockquote>
+<p>即一个可扩展的分布式系统的共识问题的下限是无解</p>
+<p>它告诉人们，不要浪费时间去为异步分布式系统设计在任意场景下都能实现共识的算法。</p>
+<p>但是可以在付出一定代价下, 达到一定的目标.</p>
+<p>下面的CAP原理告诉我们能做到多少<br><a id="markdown-83-cap原理" name="83-cap原理"></a></p>
+<h2 id="8-3-CAP原理"><a href="#8-3-CAP原理" class="headerlink" title="8.3. CAP原理"></a>8.3. CAP原理</h2><p>分布式系统不可能同时确保一致性（Consistency）、可用性（Availablity）和分区容忍性（Partition），<strong>设计中往往需要弱化对某个特性的保证。</strong></p>
+<ul>
+<li>一致性（Consistency）：任何操作应该都是原子的，发生在后面的事件能看到前面事件发生导致的结果，注意这里指的是强一致性；</li>
+<li>可用性（Availablity）：在有限时间内，任何非失败节点都能应答请求；</li>
+<li>分区容忍性（Partition）：网络可能发生分区，即节点之间的通信不可保障。</li>
+</ul>
+<p>CAP 不能同时满足,设计系统时针对应用场景弱化对某个特性的支持</p>
+<ul>
+<li>弱化一致性: 如网站静态页面内容, 实时性较弱的查询类数据库</li>
+<li>弱化可用性: 对结果一致性很敏感的应用. 如银行取款机</li>
+<li>弱化分区容忍性: 如 某些关系型数据库, ZooKeeper</li>
+</ul>
+<p><a id="markdown-84-acid-原则" name="84-acid-原则"></a></p>
+<h2 id="8-4-ACID-原则"><a href="#8-4-ACID-原则" class="headerlink" title="8.4. ACID 原则"></a>8.4. ACID 原则</h2><p>即    Atomicity（原子性）、Consistency（一致性）、Isolation（隔离性）、Durability（持久性）。<br>ACID    原则描述了对分布式数据库的一致性需求，同时付出了可用性的代价。<br>Atomicity：每次操作是原子的，要么成功，要么不执行；<br>Consistency：数据库的状态是一致的，无中间状态；<br>Isolation：各种操作彼此互相不影响；<br>Durability：状态的改变是持久的，不会失效。</p>
+<p>一个与之相对的原则是    BASE（Basic    Availiability，Soft    state，Eventually    Consistency），牺牲掉对一致性的约束（最终一致性），来换取一定的可用性。</p>
+<p><a id="markdown-9-密码学技术" name="9-密码学技术"></a></p>
+<h1 id="9-密码学技术"><a href="#9-密码学技术" class="headerlink" title="9. 密码学技术"></a>9. 密码学技术</h1><p><a id="markdown-91-hash算法" name="91-hash算法"></a></p>
+<h2 id="9-1-hash算法"><a href="#9-1-hash算法" class="headerlink" title="9.1. hash算法"></a>9.1. hash算法</h2><p>是一种信息摘要, 可以用于检验内容的完全性, 一致性等. 流行的有  md5, sha-1, sha-2(Secure Hash Algorithm), sha-1已被证明不具备”强抗碰撞性”<br><a id="markdown-92-加解密算法" name="92-加解密算法"></a></p>
+<h2 id="9-2-加解密算法"><a href="#9-2-加解密算法" class="headerlink" title="9.2. 加解密算法"></a>9.2. 加解密算法</h2><p><img src="https://upload-images.jianshu.io/upload_images/7130568-ff6bc22601083712.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>组件包括: 加解密算法,加密密钥,解密密钥.<br>根据加解密的密钥是否相同,可以分成对称加密与非对称加密(asymmetrix cryptography).<br><a id="markdown-921-对称" name="921-对称"></a></p>
+<h3 id="9-2-1-对称"><a href="#9-2-1-对称" class="headerlink" title="9.2.1. 对称"></a>9.2.1. 对称</h3><p>对称密码从实现原理上可以分为两种：分组密码和序列密码。前者将明文切分为定长数据块<br>作为加密单位，应用最为广泛。后者则只对一个字节进行加密，且密码不断变化，只用在一<br>些特定领域，如数字媒介的加密等。<br>代表算法</p>
+<ul>
+<li>DES（Data    Encryption    Standard）：经典的分组加密算法,将    64    位明文加密为    64    位的密文，其密钥长度为    56位    +    8    位校验。现在已经很容易被暴力破解。</li>
+<li>3DES：三重    DES    操作：加密    —&gt;    解密    —&gt;    加密，处理过程和加密强度优于    DES，但现在也被认为不够安全。</li>
+<li>AES（Advanced    Encryption    Standard）：分组算法，分组长度为    128、192、256    位三种。AES    的优势在于处理速度快，整个过程可以数学化描述，目前尚未有有效的破解手段。</li>
+</ul>
+<p>适用于大量数据的加解密；不能用于签名场景；需要提前分发密钥。<br><a id="markdown-922-非对称加密" name="922-非对称加密"></a></p>
+<h3 id="9-2-2-非对称加密"><a href="#9-2-2-非对称加密" class="headerlink" title="9.2.2. 非对称加密"></a>9.2.2. 非对称加密</h3><p>非对称加密是现代密码学历史上最为伟大的发明，可以很好的解决对称加密需要的提前分发密钥问题。</p>
+<p>一般比对称加解密算法慢两到三个数量级；同时加密强度相比对称加密要差。<br>非对称加密算法的安全性往往需要基于数学问题来保障，目前主要有基于大数质因子分解、离散对数、椭圆曲线等几种思路。<br>代表算法:</p>
+<ul>
+<li>RSA：经典的公钥算法。算法利用了对大数进行质因子分解困难的特性，但目前还没有数学证明两者难度等价，或许存在未知算法在不进行大数分解的前提下解密。</li>
+<li>Diffie-Hellman    密钥交换：基于离散对数无法快速求解，可以在不安全的通道上，双方协商一个公共密钥。</li>
+<li>ElGamal：利用了模运算下求离散对数困难的特性。被应用在PGP    等安全工具中。</li>
+<li>椭圆曲线算法（Elliptic    curve    cryptography，ECC）：基于对加解密算法椭圆曲线上特定点进行特殊乘法逆运算难以计算的特性。一般适用于签名场景或密钥协商，不适于大量数据的加解密。</li>
+</ul>
+<p>RSA    算法等已被认为不够安全，一般推荐采用椭圆曲线系列算法。</p>
+<p><a id="markdown-923-混合加密机制" name="923-混合加密机制"></a></p>
+<h3 id="9-2-3-混合加密机制"><a href="#9-2-3-混合加密机制" class="headerlink" title="9.2.3. 混合加密机制"></a>9.2.3. 混合加密机制</h3><p>即先用计算复杂度高的非对称加密协商一个临时的对称加密密钥（会话密钥，一般相对内容<br>来说要短的多），然后双方再通过对称加密对传递的大量数据进行加解密处理。<br>典型的场景是现在大家常用的    HTTPS    机制。HTTPS    实际上是利用了    Transport    Layer<br>Security/Secure    Socket    Layer（TLS/SSL）来实现可靠的传输。TLS    为    SSL    的升级版本</p>
+<p><a id="markdown-93-数字签名" name="93-数字签名"></a></p>
+<h2 id="9-3-数字签名"><a href="#9-3-数字签名" class="headerlink" title="9.3. 数字签名"></a>9.3. 数字签名</h2><p>类似在纸质合同上签名确认合同内容，数字签名用于证实某数字内容的完整性（integrity）和来源（或不可抵赖，non-repudiation）。</p>
+<p>一个典型的场景是，A    要发给    B    一份信息.<br>A    先对文件进行摘要，然后用自己的私钥进行加密，将文件和加密串都发给B。B    收到文件和加密串后，用    A    的公钥来解密加密串，得到原始的数字摘要，跟对文件进行摘要后的结果进行比对。</p>
+<p><a id="markdown-94-数字证书" name="94-数字证书"></a></p>
+<h2 id="9-4-数字证书"><a href="#9-4-数字证书" class="headerlink" title="9.4. 数字证书"></a>9.4. 数字证书</h2><p>数字证书用来证明某个公钥是谁的，并且内容是正确的。</p>
+<p>数字证书内容可能包括版本、序列号、签名算法类型、签发者信息、有效期、被签发人、签发的公开密钥、CA    数字签名、其它信息等等，一般使用最广泛的标准为    ITU    和    ISO    联合制定的    X.509    规范。<br>其中，最重要的包括        签发的公开密钥    、    CA    数字签名        两个信息。因此，只要通过这个证书就能证明某个公钥是合法的，因为带有    CA    的数字签名。</p>
+<p><a id="markdown-95-merkle-树" name="95-merkle-树"></a></p>
+<h2 id="9-5-Merkle-树"><a href="#9-5-Merkle-树" class="headerlink" title="9.5. Merkle 树"></a>9.5. Merkle 树</h2><p><img src="https://upload-images.jianshu.io/upload_images/7130568-2d0d4ef2034e7ae2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="merkle"><br><a id="markdown-951-定义" name="951-定义"></a></p>
+<h3 id="9-5-1-定义"><a href="#9-5-1-定义" class="headerlink" title="9.5.1. 定义"></a>9.5.1. 定义</h3><p>默克尔树（又叫哈希树）是一种二叉树，由一个根节点、一组中间节点和一组叶节点组成。最下面的叶节点包含存储数据或其哈希值，每个中间节点是它的两个孩子节点内容的哈希值，根节点也是由它的两个子节点内容的哈希值组成。</p>
+<p><a id="markdown-952-特点" name="952-特点"></a></p>
+<h3 id="9-5-2-特点"><a href="#9-5-2-特点" class="headerlink" title="9.5.2. 特点"></a>9.5.2. 特点</h3><p> 底层数据的任何变动，都会传递到其父亲节点，一直到树根。<br><a id="markdown-953-应用场景" name="953-应用场景"></a></p>
+<h3 id="9-5-3-应用场景"><a href="#9-5-3-应用场景" class="headerlink" title="9.5.3. 应用场景"></a>9.5.3. 应用场景</h3><ul>
+<li>快速比较大量数据：当两个默克尔树根相同时，则意味着所代表的数据必然相同。</li>
+<li>快速定位修改：例如上例中，如果    D1    中数据被修改，会影响到    N1，N4    和    Root。因此，沿着    Root    —&gt;    N4    —&gt;    N1，可以快速定位到发生改变的    D1；</li>
+<li>零知识证明：例如如何证明某个数据（D0……D3）中包括给定内容    D0，很简单，构造一个默克尔树，公布    N0，N1，N4，Root，D0    拥有者可以很容易检测    D0    存在，但不知道其它内容。</li>
+</ul>
+<p><a id="markdown-96-同态加密" name="96-同态加密"></a></p>
+<h2 id="9-6-同态加密"><a href="#9-6-同态加密" class="headerlink" title="9.6. 同态加密"></a>9.6. 同态加密</h2><p>同态加密（Homomorphic    Encryption）是一种特殊的加密方法，允许对密文进行处理得到仍然是加密的结果，即对密文直接进行处理，跟对明文进行处理再加密，得到的结果相同。从代数的角度讲，即同态性。(保运算)</p>
+<p><a id="markdown-10-比特币" name="10-比特币"></a></p>
+<h1 id="10-比特币"><a href="#10-比特币" class="headerlink" title="10. 比特币"></a>10. 比特币</h1><p><a id="markdown-101-从实体货币到数字货币" name="101-从实体货币到数字货币"></a></p>
+<h2 id="10-1-从实体货币到数字货币"><a href="#10-1-从实体货币到数字货币" class="headerlink" title="10.1. 从实体货币到数字货币"></a>10.1. 从实体货币到数字货币</h2><p><img src="https://upload-images.jianshu.io/upload_images/7130568-9fb2724729ebc577.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><a id="markdown-102-去中心化实现数字货币的难题" name="102-去中心化实现数字货币的难题"></a></p>
+<h2 id="10-2-去中心化实现数字货币的难题"><a href="#10-2-去中心化实现数字货币的难题" class="headerlink" title="10.2. 去中心化实现数字货币的难题"></a>10.2. 去中心化实现数字货币的难题</h2><ul>
+<li>货币的防伪：谁来负责对货币的真伪进行鉴定；</li>
+<li>货币的交易：如何确保货币从一方安全转移到另外一方；</li>
+<li>避免双重支付：如何避免同一份货币支付给多个接收者。</li>
+</ul>
+<p><a id="markdown-103-原理与设计" name="103-原理与设计"></a></p>
+<h2 id="10-3-原理与设计"><a href="#10-3-原理与设计" class="headerlink" title="10.3. 原理与设计"></a>10.3. 原理与设计</h2><p>比特币网络是一个分布式的点对点网络，网络中的矿工通过“挖矿”来完成对交易记录的记账过程，维护网络的正常运行。<br><a id="markdown-1031-基本交易过程" name="1031-基本交易过程"></a></p>
+<h3 id="10-3-1-基本交易过程"><a href="#10-3-1-基本交易过程" class="headerlink" title="10.3.1. 基本交易过程"></a>10.3.1. 基本交易过程</h3><p>比特币中没有账户的概念。因此，每次发生交易，用户需要将交易记录写到比特币网络账本中，等网络确认后即可认为交易完成。</p>
+<p>除了挖矿获得奖励的    coinbase    交易只有输出，正常情况下每个交易需要包括若干输入和输出，未经使用（引用）的交易的输出（Unspent    Transaction    Outputs，UTXO）可以被新的交易引用作为其合法的输入。被使用过的交易的输出（Spent    Transaction    Outputs，STXO），则无法被引用作为合法输入。</p>
+<p><a id="markdown-1032-概念" name="1032-概念"></a></p>
+<h3 id="10-3-2-概念"><a href="#10-3-2-概念" class="headerlink" title="10.3.2. 概念"></a>10.3.2. 概念</h3><ul>
+<li>账户</li>
+</ul>
+<p>比特币采用了非对称的加密算法，用户自己保留私钥，对自己发出的交易进行签名确认，并公开公钥。<br>比特币的账户地址其实就是用户公钥经过一系列    Hash（HASH160，或先进行    SHA256，然后进行    RIPEMD160）及编码运算后生成的    160    位（20    字节）的字符串。</p>
+<ul>
+<li>交易</li>
+</ul>
+<p>易可能包括如下信息：<br>付款人地址：合法的地址，公钥经过    SHA256    和    RIPEMD160    两次    Hash，得到    160    位Hash    串；<br>付款人对交易的签字确认：确保交易内容不被篡改；<br>付款人资金的来源交易    ID：从哪个交易的输出作为本次交易的输入；<br>交易的金额：多少钱，跟输入的差额为交易的服务费；<br>收款人地址：合法的地址；<br>时间戳：交易何时能生效<br>节点收到交易信息后，将进行如下检查：<br>交易是否已经处理过；<br>交易是否合法。包括地址是否合法、发起交易者是否是输入地址的合法拥有者、是否是UTXO；<br>交易的输入之和是否大于输出之和。</p>
+<ul>
+<li>交易脚本: 保障交易的完成的核心机制</li>
+<li>区块</li>
+</ul>
+<p>比特币区块链的一个区块不能超过    1    MB，将主要包括如下内容：<br>区块大小：4    字节；<br>区块头：80    字节：<br>交易个数计数器：1~9    字节；<br>所有交易的具体内容，可变长，匹配    Merkle    树叶子节点顺序。</p>
+<ul>
+<li>避免作恶: 在一个开放的网络中，无法通过技术手段保证每个人都是合作的。但可以通过经济博弈来让合作者得到利益，让非合作者遭受损失和风险 .  如共识机制PoW</li>
+</ul>
+<p><a id="markdown-104-闪电网络" name="104-闪电网络"></a></p>
+<h2 id="10-4-闪电网络"><a href="#10-4-闪电网络" class="headerlink" title="10.4. 闪电网络"></a>10.4. 闪电网络</h2><p>比特币交易性能：全网每秒    7    笔左右的交易速度，远低于传统的金融交易系统</p>
+<p>提出闪电网络的解决方法<br>主要通过引入智能合约的思想来完善链下的交易渠道。核心的概念主要有两个：RSMC（Recoverable    Sequence    Maturity    Contract）和    HTLC（Hashed    TimelockContract）。前者解决了链下交易的确认问题，后者解决了支付通道的问题。</p>
+<p><a id="markdown-105-侧链" name="105-侧链"></a></p>
+<h2 id="10-5-侧链"><a href="#10-5-侧链" class="headerlink" title="10.5. 侧链"></a>10.5. 侧链</h2><p>以比特币区块链作为主链（Parent    chain），其他区块链作为侧链，二者通过双向挂钩（Two-way    peg），可实现比特币从主链转移到侧链进行流通。<br><img src="https://upload-images.jianshu.io/upload_images/7130568-b5ff03f1d9c3bf00.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>侧链可以是一个独立的区块链，有自己按需定制的账本、共识机制、交易类型、脚本和合约的支持等。侧链不能发行比特币，但可以通过支持与比特币区块链挂钩来引入和流通一定数量的比特币。当比特币在侧链流通时，主链上对应的比特币会被锁定，直到比特币从侧链回到主链。可以看到，侧链机制可将一些定制化或高频的交易放到比特币主链之外进行，实现了比特币区块链的扩展。侧链的核心原理在于能够冻结一条链上的资产，然后在另一条链上产生，可以通过多种方式来实现, 如 SPV<br><a id="markdown-11-以太坊" name="11-以太坊"></a></p>
+<h1 id="11-以太坊"><a href="#11-以太坊" class="headerlink" title="11. 以太坊"></a>11. 以太坊</h1><p>以太坊区块链底层也是一个类似比特币网络的    P2P    网络平台，智能合约运行在网络中的以太坊虚拟机里。网络自身是公开可接入的，任何人都可以接入并参与网络中数据的维护，提供运行以太坊虚拟机的资源。<br><a id="markdown-111-特点" name="111-特点"></a></p>
+<h2 id="11-1-特点"><a href="#11-1-特点" class="headerlink" title="11.1. 特点"></a>11.1. 特点</h2><p>跟比特币项目相比</p>
+<ul>
+<li>支持图灵完备的智能合约，设计了编程语言    Solidity    和虚拟机    EVM；</li>
+<li>选用了内存需求较高的哈希函数，避免出现强算力矿机、矿池攻击；</li>
+<li>叔块（Uncle    Block）激励机制，降低矿池的优势，并减少区块产生间隔（10    分钟降低到15    秒左右）；</li>
+</ul>
+<p>*采用账户系统和世界状态，而不是    UTXO，容易支持更复杂的逻辑；</p>
+<ul>
+<li>通过    Gas    限制代码执行指令数，避免循环执行攻击；</li>
+<li>支持    PoW    共识算法，并计划支持效率更高的    PoS    算法。</li>
+</ul>
+<p><a id="markdown-112-概念" name="112-概念"></a></p>
+<h2 id="11-2-概念"><a href="#11-2-概念" class="headerlink" title="11.2. 概念"></a>11.2. 概念</h2><ul>
+<li>智能合约:即以计算机程序的方式来缔结和运行各种合约。</li>
+<li><p>账户: 比特币在设计中并没有账户（Account）的概念，而是采用了UTXO    模型记录整个系统的状态。任何人都可以通过交易历史来推算出用户的余额信息。而以太坊则直接用账户来记录系统状态。每个账户存储余额信息、智能合约代码和内部数据存储等。 以太坊账户分为两类</p>
+<ul>
+<li>合约账户：存储执行的智能合约代码，只能被外部账户来调用激活；</li>
+<li>外部账户：以太币拥有者账户，对应到某公钥。账户包括    nonce、balance、storageRoot、codeHash    等字段，由个人来控制。</li>
+</ul>
+</li>
+<li><p>交易: 是指从一个账户到另一个账户的消息数据</p>
+</li>
+</ul>
+<p>包括如下字段：</p>
+<pre><code>* to：目标账户地址。
+* value：可以指定转移的以太币数量。
+* nonce：交易相关的字串，用于防止交易被重放。
+* gasPrice：执行交易需要消耗的    Gas    价 格。
+* startgas：交易消耗的最大    Gas    值。
+* signature：签名信息。
+</code></pre><p>在发送交易时，用户需要缴纳一定的交易费用，通过以太币方式进行支付<br>和消耗。</p>
+<ul>
+<li>燃料（Gas），控制某次交易执行指令的上限。每执行一条合约指令会消耗固定的燃料。当某个交易还未执行结束，而燃料消耗完时，合约执行终止并回滚状态。</li>
+</ul>
+<p>Gas    可以跟以太币进行兑换。需要注意的是，以太币的价格是波动的，但运行某段智能合约的燃料费用可以是固定的，通过设定    Gas    价格等进行调节<br><a id="markdown-113-主要设计" name="113-主要设计"></a></p>
+<h2 id="11-3-主要设计"><a href="#11-3-主要设计" class="headerlink" title="11.3. 主要设计"></a>11.3. 主要设计</h2><ul>
+<li>运行环境: EVM</li>
+</ul>
+<p>以太坊虚拟机是一个隔离的轻量级虚拟机环境，运行在其中的智能合约代码无法访问本地网络、文件系统或其它进程。<br>对同一个智能合约来说，往往需要在多个以太坊虚拟机中同时运行多份，以确保整个区块链数据的一致性和高度的容错性。另一方面，这也限制了整个网络的容量。</p>
+<ul>
+<li>开发语言: Solidity, vyper…  智能合约编写完毕后，用编译器编译为以太坊虚拟机专用的二进制格式（EVM    bytecode），由客户端上传到区块链当中，之后在矿工的以太坊虚拟机中执行。</li>
+<li>交易模型: 以太坊的账户模型与比特币的 UXTO 模型对比<img src="https://upload-images.jianshu.io/upload_images/7130568-f3e2dc93063520cc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></li>
+<li>共识: 基于成熟的    PoW    共识的变种算法    Ethash    协议</li>
+<li>客户端和开发库</li>
+</ul>
+<p>以太坊客户端可用于接入以太坊网络，进行账户管理、交易、挖矿、智能合约等各方面操<br>作。</p>
+<p><a id="markdown-12-超级账本-hyperldger" name="12-超级账本-hyperldger"></a></p>
+<h1 id="12-超级账本-Hyperldger"><a href="#12-超级账本-Hyperldger" class="headerlink" title="12. 超级账本-Hyperldger"></a>12. 超级账本-Hyperldger</h1><p>Hyperledger    项目是首个面向企业的开放区块链技术的重要探索.该项目试图打造一个透明、公开、去中心化的分布式账本项目，作为区块链技术的开源规范和标准，让更多的应用能更容易的建立在区块链技术之上。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/introduction-to-blockchain.html">『区块链』简介</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">mbinary</a></p>
+        <p><span>发布时间:</span>2018-07-23, 22:00:00</p>
+        <p><span>最后更新:</span>2019-01-30, 17:46:55</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/introduction-to-blockchain.html" title="『区块链』简介">https://mbinary.xyz/introduction-to-blockchain.html</a>
+            <span class="copy-path" data-clipboard-text="原文: https://mbinary.xyz/introduction-to-blockchain.html　　作者: mbinary" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/introduction-to-bitcoin.html">
+                    『比特币』概述
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/algorithm-general.html">
+                    『算法』概述
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-分布式记账"><span class="toc-number">1.</span> <span class="toc-text">1. 分布式记账</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-原理"><span class="toc-number">1.1.</span> <span class="toc-text">1.1. 原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-重要性"><span class="toc-number">1.2.</span> <span class="toc-text">1.2. 重要性</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-区块链的特点"><span class="toc-number">2.</span> <span class="toc-text">2. 区块链的特点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-区块链的定义"><span class="toc-number">3.</span> <span class="toc-text">3. 区块链的定义</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-区块链的原理"><span class="toc-number">4.</span> <span class="toc-text">4. 区块链的原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-例如比特币"><span class="toc-number">4.1.</span> <span class="toc-text">4.1. 例如比特币</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-区块链的演化"><span class="toc-number">5.</span> <span class="toc-text">5. 区块链的演化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-关键问题与挑战"><span class="toc-number">6.</span> <span class="toc-text">6. 关键问题与挑战</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#6-1-抗抵赖与隐私保护"><span class="toc-number">6.1.</span> <span class="toc-text">6.1. 抗抵赖与隐私保护</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-2-分布式共识"><span class="toc-number">6.2.</span> <span class="toc-text">6.2. 分布式共识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-3-扩展性"><span class="toc-number">6.3.</span> <span class="toc-text">6.3. 扩展性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-4-数据库和存储系统"><span class="toc-number">6.4.</span> <span class="toc-text">6.4. 数据库和存储系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-5-认识上的误区"><span class="toc-number">6.5.</span> <span class="toc-text">6.5. 认识上的误区</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-应用场景"><span class="toc-number">7.</span> <span class="toc-text">7. 应用场景</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#7-1-金融服务"><span class="toc-number">7.1.</span> <span class="toc-text">7.1. 金融服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-2-征信管理"><span class="toc-number">7.2.</span> <span class="toc-text">7.2. 征信管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-3-权属管理"><span class="toc-number">7.3.</span> <span class="toc-text">7.3. 权属管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-4-资源共享"><span class="toc-number">7.4.</span> <span class="toc-text">7.4. 资源共享</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-5-贸易管理"><span class="toc-number">7.5.</span> <span class="toc-text">7.5. 贸易管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-6-物联网"><span class="toc-number">7.6.</span> <span class="toc-text">7.6. 物联网</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-分布式系统"><span class="toc-number">8.</span> <span class="toc-text">8. 分布式系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#8-1-一致性问题-Consistency"><span class="toc-number">8.1.</span> <span class="toc-text">8.1. 一致性问题(Consistency)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1-1-理想一致性"><span class="toc-number">8.1.1.</span> <span class="toc-text">8.1.1. 理想一致性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1-2-带约束的一致性"><span class="toc-number">8.1.2.</span> <span class="toc-text">8.1.2. 带约束的一致性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-2-共识算法"><span class="toc-number">8.2.</span> <span class="toc-text">8.2. 共识算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-2-1-Paxos-amp-Raft"><span class="toc-number">8.2.1.</span> <span class="toc-text">8.2.1. Paxos &amp; Raft</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-2-2-FLP不可能原理"><span class="toc-number">8.2.2.</span> <span class="toc-text">8.2.2. FLP不可能原理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-3-CAP原理"><span class="toc-number">8.3.</span> <span class="toc-text">8.3. CAP原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-4-ACID-原则"><span class="toc-number">8.4.</span> <span class="toc-text">8.4. ACID 原则</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9-密码学技术"><span class="toc-number">9.</span> <span class="toc-text">9. 密码学技术</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#9-1-hash算法"><span class="toc-number">9.1.</span> <span class="toc-text">9.1. hash算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-2-加解密算法"><span class="toc-number">9.2.</span> <span class="toc-text">9.2. 加解密算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-1-对称"><span class="toc-number">9.2.1.</span> <span class="toc-text">9.2.1. 对称</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-2-非对称加密"><span class="toc-number">9.2.2.</span> <span class="toc-text">9.2.2. 非对称加密</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-3-混合加密机制"><span class="toc-number">9.2.3.</span> <span class="toc-text">9.2.3. 混合加密机制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-3-数字签名"><span class="toc-number">9.3.</span> <span class="toc-text">9.3. 数字签名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-4-数字证书"><span class="toc-number">9.4.</span> <span class="toc-text">9.4. 数字证书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-5-Merkle-树"><span class="toc-number">9.5.</span> <span class="toc-text">9.5. Merkle 树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-5-1-定义"><span class="toc-number">9.5.1.</span> <span class="toc-text">9.5.1. 定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-5-2-特点"><span class="toc-number">9.5.2.</span> <span class="toc-text">9.5.2. 特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-5-3-应用场景"><span class="toc-number">9.5.3.</span> <span class="toc-text">9.5.3. 应用场景</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-6-同态加密"><span class="toc-number">9.6.</span> <span class="toc-text">9.6. 同态加密</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#10-比特币"><span class="toc-number">10.</span> <span class="toc-text">10. 比特币</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#10-1-从实体货币到数字货币"><span class="toc-number">10.1.</span> <span class="toc-text">10.1. 从实体货币到数字货币</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-2-去中心化实现数字货币的难题"><span class="toc-number">10.2.</span> <span class="toc-text">10.2. 去中心化实现数字货币的难题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-3-原理与设计"><span class="toc-number">10.3.</span> <span class="toc-text">10.3. 原理与设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#10-3-1-基本交易过程"><span class="toc-number">10.3.1.</span> <span class="toc-text">10.3.1. 基本交易过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-3-2-概念"><span class="toc-number">10.3.2.</span> <span class="toc-text">10.3.2. 概念</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-4-闪电网络"><span class="toc-number">10.4.</span> <span class="toc-text">10.4. 闪电网络</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-5-侧链"><span class="toc-number">10.5.</span> <span class="toc-text">10.5. 侧链</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#11-以太坊"><span class="toc-number">11.</span> <span class="toc-text">11. 以太坊</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#11-1-特点"><span class="toc-number">11.1.</span> <span class="toc-text">11.1. 特点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-2-概念"><span class="toc-number">11.2.</span> <span class="toc-text">11.2. 概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-3-主要设计"><span class="toc-number">11.3.</span> <span class="toc-text">11.3. 主要设计</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#12-超级账本-Hyperldger"><span class="toc-number">12.</span> <span class="toc-text">12. 超级账本-Hyperldger</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-6 i,
+        .toc-level-6 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"『区块链』简介　| mbinary's blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+
+<!--<script src="//cdn.jsdelivr.net/npm/leancloud-storage@latest/dist/av-min.js"></script>
+<script src='//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js'></script>-->
+
+<div id="vcomments"></div>
+<script>
+    var notify = false == true ? true : false;
+    var verify = false == true ? true : false;
+    var visitor = true == true ? true : false;
+new Valine({
+    el: '#vcomments',
+    notify: notify,
+    verify: verify,
+    appId: 'ArpEYbLUBmpXK3f245hKNu4A-gzGzoHsz',
+    appKey: 'X5cHcMU1ATb8q0prtPGEqIPX',
+    lang: 'en',
+    placeholder: '留下你的小脚印^_^ (支持 markdown, 上面三项 昵称,邮件(可用于回复),网址都是可选填的)',
+    avatar: 'monsterid',
+    pageSize: 10,
+    visitor: visitor
+    });
+</script>
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/introduction-to-bitcoin.html" title="上一篇: 『比特币』概述">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/algorithm-general.html" title="下一篇: 『算法』概述">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/number-theory.html">Number-Theory</a></li><li class="post-list-item"><a class="post-list-link" href="/string-matching.html">String-Mathching-Algorithm</a></li><li class="post-list-item"><a class="post-list-link" href="/graph.html">图算法</a></li><li class="post-list-item"><a class="post-list-link" href="/fib-heap.html">『数据结构』Fibonacci-heap</a></li><li class="post-list-item"><a class="post-list-link" href="/b-tree.html">『数据结构』B树(B-Tree)及其变体 B+树,B*树</a></li><li class="post-list-item"><a class="post-list-link" href="/introduction-to-bitcoin.html">『比特币』概述</a></li><li class="post-list-item"><a class="post-list-link" href="/introduction-to-blockchain.html">『区块链』简介</a></li><li class="post-list-item"><a class="post-list-link" href="/algorithm-general.html">『算法』概述</a></li><li class="post-list-item"><a class="post-list-link" href="/red-black-tree.html">『数据结构』红黑树(red-black tree)</a></li><li class="post-list-item"><a class="post-list-link" href="/tree.html">『数据结构』树</a></li><li class="post-list-item"><a class="post-list-link" href="/hashTable.html">『数据结构』散列表</a></li><li class="post-list-item"><a class="post-list-link" href="/sort.html">『算法』排序</a></li><li class="post-list-item"><a class="post-list-link" href="/bus.html">『计算机组成原理』总线</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-device.html">『现代操作系统』IO设备</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-software.html">『现代操作系统』IO软件原理</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-hardware.html">『现代操作系统』IO硬件原理</a></li><li class="post-list-item"><a class="post-list-link" href="/os-general.html">『现代操作系统』操作系统引论</a></li><li class="post-list-item"><a class="post-list-link" href="/linux-file-io.html">『Unix环境高级编程』linux 文件 I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/multiprocessor.html">『现代操作系统』多处理机</a></li><li class="post-list-item"><a class="post-list-link" href="/simple-shell.html">『linux』c 语言实现一个简易的 shell</a></li><li class="post-list-item"><a class="post-list-link" href="/deadlock.html">『现代操作系统』死锁</a></li><li class="post-list-item"><a class="post-list-link" href="/risk-predict.html">信用卡持卡人风险预测</a></li><li class="post-list-item"><a class="post-list-link" href="/comics-about-staying-up.html">『小仓鼠漫画』熬夜的危害与防护</a></li><li class="post-list-item"><a class="post-list-link" href="/ctf-basic.html">『CTF』网络信息安全攻防实验室之基础关 writeup</a></li><li class="post-list-item"><a class="post-list-link" href="/send-blog-automatically.html">『WEB』用 python 发送 csdn 博客</a></li><li class="post-list-item"><a class="post-list-link" href="/the-roommate-that-uses-mechanical-keyboard.html">用机械键盘的室友</a></li><li class="post-list-item"><a class="post-list-link" href="/csapp-bomb-lab-report.html">CSAPP-BOMB-LAB</a></li><li class="post-list-item"><a class="post-list-link" href="/learning-and-forgetting.html">学习与遗忘</a></li><li class="post-list-item"><a class="post-list-link" href="/20-years-old-summary.html">2017 年，20 岁，大二寒假总结与感悟</a></li><li class="post-list-item"><a class="post-list-link" href="/decrypt-netease-music.html">『WEB』从网易云音乐缓存文件得到MP3</a></li><li class="post-list-item"><a class="post-list-link" href="/all-one-data-structure.html">『数据结构』inc,dec,getMin,getMax 均为 O(1)</a></li><li class="post-list-item"><a class="post-list-link" href="/video.html">影视作品观后感</a></li><li class="post-list-item"><a class="post-list-link" href="/books.html">书籍总结与推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/common-lisp-macro.html">『common lisp』宏及函数的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/hacker-and-painter.html">『读书笔记』黑客与画家</a></li><li class="post-list-item"><a class="post-list-link" href="/from-chem-to-cs.html">从化院到计院</a></li><li class="post-list-item"><a class="post-list-link" href="/from-zhuzhong-to-ustc.html">从竹中到科大</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017-2019 mbinary
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+    </div>
+</footer>
+
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+<!-->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<--!>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>

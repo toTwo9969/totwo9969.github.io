@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="mbinary">
+
+
+
+<meta name="description" content="ctf writeup">
+<meta name="keywords" content="python,web">
+<meta property="og:type" content="article">
+<meta property="og:title" content="『CTF』网络信息安全攻防实验室之基础关 writeup">
+<meta property="og:url" content="https://mbinary.xyz/ctf-basic.html">
+<meta property="og:site_name" content="mbinary&#39;s blog">
+<meta property="og:description" content="ctf writeup">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-cc147f8094524726.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-b0f1434c64c74688.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-dbc0f1b2e31398e8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-e4d08d75bb594233.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-1835d38d70fcfdd6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-9fc59a790918bc35.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-c4bd3b19a6f798d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-19f6a4fd46f80e59.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-4461ab5d58369a14.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-4e6503ceae96e8b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-95ae7432776ae461.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-01-30T09:43:07.688Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="『CTF』网络信息安全攻防实验室之基础关 writeup">
+<meta name="twitter:description" content="ctf writeup">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/7130568-cc147f8094524726.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="mbinary&#39;s blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/yinyang.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>『CTF』网络信息安全攻防实验室之基础关 writeup | mbinary&#39;s blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+
+
+
+</head></html>
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">mbinary</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">淡泊明志, 宁静致远</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="Let me search for you>_<" class="search form-control" autocomplete="off" autocorrect="off" searchonload="false">
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class="no-result">No results found <i class="fa fa-spinner fa-pulse"></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/archives/">归档</a></li>
+                        
+                            <li><a href="/tags/">标签</a></li>
+                        
+                            <li><a href="/leetcode/">编程</a></li>
+                        
+                            <li><a href="/about/">关于</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Github" href="https://github.com/mbinary" title="Github"></a>
+                            
+                                <a class="fa Leetcode" href="https://leetcode-cn.com/mbinary/" title="Leetcode"></a>
+                            
+                                <a class="fa LinkedIn" href="http://www.linkedin.com/in/cs-heqin-zhu" title="LinkedIn"></a>
+                            
+                                <a class="fa Email" href="mailto:zhuheqin1@gmail.com" title="Email"></a>
+                            
+                                <a class="fa QQ" href="http://wpa.qq.com/msgrd?v=3&uin=414313516&site=qq&menu=yes" title="QQ"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/B树/">B树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/USTC/">USTC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/">api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/common-lisp/">common lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/macro/">macro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/人际交往/">人际交往</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分享/">分享</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动态规划/">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/区块链/">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/图/">图</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/娱乐/">娱乐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串匹配/">字符串匹配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/室友/">室友</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/影视/">影视</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/总结/">总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/惰性学习/">惰性学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序/">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/散列表/">散列表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数字货币/">数字货币</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/斐波那契堆/">斐波那契堆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机械键盘/">机械键盘</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树/">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/比特币/">比特币</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编/">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/红黑树/">红黑树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机组成原理/">计算机组成原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逆向/">逆向</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/选择/">选择</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/黑客/">黑客</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://mbinary.xyz/links/">交换友链说明</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.4spaces.org">4spaces</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">mbinary</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">mbinary</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">淡泊明志, 宁静致远</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">归档</a></li>
+                
+                    <li><a href="/tags/">标签</a></li>
+                
+                    <li><a href="/leetcode/">编程</a></li>
+                
+                    <li><a href="/about/">关于</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Github" target="_blank" href="https://github.com/mbinary" title="Github"></a>
+                            
+                                <a class="fa Leetcode" target="_blank" href="https://leetcode-cn.com/mbinary/" title="Leetcode"></a>
+                            
+                                <a class="fa LinkedIn" target="_blank" href="http://www.linkedin.com/in/cs-heqin-zhu" title="LinkedIn"></a>
+                            
+                                <a class="fa Email" target="_blank" href="mailto:zhuheqin1@gmail.com" title="Email"></a>
+                            
+                                <a class="fa QQ" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=414313516&site=qq&menu=yes" title="QQ"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
+</nav>
+      <div class="body-wrap"><article id="post-ctf-basic" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/ctf-basic.html" class="article-date">
+      <time datetime="2018-04-29T09:25:11.000Z" itemprop="datePublished">2018-04-29</time>
+</a>
+
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      『CTF』网络信息安全攻防实验室之基础关 writeup
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/web/">web</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <script src="/assets/js/APlayer.min.js"> </script><blockquote>
+<p>使用的工具</p>
+<ul>
+<li>chrome</li>
+<li>python3</li>
+<li>md5 在线工具（可搜索到）)</li>
+</ul>
+</blockquote>
+<h2 id="第-1-题"><a href="#第-1-题" class="headerlink" title="第 1  题"></a>第 1  题</h2><p>Key 在哪里？<br>分值：100</p>
+<p><a href="http://lab1.xseclab.com/base1_4a4d993ed7bd7d467b27af52d2aaa800/index.php" target="_blank" rel="noopener">过关地址</a><br><a href="http://lab1.xseclab.com/base1_4a4d993ed7bd7d467b27af52d2aaa800/index.php" target="_blank" rel="noopener">http://lab1.xseclab.com/base1_4a4d993ed7bd7d467b27af52d2aaa800/index.php</a></p>
+<p>key 就在这里中，你能找到他吗？</p>
+<h3 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h3><p>ctrl+U 查看源码即得</p>
+<h3 id="key：jflsjklejflkdsjfklds"><a href="#key：jflsjklejflkdsjfklds" class="headerlink" title="key：jflsjklejflkdsjfklds"></a>key：jflsjklejflkdsjfklds</h3><h2 id="第-2-题"><a href="#第-2-题" class="headerlink" title="第 2 题"></a>第 2 题</h2><p>再加密一次你就得到 key 啦~</p>
+<p>分值：150</p>
+<p>加密之后的数据为 xrlvf23xfqwsxsqf</p>
+<h3 id="解答-1"><a href="#解答-1" class="headerlink" title="解答"></a>解答</h3><p> 最开始想到异或，但是不对呀，与谁异或，后来想到 rot13, caser 密码的一种，即 26 个字母移位即可</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/7130568-cc147f8094524726.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="rot13.png"></p>
+<h3 id="key"><a href="#key" class="headerlink" title="key"></a>key</h3><p><code>23ksdjfkfds</code></p>
+<h2 id="第-3-题"><a href="#第-3-题" class="headerlink" title="第 3 题"></a>第 3 题</h2><p>猜猜这是经过了多少次加密？</p>
+<p>分值：200</p>
+<p>加密后的字符串为：Vm0wd2QyUXlVWGxWV0d4V1YwZ 太长省略一万字</p>
+<h3 id="解答-2"><a href="#解答-2" class="headerlink" title="解答"></a>解答</h3><p>结尾有<code>=</code>, 猜测很可能是 base64 编码，所以用 python 一直解码即可</p>
+<p><code>s=&#39;....&#39;.encode(&#39;utf8&#39;)</code></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/7130568-b0f1434c64c74688.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4base64.png"></p>
+<h3 id="key-1"><a href="#key-1" class="headerlink" title="key"></a>key</h3><p><code>jkljdkl232jkljkdl2389</code></p>
+<h2 id="第-4-题"><a href="#第-4-题" class="headerlink" title="第 4 题"></a>第 4 题</h2><p>据说 MD5 加密很安全，真的是么？</p>
+<p>分值：200</p>
+<p>e0960851294d7b2253978ba858e24633</p>
+<h3 id="解答-3"><a href="#解答-3" class="headerlink" title="解答"></a>解答</h3><p>这题是 md5 解密<br>由于 MD5 是信息摘要，不可逆的，要想解密，只有通过先生成明文与其 md5 的数据库，来查找<br>搜索在线工具，md5,<br>地址：<a href="http://www.cmd5.com/" target="_blank" rel="noopener">http://www.cmd5.com/</a></p>
+<p>还要知道的是 MD5 有限对应无限的字符串，存在不同的字符串有相同的 md5</p>
+<h3 id="key-2"><a href="#key-2" class="headerlink" title="key"></a>key</h3><p><code>bighp</code></p>
+<h2 id="第-5-题"><a href="#第-5-题" class="headerlink" title="第 5 题"></a>第 5 题</h2><p>种族歧视</p>
+<p>分值：300</p>
+<p>小明同学今天访问了一个网站，竟然不允许中国人访问！太坑了，于是小明同学决心一定要进去一探究竟！<br><a href="http://lab1.xseclab.com/base1_0ef337f3afbe42d5619d7a36c19c20ab/index.php" target="_blank" rel="noopener">通关地址</a>：</p>
+<p><a href="http://lab1.xseclab.com/base1_0ef337f3afbe42d5619d7a36c19c20ab/index.php" target="_blank" rel="noopener">http://lab1.xseclab.com/base1_0ef337f3afbe42d5619d7a36c19c20ab/index.php</a></p>
+<h3 id="解答-4"><a href="#解答-4" class="headerlink" title="解答"></a>解答</h3><p>这个猜测是限制了请求头的语言<br>所以用 python 的 requests 库构造请求头</p>
+<p> 注意到 requests 库的自身编码为：r.encoding = ‘ISO-8859-1’<br>要转换为 utf8 才能显示中文，下一题也是这样</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/7130568-dbc0f1b2e31398e8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="en.png"></p>
+<h3 id="key-3"><a href="#key-3" class="headerlink" title="key"></a>key</h3><p><code>*(TU687jksf6&amp;*</code></p>
+<h2 id="第六题"><a href="#第六题" class="headerlink" title="第六题"></a>第六题</h2><p>HAHA 浏览器</p>
+<p>分值：200</p>
+<p>据说信息安全小组最近出了一款新的浏览器，叫 HAHA 浏览器，有些题目必须通过 HAHA 浏览器才能答对。小明同学坚决不要装 HAHA 浏览器，怕有后门，但是如何才能过这个需要安装 HAHA 浏览器才能过的题目呢？   <a href="http://lab1.xseclab.com/base6_6082c908819e105c378eb93b6631c4d3/index.php" target="_blank" rel="noopener">通关地址</a>：<a href="http://lab1.xseclab.com/base6_6082c908819e105c378eb93b6631c4d3/index.php" target="_blank" rel="noopener">http://lab1.xseclab.com/base6_6082c908819e105c378eb93b6631c4d3/index.php</a></p>
+<p>只允许使用 HAHA 浏览器，请下载 HAHA 浏览器访问！</p>
+<h3 id="解答-5"><a href="#解答-5" class="headerlink" title="解答"></a>解答</h3><p>同上，构造 User-Agent</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/7130568-e4d08d75bb594233.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="haha.png"></p>
+<h3 id="key-4"><a href="#key-4" class="headerlink" title="key"></a>key</h3><p><code>meiyouHAHAiiulanqi</code></p>
+<h2 id="第七题"><a href="#第七题" class="headerlink" title="第七题"></a>第七题</h2><p>key 究竟在哪里呢？</p>
+<p>分值：200</p>
+<p>上一次小明同学轻松找到了 key，感觉这么简单的题目多无聊，于是有了找 key 的加强版，那么 key 这次会藏在哪里呢？   <a href="http://lab1.xseclab.com/base7_eb68bd2f0d762faf70c89799b3c1cc52/index.php" target="_blank" rel="noopener">通关地址</a>：<a href="http://lab1.xseclab.com/base7_eb68bd2f0d762faf70c89799b3c1cc52/index.php" target="_blank" rel="noopener">http://lab1.xseclab.com/base7_eb68bd2f0d762faf70c89799b3c1cc52/index.php</a></p>
+<p>Key 就在这里，猜猜这里是哪里呢？(Web 找 key 加强版）</p>
+<h3 id="解答-6"><a href="#解答-6" class="headerlink" title="解答"></a>解答</h3><p>源码没有信息，很自然的想到请求返回的内容</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/7130568-1835d38d70fcfdd6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="key.png"></p>
+<h3 id="key-5"><a href="#key-5" class="headerlink" title="key"></a>key</h3><p><code>kjh%#$#%FDjjj</code></p>
+<h2 id="第-8-题"><a href="#第-8-题" class="headerlink" title="第 8 题"></a><strong>第 8 题</strong></h2><p>key 又找不到了</p>
+<p>分值：350</p>
+<p>小明这次可真找不到 key 去哪里了，你能帮他找到 key 吗？   <a href="http://lab1.xseclab.com/base8_0abd63aa54bef0464289d6a42465f354/index.php" target="_blank" rel="noopener">通关地址</a></p>
+<h3 id="解答-7"><a href="#解答-7" class="headerlink" title="解答"></a>解答</h3><p>点击进入是一个链接</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/7130568-9fc59a790918bc35.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>点击 search 那个链接，显示</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/7130568-c4bd3b19a6f798d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>发现网址是 <a href="http://hacklist.sinaapp.com/base8_0abd63aa54bef0464289d6a42465f354/index_no_key.php" target="_blank" rel="noopener">http://hacklist.sinaapp.com/base8_0abd63aa54bef0464289d6a42465f354/index_no_key.php</a></p>
+<p>说明重定向了</p>
+<p>所以防止重定向就可以了，用 python requests 库，在 get 时传递参数<br><code>allow_redirects=False</code></p>
+<p>url 为<code>http://lab1.xseclab.com/base8_0abd63aa54bef0464289d6a42465f354/search_key.php</code></p>
+<p>get 两次就发现了</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/7130568-19f6a4fd46f80e59.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="key-6"><a href="#key-6" class="headerlink" title="key"></a>key</h3><p><code>ohHTTP302dd</code></p>
+<h2 id="第-9-题"><a href="#第-9-题" class="headerlink" title="第 9 题"></a><strong>第 9 题</strong></h2><p>冒充登陆用户</p>
+<p>分值：200</p>
+<p>小明来到一个网站，还是想要 key，但是却怎么逗登陆不了，你能帮他登陆吗？   <a href="http://lab1.xseclab.com/base9_ab629d778e3a29540dfd60f2e548a5eb/index.php" target="_blank" rel="noopener">通关地址</a>：<a href="http://lab1.xseclab.com/base9_ab629d778e3a29540dfd60f2e548a5eb/index.php" target="_blank" rel="noopener">http://lab1.xseclab.com/base9_ab629d778e3a29540dfd60f2e548a5eb/index.php</a></p>
+<h3 id="解答-8"><a href="#解答-8" class="headerlink" title="解答"></a>解答</h3><p>网页中的内容为：您还没有登陆呢！</p>
+<p>F12<br>发现 cookie 有一个键值是 Login=0, 猜测只要传递 Login=1 即可</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/7130568-4461ab5d58369a14.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="key-7"><a href="#key-7" class="headerlink" title="key"></a>key</h3><p>``</p>
+<h2 id="第-10-题"><a href="#第-10-题" class="headerlink" title="第 10 题"></a><strong>第 10 题</strong></h2><p>比较数字大小</p>
+<p>分值：100</p>
+<p>只要比服务器上的数字大就可以了！  <a href="http://lab1.xseclab.com/base10_0b4e4866096913ac9c3a2272dde27215/index.php" target="_blank" rel="noopener">通关地址</a>：<a href="http://lab1.xseclab.com/base10_0b4e4866096913ac9c3a2272dde27215/index.php" target="_blank" rel="noopener">http://lab1.xseclab.com/base10_0b4e4866096913ac9c3a2272dde27215/index.php</a></p>
+<h3 id="解答-9"><a href="#解答-9" class="headerlink" title="解答"></a>解答</h3><p>进入网页，查看源码，有 maxlength 限制，这是网页限制的，用 python 就不用担心这些，直接 post 一个很的数</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/7130568-4e6503ceae96e8b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="key-8"><a href="#key-8" class="headerlink" title="key"></a>key</h3><p><code>768HKyu678567&amp;*&amp;K</code></p>
+<h2 id="第-11-题"><a href="#第-11-题" class="headerlink" title="第 11 题"></a><strong>第 11 题</strong></h2><p>本地的诱惑</p>
+<p>分值：200</p>
+<p>小明扫描了他心爱的小红的电脑，发现开放了一个 80 端口，但是当小明去访问的时候却发现只允许从本地访问，可他心爱的小红不敢让这个诡异的小明触碰她的电脑，可小明真的想知道小红电脑的 80 端口到底隐藏着什么秘密 (key)？  <a href="http://lab1.xseclab.com/base11_0f8e35973f552d69a02047694c27a8c9/index.php" target="_blank" rel="noopener">通关地址</a>：<a href="http://lab1.xseclab.com/base11_0f8e35973f552d69a02047694c27a8c9/index.php" target="_blank" rel="noopener">http://lab1.xseclab.com/base11_0f8e35973f552d69a02047694c27a8c9/index.php</a></p>
+<p>网页内容：必须从本地访问</p>
+<h3 id="解答-10"><a href="#解答-10" class="headerlink" title="解答"></a>解答</h3><p>查看源码，emmmmmmmmmmm</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/7130568-95ae7432776ae461.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>如果正常来做的话，是在请求头传入’x-forwarded-for’:’127.0.0.1’ 来识别为本地 ip</p>
+<h3 id="key-9"><a href="#key-9" class="headerlink" title="key"></a>key</h3><p><code>^&amp;*(UIHKJjkadshf</code></p>
+<h2 id="第-12-题"><a href="#第-12-题" class="headerlink" title="第 12 题"></a><strong>第 12 题</strong></h2><p>就不让你访问</p>
+<p>分值：150</p>
+<p>小明设计了一个网站，因为总是遭受黑客攻击后台，所以这次他把后台放到了一个无论是什么人都找不到的地方…. 可最后还是被黑客找到了，并被放置了一个黑页，写到：find you ,no more than 3 secs!   <a href="http://lab1.xseclab.com/base12_44f0d8a96eed21afdc4823a0bf1a316b/index.php" target="_blank" rel="noopener">通关地址</a>：<a href="http://lab1.xseclab.com/base12_44f0d8a96eed21afdc4823a0bf1a316b/index.php" target="_blank" rel="noopener">http://lab1.xseclab.com/base12_44f0d8a96eed21afdc4823a0bf1a316b/index.php</a></p>
+<p>网页内容：I am index.php , I am not the admin page ,key is in admin page.</p>
+<h3 id="解答-11"><a href="#解答-11" class="headerlink" title="解答"></a>解答</h3><p>这里用到爬虫协议<br>这是介绍</p>
+<blockquote>
+<p>Robots 协议（也称为爬虫协议、机器人协议等）的全称是 “网络爬虫排除标准”（Robots Exclusion Protocol），网站通过 Robots 协议告诉搜索引擎哪些页面可以抓取，哪些页面不能抓取。</p>
+</blockquote>
+<p>进入<br><a href="http://lab1.xseclab.com/base12_44f0d8a96eed21afdc4823a0bf1a316b/robots.txt" target="_blank" rel="noopener">http://lab1.xseclab.com/base12_44f0d8a96eed21afdc4823a0bf1a316b/robots.txt</a></p>
+<p>可以看到<br><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">User-agent</span>: *</span><br><span class="line"></span><br><span class="line"><span class="attribute">Disallow</span>: /</span><br><span class="line"></span><br><span class="line"><span class="attribute">Crawl-delay</span>: 120</span><br><span class="line"></span><br><span class="line"><span class="attribute">Disallow</span>: /9fb97531fe95594603aff7e794ab2f5f/</span><br><span class="line"></span><br><span class="line"><span class="attribute">Sitemap</span>: http://www.hackinglab.sinaapp.com/sitemap.xml</span><br></pre></td></tr></table></figure></p>
+<p>disallow 就是爬虫不能搜索的</p>
+<p>进入那个地址 <a href="http://lab1.xseclab.com/base12_44f0d8a96eed21afdc4823a0bf1a316b/9fb97531fe95594603aff7e794ab2f5f" target="_blank" rel="noopener">http://lab1.xseclab.com/base12_44f0d8a96eed21afdc4823a0bf1a316b/9fb97531fe95594603aff7e794ab2f5</a></p>
+<p>提示不是 login 页面，再进入 login.php 页面<br><a href="http://lab1.xseclab.com/base12_44f0d8a96eed21afdc4823a0bf1a316b/9fb97531fe95594603aff7e794ab2f5f/login.php" target="_blank" rel="noopener">http://lab1.xseclab.com/base12_44f0d8a96eed21afdc4823a0bf1a316b/9fb97531fe95594603aff7e794ab2f5/login.php</a><br>就找到了</p>
+<h3 id="key-10"><a href="#key-10" class="headerlink" title="key"></a>key</h3><p><code>UIJ%%IOOqweqwsdf</code></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>哇，用来整个下午的时间，挺有趣的</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/ctf-basic.html">『CTF』网络信息安全攻防实验室之基础关 writeup</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">mbinary</a></p>
+        <p><span>发布时间:</span>2018-04-29, 17:25:11</p>
+        <p><span>最后更新:</span>2019-01-30, 17:43:07</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/ctf-basic.html" title="『CTF』网络信息安全攻防实验室之基础关 writeup">https://mbinary.xyz/ctf-basic.html</a>
+            <span class="copy-path" data-clipboard-text="原文: https://mbinary.xyz/ctf-basic.html　　作者: mbinary" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/comics-about-staying-up.html">
+                    『小仓鼠漫画』熬夜的危害与防护
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/send-blog-automatically.html">
+                    『WEB』用 python 发送 csdn 博客
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第-1-题"><span class="toc-number">1.</span> <span class="toc-text">第 1  题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解答"><span class="toc-number">1.1.</span> <span class="toc-text">解答</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#key：jflsjklejflkdsjfklds"><span class="toc-number">1.2.</span> <span class="toc-text">key：jflsjklejflkdsjfklds</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第-2-题"><span class="toc-number">2.</span> <span class="toc-text">第 2 题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解答-1"><span class="toc-number">2.1.</span> <span class="toc-text">解答</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#key"><span class="toc-number">2.2.</span> <span class="toc-text">key</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第-3-题"><span class="toc-number">3.</span> <span class="toc-text">第 3 题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解答-2"><span class="toc-number">3.1.</span> <span class="toc-text">解答</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#key-1"><span class="toc-number">3.2.</span> <span class="toc-text">key</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第-4-题"><span class="toc-number">4.</span> <span class="toc-text">第 4 题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解答-3"><span class="toc-number">4.1.</span> <span class="toc-text">解答</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#key-2"><span class="toc-number">4.2.</span> <span class="toc-text">key</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第-5-题"><span class="toc-number">5.</span> <span class="toc-text">第 5 题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解答-4"><span class="toc-number">5.1.</span> <span class="toc-text">解答</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#key-3"><span class="toc-number">5.2.</span> <span class="toc-text">key</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第六题"><span class="toc-number">6.</span> <span class="toc-text">第六题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解答-5"><span class="toc-number">6.1.</span> <span class="toc-text">解答</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#key-4"><span class="toc-number">6.2.</span> <span class="toc-text">key</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第七题"><span class="toc-number">7.</span> <span class="toc-text">第七题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解答-6"><span class="toc-number">7.1.</span> <span class="toc-text">解答</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#key-5"><span class="toc-number">7.2.</span> <span class="toc-text">key</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第-8-题"><span class="toc-number">8.</span> <span class="toc-text">第 8 题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解答-7"><span class="toc-number">8.1.</span> <span class="toc-text">解答</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#key-6"><span class="toc-number">8.2.</span> <span class="toc-text">key</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第-9-题"><span class="toc-number">9.</span> <span class="toc-text">第 9 题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解答-8"><span class="toc-number">9.1.</span> <span class="toc-text">解答</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#key-7"><span class="toc-number">9.2.</span> <span class="toc-text">key</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第-10-题"><span class="toc-number">10.</span> <span class="toc-text">第 10 题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解答-9"><span class="toc-number">10.1.</span> <span class="toc-text">解答</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#key-8"><span class="toc-number">10.2.</span> <span class="toc-text">key</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第-11-题"><span class="toc-number">11.</span> <span class="toc-text">第 11 题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解答-10"><span class="toc-number">11.1.</span> <span class="toc-text">解答</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#key-9"><span class="toc-number">11.2.</span> <span class="toc-text">key</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第-12-题"><span class="toc-number">12.</span> <span class="toc-text">第 12 题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解答-11"><span class="toc-number">12.1.</span> <span class="toc-text">解答</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#key-10"><span class="toc-number">12.2.</span> <span class="toc-text">key</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">13.</span> <span class="toc-text">总结</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-6 i,
+        .toc-level-6 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"『CTF』网络信息安全攻防实验室之基础关 writeup　| mbinary's blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+
+<!--<script src="//cdn.jsdelivr.net/npm/leancloud-storage@latest/dist/av-min.js"></script>
+<script src='//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js'></script>-->
+
+<div id="vcomments"></div>
+<script>
+    var notify = false == true ? true : false;
+    var verify = false == true ? true : false;
+    var visitor = true == true ? true : false;
+new Valine({
+    el: '#vcomments',
+    notify: notify,
+    verify: verify,
+    appId: 'ArpEYbLUBmpXK3f245hKNu4A-gzGzoHsz',
+    appKey: 'X5cHcMU1ATb8q0prtPGEqIPX',
+    lang: 'en',
+    placeholder: '留下你的小脚印^_^ (支持 markdown, 上面三项 昵称,邮件(可用于回复),网址都是可选填的)',
+    avatar: 'monsterid',
+    pageSize: 10,
+    visitor: visitor
+    });
+</script>
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/comics-about-staying-up.html" title="上一篇: 『小仓鼠漫画』熬夜的危害与防护">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/send-blog-automatically.html" title="下一篇: 『WEB』用 python 发送 csdn 博客">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/number-theory.html">Number-Theory</a></li><li class="post-list-item"><a class="post-list-link" href="/string-matching.html">String-Mathching-Algorithm</a></li><li class="post-list-item"><a class="post-list-link" href="/graph.html">图算法</a></li><li class="post-list-item"><a class="post-list-link" href="/fib-heap.html">『数据结构』Fibonacci-heap</a></li><li class="post-list-item"><a class="post-list-link" href="/b-tree.html">『数据结构』B树(B-Tree)及其变体 B+树,B*树</a></li><li class="post-list-item"><a class="post-list-link" href="/introduction-to-bitcoin.html">『比特币』概述</a></li><li class="post-list-item"><a class="post-list-link" href="/introduction-to-blockchain.html">『区块链』简介</a></li><li class="post-list-item"><a class="post-list-link" href="/algorithm-general.html">『算法』概述</a></li><li class="post-list-item"><a class="post-list-link" href="/red-black-tree.html">『数据结构』红黑树(red-black tree)</a></li><li class="post-list-item"><a class="post-list-link" href="/tree.html">『数据结构』树</a></li><li class="post-list-item"><a class="post-list-link" href="/hashTable.html">『数据结构』散列表</a></li><li class="post-list-item"><a class="post-list-link" href="/sort.html">『算法』排序</a></li><li class="post-list-item"><a class="post-list-link" href="/bus.html">『计算机组成原理』总线</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-device.html">『现代操作系统』IO设备</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-software.html">『现代操作系统』IO软件原理</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-hardware.html">『现代操作系统』IO硬件原理</a></li><li class="post-list-item"><a class="post-list-link" href="/os-general.html">『现代操作系统』操作系统引论</a></li><li class="post-list-item"><a class="post-list-link" href="/linux-file-io.html">『Unix环境高级编程』linux 文件 I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/multiprocessor.html">『现代操作系统』多处理机</a></li><li class="post-list-item"><a class="post-list-link" href="/simple-shell.html">『linux』c 语言实现一个简易的 shell</a></li><li class="post-list-item"><a class="post-list-link" href="/deadlock.html">『现代操作系统』死锁</a></li><li class="post-list-item"><a class="post-list-link" href="/risk-predict.html">信用卡持卡人风险预测</a></li><li class="post-list-item"><a class="post-list-link" href="/comics-about-staying-up.html">『小仓鼠漫画』熬夜的危害与防护</a></li><li class="post-list-item"><a class="post-list-link" href="/ctf-basic.html">『CTF』网络信息安全攻防实验室之基础关 writeup</a></li><li class="post-list-item"><a class="post-list-link" href="/send-blog-automatically.html">『WEB』用 python 发送 csdn 博客</a></li><li class="post-list-item"><a class="post-list-link" href="/the-roommate-that-uses-mechanical-keyboard.html">用机械键盘的室友</a></li><li class="post-list-item"><a class="post-list-link" href="/csapp-bomb-lab-report.html">CSAPP-BOMB-LAB</a></li><li class="post-list-item"><a class="post-list-link" href="/learning-and-forgetting.html">学习与遗忘</a></li><li class="post-list-item"><a class="post-list-link" href="/20-years-old-summary.html">2017 年，20 岁，大二寒假总结与感悟</a></li><li class="post-list-item"><a class="post-list-link" href="/decrypt-netease-music.html">『WEB』从网易云音乐缓存文件得到MP3</a></li><li class="post-list-item"><a class="post-list-link" href="/all-one-data-structure.html">『数据结构』inc,dec,getMin,getMax 均为 O(1)</a></li><li class="post-list-item"><a class="post-list-link" href="/video.html">影视作品观后感</a></li><li class="post-list-item"><a class="post-list-link" href="/books.html">书籍总结与推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/common-lisp-macro.html">『common lisp』宏及函数的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/hacker-and-painter.html">『读书笔记』黑客与画家</a></li><li class="post-list-item"><a class="post-list-link" href="/from-chem-to-cs.html">从化院到计院</a></li><li class="post-list-item"><a class="post-list-link" href="/from-zhuzhong-to-ustc.html">从竹中到科大</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017-2019 mbinary
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+    </div>
+</footer>
+
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+<!-->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<--!>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>

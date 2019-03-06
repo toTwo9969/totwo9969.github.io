@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /js/
+Disallow: /vendors/
+Disallow: /css/
+Disallow: /fonts/
+Disallow: /fancybox/
+
+Sitemap: https://mbinary.github.io/sitemap.xml
+Sitemap: https://mbinary.github.io/baidusitemap.xml

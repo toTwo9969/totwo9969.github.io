@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="mbinary">
+
+
+
+<meta name="description" content="它支持一些内部命令,  如 pwd, ls, cd, cat, env, export, unset  以及外部命令">
+<meta name="keywords" content="linux,shell,C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="『linux』c 语言实现一个简易的 shell">
+<meta property="og:url" content="https://mbinary.xyz/simple-shell.html">
+<meta property="og:site_name" content="mbinary&#39;s blog">
+<meta property="og:description" content="它支持一些内部命令,  如 pwd, ls, cd, cat, env, export, unset  以及外部命令">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-524b23676fc29627.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-01-30T09:50:41.910Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="『linux』c 语言实现一个简易的 shell">
+<meta name="twitter:description" content="它支持一些内部命令,  如 pwd, ls, cd, cat, env, export, unset  以及外部命令">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/7130568-524b23676fc29627.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="mbinary&#39;s blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/yinyang.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>『linux』c 语言实现一个简易的 shell | mbinary&#39;s blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+
+
+
+</head></html>
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">mbinary</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">淡泊明志, 宁静致远</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="Let me search for you>_<" class="search form-control" autocomplete="off" autocorrect="off" searchonload="false">
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class="no-result">No results found <i class="fa fa-spinner fa-pulse"></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/archives/">归档</a></li>
+                        
+                            <li><a href="/tags/">标签</a></li>
+                        
+                            <li><a href="/leetcode/">编程</a></li>
+                        
+                            <li><a href="/about/">关于</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Github" href="https://github.com/mbinary" title="Github"></a>
+                            
+                                <a class="fa Leetcode" href="https://leetcode-cn.com/mbinary/" title="Leetcode"></a>
+                            
+                                <a class="fa LinkedIn" href="http://www.linkedin.com/in/cs-heqin-zhu" title="LinkedIn"></a>
+                            
+                                <a class="fa Email" href="mailto:zhuheqin1@gmail.com" title="Email"></a>
+                            
+                                <a class="fa QQ" href="http://wpa.qq.com/msgrd?v=3&uin=414313516&site=qq&menu=yes" title="QQ"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/B树/">B树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/USTC/">USTC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/">api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/common-lisp/">common lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/macro/">macro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/人际交往/">人际交往</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分享/">分享</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动态规划/">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/区块链/">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/图/">图</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/娱乐/">娱乐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串匹配/">字符串匹配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/室友/">室友</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/影视/">影视</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/总结/">总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/惰性学习/">惰性学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序/">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/散列表/">散列表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数字货币/">数字货币</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/斐波那契堆/">斐波那契堆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机械键盘/">机械键盘</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树/">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/比特币/">比特币</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编/">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/红黑树/">红黑树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机组成原理/">计算机组成原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逆向/">逆向</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/选择/">选择</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/黑客/">黑客</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://mbinary.xyz/links/">交换友链说明</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.4spaces.org">4spaces</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">mbinary</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">mbinary</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">淡泊明志, 宁静致远</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">归档</a></li>
+                
+                    <li><a href="/tags/">标签</a></li>
+                
+                    <li><a href="/leetcode/">编程</a></li>
+                
+                    <li><a href="/about/">关于</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Github" target="_blank" href="https://github.com/mbinary" title="Github"></a>
+                            
+                                <a class="fa Leetcode" target="_blank" href="https://leetcode-cn.com/mbinary/" title="Leetcode"></a>
+                            
+                                <a class="fa LinkedIn" target="_blank" href="http://www.linkedin.com/in/cs-heqin-zhu" title="LinkedIn"></a>
+                            
+                                <a class="fa Email" target="_blank" href="mailto:zhuheqin1@gmail.com" title="Email"></a>
+                            
+                                <a class="fa QQ" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=414313516&site=qq&menu=yes" title="QQ"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
+</nav>
+      <div class="body-wrap"><article id="post-simple-shell" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/simple-shell.html" class="article-date">
+      <time datetime="2018-06-08T08:22:22.000Z" itemprop="datePublished">2018-06-08</time>
+</a>
+
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      『linux』c 语言实现一个简易的 shell
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/linux/">linux</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/">shell</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <script src="/assets/js/APlayer.min.js"> </script><p><a id="markdown-table-of-content" name="table-of-content"></a></p>
+<h1 id="Table-of-Content"><a href="#Table-of-Content" class="headerlink" title="Table of Content"></a>Table of Content</h1><!-- TOC -->
+<ul>
+<li><a href="#table-of-content">Table of Content</a></li>
+<li><a href="#1-测试结果">1. 测试结果</a></li>
+<li><a href="#2-大致框架">2. 大致框架</a></li>
+<li><a href="#3-全局变量说明">3. 全局变量说明</a><ul>
+<li><a href="#31-cmdstr">3.1. cmdStr</a></li>
+<li><a href="#32-cmdnum-varnum">3.2. cmdNum, varNum</a></li>
+<li><a href="#33-envvar">3.3. envVar</a></li>
+<li><a href="#34-cmd-结构">3.4. cmd 结构</a></li>
+</ul>
+</li>
+<li><a href="#4-解析命令字符串">4. 解析命令字符串</a></li>
+<li><a href="#5-多条命令的解析--">5. 多条命令的解析—<code>;</code></a></li>
+<li><a href="#6-实现后台运行---">6. 实现后台运行—-<code>&amp;</code></a></li>
+<li><a href="#7-处理变量--">7. 处理变量—<code>$</code></a></li>
+<li><a href="#8-内建命令">8. 内建命令</a><ul>
+<li><a href="#81-实现-ls">8.1. 实现 ls</a></li>
+<li><a href="#82-实现-cd">8.2. 实现 cd</a></li>
+<li><a href="#83-实现-pwd">8.3. 实现 pwd</a></li>
+<li><a href="#84-实现unset">8.4. 实现unset</a></li>
+<li><a href="#85-实现-export">8.5. 实现 export</a></li>
+</ul>
+</li>
+<li><a href="#9-实现重定向与管道---">9. 实现重定向与管道— <code>&lt;</code>,<code>&gt;</code>,<code>&gt;&gt;</code>,<code>|</code></a><ul>
+<li><a href="#91-文件重定向">9.1. 文件重定向</a></li>
+<li><a href="#92-管道重定向">9.2. 管道重定向</a></li>
+</ul>
+</li>
+<li><a href="#10-外部命令">10. 外部命令</a></li>
+<li><a href="#11-其他">11. 其他</a></li>
+<li><a href="#12-完整代码">12. 完整代码</a></li>
+</ul>
+<!-- /TOC -->
+<p>为了让用户可以控制系统，Linux 系统一般会运行一个 shell 程序。通常来说，shell 程序不会是系统启动后运行的第一个进程（也就是 init 进程), 下面通过c语言来实现一个简单的shell. 首先实现大致框架, 然后逐步增强,添加功能.<br>它支持一些内部命令,  如 pwd, ls, cd, cat, env, export, unset  以及外部命令<br>支持一些特色</p>
+<ul>
+<li><p>features:</p>
+<ul>
+<li><code>\t</code> support redundant blank(\t, spaces)</li>
+<li><code>&quot; &#39;</code> support quote</li>
+<li><code>\</code> multi-line input</li>
+<li><code>|</code> pipe</li>
+<li><code>&lt; &gt; &gt;&gt;</code> redirect</li>
+<li><code>;</code> multi-cmd</li>
+<li><code>&amp;</code> background</li>
+<li><code>$</code> support varible: echo “.. $VAR”</li>
+</ul>
+</li>
+</ul>
+<p><a id="markdown-1-测试结果" name="1-测试结果"></a></p>
+<h1 id="1-测试结果"><a href="#1-测试结果" class="headerlink" title="1. 测试结果"></a>1. 测试结果</h1><p>先上结果 (。・∀・)ノ<br><img src="https://upload-images.jianshu.io/upload_images/7130568-524b23676fc29627.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="result"></p>
+<p><a id="markdown-2-大致框架" name="2-大致框架"></a></p>
+<h1 id="2-大致框架"><a href="#2-大致框架" class="headerlink" title="2. 大致框架"></a>2. 大致框架</h1><p>首先可以大致写出框架: 打印提示符, 解析命令, 执行内置命令, 执行外部命令. 循环</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//by osh助教</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">/* 输入的命令行 */</span></span><br><span class="line">    <span class="keyword">char</span> cmd[<span class="number">256</span>];</span><br><span class="line">    <span class="comment">/* 命令行拆解成的各部分，以空指针结尾 */</span></span><br><span class="line">    <span class="keyword">char</span> *args[<span class="number">128</span>];</span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="comment">/* 提示符 */</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"# "</span>);</span><br><span class="line">        fflush(<span class="built_in">stdin</span>);</span><br><span class="line">        fgets(cmd, <span class="number">256</span>, <span class="built_in">stdin</span>);</span><br><span class="line">        <span class="comment">/* 清理结尾的换行符 */</span></span><br><span class="line">        <span class="keyword">int</span> i;</span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; cmd[i] != <span class="string">'\n'</span>; i++)</span><br><span class="line">            ;</span><br><span class="line">        cmd[i] = <span class="string">'\0'</span>;</span><br><span class="line">        <span class="comment">/* 拆解命令行 */</span></span><br><span class="line">        args[<span class="number">0</span>] = cmd;</span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; *args[i]; i++)</span><br><span class="line">            <span class="keyword">for</span> (args[i+<span class="number">1</span>] = args[i] + <span class="number">1</span>; *args[i+<span class="number">1</span>]; args[i+<span class="number">1</span>]++)</span><br><span class="line">                <span class="keyword">if</span> (*args[i+<span class="number">1</span>] == <span class="string">' '</span>) &#123;</span><br><span class="line">                    *args[i+<span class="number">1</span>] = <span class="string">'\0'</span>;</span><br><span class="line">                    args[i+<span class="number">1</span>]++;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">        args[i] = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 没有输入命令 */</span></span><br><span class="line">        <span class="keyword">if</span> (!args[<span class="number">0</span>])</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 内建命令 */</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">strcmp</span>(args[<span class="number">0</span>], <span class="string">"cd"</span>) == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (args[<span class="number">1</span>])</span><br><span class="line">                chdir(args[<span class="number">1</span>]);</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">strcmp</span>(args[<span class="number">0</span>], <span class="string">"pwd"</span>) == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">char</span> wd[<span class="number">4096</span>];</span><br><span class="line">            <span class="built_in">puts</span>(getcwd(wd, <span class="number">4096</span>));</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">strcmp</span>(args[<span class="number">0</span>], <span class="string">"exit"</span>) == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 外部命令 */</span></span><br><span class="line">        <span class="keyword">pid_t</span> pid = fork();</span><br><span class="line">        <span class="keyword">if</span> (pid == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">/* 子进程 */</span></span><br><span class="line">            execvp(args[<span class="number">0</span>], args);</span><br><span class="line">            <span class="comment">/* execvp失败 */</span></span><br><span class="line">            <span class="keyword">return</span> <span class="number">255</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">/* 父进程 */</span></span><br><span class="line">        wait(<span class="literal">NULL</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的大致框架是助教写的示例, 下面我将一步步的改进, 我的完整代码见文末<br><a id="markdown-3-全局变量说明" name="3-全局变量说明"></a></p>
+<h1 id="3-全局变量说明"><a href="#3-全局变量说明" class="headerlink" title="3. 全局变量说明"></a>3. 全局变量说明</h1><p><a id="markdown-31-cmdstr" name="31-cmdstr"></a></p>
+<h2 id="3-1-cmdStr"><a href="#3-1-cmdStr" class="headerlink" title="3.1. cmdStr"></a>3.1. cmdStr</h2><p>是用来接收输入的一个字符串数组<br><a id="markdown-32-cmdnum-varnum" name="32-cmdnum-varnum"></a></p>
+<h2 id="3-2-cmdNum-varNum"><a href="#3-2-cmdNum-varNum" class="headerlink" title="3.2. cmdNum, varNum"></a>3.2. cmdNum, varNum</h2><p>cmdNum记录 以 <code>;</code> 分开的命令数目,<br>varNum 记录 每条命令中的变量 $ 的个数<br><a id="markdown-33-envvar" name="33-envvar"></a></p>
+<h2 id="3-3-envVar"><a href="#3-3-envVar" class="headerlink" title="3.3. envVar"></a>3.3. envVar</h2><p>存储环境变量</p>
+<p><a id="markdown-34-cmd-结构" name="34-cmd-结构"></a></p>
+<h2 id="3-4-cmd-结构"><a href="#3-4-cmd-结构" class="headerlink" title="3.4. cmd 结构"></a>3.4. cmd 结构</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cmd</span>&#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">cmd</span> * <span class="title">next</span>;</span></span><br><span class="line">    <span class="keyword">int</span> begin,end;  <span class="comment">// pos in cmdStr</span></span><br><span class="line">    <span class="keyword">int</span> argc;</span><br><span class="line">    <span class="keyword">char</span> lredir,rredir; <span class="comment">//0:no redirect  1 &lt;,&gt;   ;  2  &gt;&gt;</span></span><br><span class="line">    <span class="keyword">char</span> toFile[MAX_PATH_LENGTH],fromFile[MAX_PATH_LENGTH];  <span class="comment">// redirect file path</span></span><br><span class="line">    <span class="keyword">char</span> *args[MAX_ARG_NUM];</span><br><span class="line">    <span class="keyword">char</span> bgExec;   <span class="comment">//failExec</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>next 是用来指向管道的下一次指令, 而全局变量 <code>cmdinfo</code> 数组定义如下<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cmd</span> <span class="title">cmdinfo</span>[<span class="title">MAX_CMD_NUM</span>];</span></span><br></pre></td></tr></table></figure></p>
+<p>是用来存放以 <code>;</code> 分开的多条指令.</p>
+<p><a id="markdown-4-解析命令字符串" name="4-解析命令字符串"></a></p>
+<h1 id="4-解析命令字符串"><a href="#4-解析命令字符串" class="headerlink" title="4. 解析命令字符串"></a>4. 解析命令字符串</h1><p>上面的大致框架简单实现中, 不够强壮, 比如命令字符串中不能连续多个空格等等. 所以在最后面的代码中, 重新实现解析命令字符串, 就是 <code>parseArgs</code>函数, 限于篇幅, 代码见文末. </p>
+<p>这些函数解析命令字符串, 能支持多个空格, 支持多行输入, 支持了变量$, 支持引号<code>&#39;</code>,<code>&quot;</code>, 同时为重定向 <code>&lt;</code>,<code>&gt;</code>,<code>&lt;&lt;</code>,以及 管道 <code>|</code>,做好准备</p>
+<p><a id="markdown-5-多条命令的解析--" name="5-多条命令的解析--"></a></p>
+<h1 id="5-多条命令的解析—"><a href="#5-多条命令的解析—" class="headerlink" title="5. 多条命令的解析—;"></a>5. 多条命令的解析—<code>;</code></h1><p><code>parseCmds</code> 函数解析多行输入,处理多个空格,<br> \t 符号换为空格, 将多行命令通过命令结点形成链表.<br>在这个函数中, 也解析后台运行<code>&amp;</code>符号, 如果有的话, 就设置命令头结点 的 head-&gt;bgEXec</p>
+<p><a id="markdown-6-实现后台运行---" name="6-实现后台运行---"></a></p>
+<h1 id="6-实现后台运行—-amp"><a href="#6-实现后台运行—-amp" class="headerlink" title="6. 实现后台运行—-&amp;"></a>6. 实现后台运行—-<code>&amp;</code></h1><p>这只需在创建子进程的实现, 是否让父进程 wait<br>这在 main 函数中可以看到<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!pcmd-&gt;bgExec)wait(<span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure></p>
+<p><a id="markdown-7-处理变量--" name="7-处理变量--"></a></p>
+<h1 id="7-处理变量—"><a href="#7-处理变量—" class="headerlink" title="7. 处理变量—$"></a>7. 处理变量—<code>$</code></h1><p>在 <code>parseCmds</code> 函数 解析命令字符串时, 调用 <code>handleVar</code> 函数解析变量, 其工作是指示是否有变量, 如果有就解析记录下变量的名字</p>
+<p><a id="markdown-8-内建命令" name="8-内建命令"></a></p>
+<h1 id="8-内建命令"><a href="#8-内建命令" class="headerlink" title="8. 内建命令"></a>8. 内建命令</h1><p>对于内建命令, 比如 ls, pwd, exit, env, unset 可以直接执行<br>在代码中, 内建命令的实现都在 <code>execInner</code> 函数中, 如果不是内建命令, 则返回1, 然后会调用执行外部命令的函数 <code>execOuter</code></p>
+<p><a id="markdown-81-实现-ls" name="81-实现-ls"></a></p>
+<h2 id="8-1-实现-ls"><a href="#8-1-实现-ls" class="headerlink" title="8.1. 实现 ls"></a>8.1. 实现 ls</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">int</span> <span class="title">LS</span><span class="params">(<span class="keyword">char</span> *path)</span></span>&#123;</span><br><span class="line">    DIR *dirp;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">dirent</span> <span class="title">d</span>,*<span class="title">dp</span> = &amp;<span class="title">d</span>;</span></span><br><span class="line">    dirp  = opendir(path);</span><br><span class="line">    <span class="keyword">int</span> ct=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>((dp=readdir(dirp))!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%s\n"</span>,dp-&gt;d_name);<span class="comment">//,++ct%5==0?'\n':'');</span></span><br><span class="line">    &#125;</span><br><span class="line">    closedir(dirp);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a id="markdown-82-实现-cd" name="82-实现-cd"></a></p>
+<h2 id="8-2-实现-cd"><a href="#8-2-实现-cd" class="headerlink" title="8.2. 实现 cd"></a>8.2. 实现 cd</h2><p>pcmd-&gt;args[1] 是目的路径的指针<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">stat</span> <span class="title">st</span>;</span></span><br><span class="line"><span class="keyword">if</span> (pcmd-&gt;args[<span class="number">1</span>])&#123;</span><br><span class="line">    stat(pcmd-&gt;args[<span class="number">1</span>],&amp;st);</span><br><span class="line">    <span class="keyword">if</span> (S_ISDIR(st.st_mode))</span><br><span class="line">        chdir(pcmd-&gt;args[<span class="number">1</span>]);</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"[Error]: cd '%s': No such directory\n"</span>,pcmd-&gt;args[<span class="number">1</span>]);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><a id="markdown-83-实现-pwd" name="83-实现-pwd"></a></p>
+<h2 id="8-3-实现-pwd"><a href="#8-3-实现-pwd" class="headerlink" title="8.3. 实现 pwd"></a>8.3. 实现 pwd</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">"%s\n"</span>,getcwd(pcmd-&gt;args[<span class="number">1</span>] , MAX_PATH_LENGTH));</span><br></pre></td></tr></table></figure>
+<p><a id="markdown-84-实现unset" name="84-实现unset"></a></p>
+<h2 id="8-4-实现unset"><a href="#8-4-实现unset" class="headerlink" title="8.4. 实现unset"></a>8.4. 实现unset</h2><p>unsetenv 调用, pcmd-&gt;args[i]是命令的各个参数的指针, 注意从1开始, 第0个参数是命令程序自己<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;pcmd-&gt;argc;++i)unsetenv(pcmd-&gt;args[i]);</span><br></pre></td></tr></table></figure></p>
+<p><a id="markdown-85-实现-export" name="85-实现-export"></a></p>
+<h2 id="8-5-实现-export"><a href="#8-5-实现-export" class="headerlink" title="8.5. 实现 export"></a>8.5. 实现 export</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;pcmd-&gt;argc;++i)&#123;  <span class="comment">//putenv( pcmd-&gt;args[i]);</span></span><br><span class="line">            <span class="keyword">char</span> *val,*p;</span><br><span class="line">            <span class="keyword">for</span>(p = pcmd-&gt;args[i];*p!=<span class="string">'='</span>;++p);</span><br><span class="line">            *p=<span class="string">'\0'</span>;</span><br><span class="line">            val = p+<span class="number">1</span>;</span><br><span class="line">            setenv(pcmd-&gt;args[i],val,<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p><a id="markdown-9-实现重定向与管道---" name="9-实现重定向与管道---"></a></p>
+<h1 id="9-实现重定向与管道—-lt-gt-gt-gt"><a href="#9-实现重定向与管道—-lt-gt-gt-gt" class="headerlink" title="9. 实现重定向与管道— &lt;,&gt;,&gt;&gt;,|"></a>9. 实现重定向与管道— <code>&lt;</code>,<code>&gt;</code>,<code>&gt;&gt;</code>,<code>|</code></h1><p>首先要知道一些关于linux文件I/O的知识, 可以看我<a href="https://www.jianshu.com/p/eeeeb52cbbf3" target="_blank" rel="noopener">这篇笔记</a></p>
+<p>重定向的I/O 以及 管道的I/O, 我都放在 <code>setIO</code> 函数中处理,如下.<br>这个函数接受的参数包括一个命令指针 <code>pcmd</code> (以;分隔的, 包括管道中的命令), 以及 一个输入文件描述符<code>rfd</code>,一个输出文件描述符<code>wfd</code>.<br><a id="markdown-91-文件重定向" name="91-文件重定向"></a></p>
+<h2 id="9-1-文件重定向"><a href="#9-1-文件重定向" class="headerlink" title="9.1. 文件重定向"></a>9.1. 文件重定向</h2><p>如果这条命令中( <code>pcmd-&gt;rredir</code>输出重定向)<br> /( <code>pcmd-&gt;lredir</code> 输入重定向) 不为0, 就打开重定向的文件得到其文件描述符, 然后将标准 输出/输入文件描述符<code>关闭, 再复制</code>(用的dup2)到此文件描述符, 注意最后用完 此文件描述符 要用close关闭它.<br><a id="markdown-92-管道重定向" name="92-管道重定向"></a></p>
+<h2 id="9-2-管道重定向"><a href="#9-2-管道重定向" class="headerlink" title="9.2. 管道重定向"></a>9.2. 管道重定向</h2><p>分别检查 文件描述符参数 是否 是标准输入,输出, 如果不是, 说明传递的是管道, 新的文件描述符, 就将相应的 标准输入/输出 关闭 ,再复制到 rfd/wfd, 最后close rfd/wfd</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setIO</span><span class="params">(struct cmd *pcmd,<span class="keyword">int</span> rfd,<span class="keyword">int</span> wfd)</span></span>&#123;</span><br><span class="line">        <span class="comment">/* settle file and pipe redirect  */</span></span><br><span class="line">    <span class="keyword">if</span>(pcmd-&gt;rredir&gt;<span class="number">0</span>)&#123;  <span class="comment">//  &gt;,  &gt;&gt;</span></span><br><span class="line">        <span class="keyword">int</span> flag ;</span><br><span class="line">        <span class="keyword">if</span>(pcmd-&gt;rredir==<span class="number">1</span>)flag=O_WRONLY|O_TRUNC|O_CREAT;  <span class="comment">// &gt;  note: trunc is necessary!!!</span></span><br><span class="line">        <span class="keyword">else</span> flag=O_WRONLY|O_APPEND|O_CREAT; <span class="comment">//    &gt;&gt;</span></span><br><span class="line">        <span class="keyword">int</span> wport = open(pcmd-&gt;toFile,flag);</span><br><span class="line">        dup2(wport,STDOUT_FILENO);</span><br><span class="line">        close(wport);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(pcmd-&gt;lredir&gt;<span class="number">0</span>)&#123;  <span class="comment">//&lt;, &lt;&lt;</span></span><br><span class="line">        <span class="keyword">int</span> rport  = open(pcmd-&gt;fromFile,O_RDONLY);</span><br><span class="line">        dup2(rport,STDIN_FILENO);</span><br><span class="line">        close(rport);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/* pipe  */</span></span><br><span class="line">    <span class="keyword">if</span>(rfd!=STDIN_FILENO)&#123;</span><br><span class="line">        dup2(rfd,STDIN_FILENO);</span><br><span class="line">        close(rfd);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(wfd!=STDOUT_FILENO)&#123;</span><br><span class="line">        dup2(wfd,STDOUT_FILENO);</span><br><span class="line">        close(wfd);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a id="markdown-10-外部命令" name="10-外部命令"></a></p>
+<h1 id="10-外部命令"><a href="#10-外部命令" class="headerlink" title="10. 外部命令"></a>10. 外部命令</h1><p>实现的函数是 <code>execOuter</code>, 里面包括了重定向, 管道, 下面再介绍<br>对于外部命令, 应该 fork 一个 子进程, 让后让程序在子进程执行并返回, 可以使用 exec 家族的函数, 它会自动调用相应程序文, 件运行(忘了在哪个目录了��), 我用的 <code>execvp</code> 函数</p>
+<p>如果当前命令 的 <code>next</code> 为 <code>NULL</code>, 即没有下一条管道命令, 那么直接将标准文件描述符传给 <code>setIO</code> 处理好文件 IO, 然后调用execvp 执行外部命令即可</p>
+<p>如果不为<code>NULL</code>, 说明有管道, 建立管道 ,  用fork来新建子进程 执行管道命令, 这时传递到 <code>setIO</code> 函数的 对应 是 管道文件描述符的 输入输出, 然后如果有多个管道, 可以递归地调用 <code>execOuter</code>函数,  如  cmd1 | cmd2 | cmd3…<br>我的实现是子进程执行 cmd1, 然后 将 cmd2 | cmd3 做为一个新命令传给 execOuter递归执行, 由于是用链表将各管道命令连起来的, 所以 直接传递 pmcd-&gt;next 即可, 非常方便<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">execOuter</span><span class="params">(struct cmd * pcmd)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!pcmd-&gt;next)&#123;</span><br><span class="line">        setIO(pcmd,STDIN_FILENO,STDOUT_FILENO);</span><br><span class="line">        execvp(pcmd-&gt;args[<span class="number">0</span>],pcmd-&gt;args);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> fd[<span class="number">2</span>];</span><br><span class="line">    pipe(fd);</span><br><span class="line">    <span class="keyword">pid_t</span> pid = fork();</span><br><span class="line">    <span class="keyword">if</span>(pid&lt;<span class="number">0</span>)&#123;</span><br><span class="line">        Error(FORK_ERROR);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (pid==<span class="number">0</span>)&#123;</span><br><span class="line">        close(fd[<span class="number">0</span>]);</span><br><span class="line">        setIO(pcmd,STDIN_FILENO,fd[<span class="number">1</span>]);</span><br><span class="line">        execvp(pcmd-&gt;args[<span class="number">0</span>],pcmd-&gt;args);</span><br><span class="line">        Error(EXEC_ERROR);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        wait(<span class="literal">NULL</span>);</span><br><span class="line">        pcmd = pcmd-&gt;next;  <span class="comment">//notice</span></span><br><span class="line">        close(fd[<span class="number">1</span>]);</span><br><span class="line">        setIO(pcmd,fd[<span class="number">0</span>],STDOUT_FILENO);  </span><br><span class="line">        execOuter(pcmd);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><a id="markdown-11-其他" name="11-其他"></a></p>
+<h1 id="11-其他"><a href="#11-其他" class="headerlink" title="11. 其他"></a>11. 其他</h1><p>一些初始化, 错误处理等代码, 我就不再介绍, 可以直接看代码, 代码中有注释, 很容易看懂</p>
+<p><a id="markdown-12-完整代码" name="12-完整代码"></a></p>
+<h1 id="12-完整代码"><a href="#12-完整代码" class="headerlink" title="12. 完整代码"></a>12. 完整代码</h1><p><a href="https://github.com/OSH-2018/2-mbinary" target="_blank" rel="noopener">访问 github </a><br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/************************************************************************</span></span><br><span class="line"><span class="comment">	&gt; File Name: init.c</span></span><br><span class="line"><span class="comment">    &gt; Author: mbinary</span></span><br><span class="line"><span class="comment">    &gt; Mail: zhuheqin1@gmail.com </span></span><br><span class="line"><span class="comment">    &gt; Blog: https://mbinary.github.io</span></span><br><span class="line"><span class="comment">    &gt; Created Time: 2018-04-15  11:18</span></span><br><span class="line"><span class="comment">    &gt; Function:</span></span><br><span class="line"><span class="comment">        implemented some shell cmds and features;</span></span><br><span class="line"><span class="comment">        including:</span></span><br><span class="line"><span class="comment">            cmds: pwd,ls, cd ,cat, env, export , unset, </span></span><br><span class="line"><span class="comment">            features:$ \  |  &lt;&gt;&gt;&gt;   ;   &amp; " ' quote handle \t redundent blank</span></span><br><span class="line"><span class="comment"> ************************************************************************/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;dirent.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_CMD_LENGTH 255</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_PATH_LENGTH 255</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_BUF_SIZE  4096</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_ARG_NUM 50</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_VAR_NUM 50</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_CMD_NUM 10</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_VAR_LENGTH 500</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FORK_ERROR 2</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> EXEC_ERROR 3</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cmd</span>&#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">cmd</span> * <span class="title">next</span>;</span></span><br><span class="line">    <span class="keyword">int</span> begin,end;  <span class="comment">// pos in cmdStr</span></span><br><span class="line">    <span class="keyword">int</span> argc;</span><br><span class="line">    <span class="keyword">char</span> lredir,rredir; <span class="comment">////0:no redirect  1 &lt;,&gt;   ;  2  &gt;&gt;</span></span><br><span class="line">    <span class="keyword">char</span> toFile[MAX_PATH_LENGTH],fromFile[MAX_PATH_LENGTH];  <span class="comment">// redirect file path</span></span><br><span class="line">    <span class="keyword">char</span> *args[MAX_ARG_NUM];</span><br><span class="line">    <span class="keyword">char</span> bgExec;   <span class="comment">//failExec</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cmd</span> <span class="title">cmdinfo</span>[<span class="title">MAX_CMD_NUM</span>];</span></span><br><span class="line"><span class="keyword">char</span> cmdStr[MAX_CMD_LENGTH];    </span><br><span class="line"><span class="keyword">int</span> cmdNum,varNum;</span><br><span class="line"><span class="keyword">char</span> envVar[MAX_VAR_NUM][MAX_PATH_LENGTH];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Error</span><span class="params">(<span class="keyword">int</span> )</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">debug</span><span class="params">(struct cmd*)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(struct cmd*)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setIO</span><span class="params">(struct cmd*,<span class="keyword">int</span> ,<span class="keyword">int</span> )</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">getInput</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">parseCmds</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">handleVar</span><span class="params">(struct cmd *,<span class="keyword">int</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">getItem</span><span class="params">(<span class="keyword">char</span> *,<span class="keyword">char</span> *,<span class="keyword">int</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">parseArgs</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">execInner</span><span class="params">(struct cmd*)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">execOuter</span><span class="params">(struct cmd*)</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>)&#123;</span><br><span class="line">        cmdNum = varNum = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"# "</span>);</span><br><span class="line">        fflush(<span class="built_in">stdin</span>);</span><br><span class="line">        <span class="keyword">int</span> n = getInput();</span><br><span class="line">        <span class="keyword">if</span>(n&lt;=<span class="number">0</span>)<span class="keyword">continue</span>;  </span><br><span class="line">        parseCmds(n);</span><br><span class="line">        <span class="keyword">if</span>(parseArgs()&lt;<span class="number">0</span>)<span class="keyword">continue</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;cmdNum;++i)&#123;</span><br><span class="line">            <span class="class"><span class="keyword">struct</span> <span class="title">cmd</span> *<span class="title">pcmd</span>=<span class="title">cmdinfo</span>+<span class="title">i</span>, * <span class="title">tmp</span>;</span></span><br><span class="line">            <span class="comment">//debug(pcmd);</span></span><br><span class="line">            <span class="comment">//pcmd = reverse(pcmd);</span></span><br><span class="line">            <span class="keyword">int</span> status = execInner(pcmd);</span><br><span class="line">            <span class="keyword">if</span>(status==<span class="number">1</span>)&#123;</span><br><span class="line">                <span class="comment">/*notice!!!  Use child proc to  execute outer cmd, </span></span><br><span class="line"><span class="comment">                bacause exec funcs won't return when successfully execed.  */</span></span><br><span class="line">                <span class="keyword">pid_t</span> pid = fork();</span><br><span class="line">                <span class="keyword">if</span>(pid==<span class="number">0</span>)execOuter(pcmd);</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(pid&lt;<span class="number">0</span>)Error(FORK_ERROR);</span><br><span class="line">                <span class="keyword">if</span>(!pcmd-&gt;bgExec)wait(<span class="literal">NULL</span>);  <span class="comment">//background exec</span></span><br><span class="line">                <span class="comment">/*  free malloced piep-cmd-node,</span></span><br><span class="line"><span class="comment">                    and the first one is static , no need to free;   */</span> </span><br><span class="line">                pcmd=pcmd-&gt;next; </span><br><span class="line">                <span class="keyword">while</span>(pcmd)&#123;</span><br><span class="line">                    tmp = pcmd-&gt;next;</span><br><span class="line">                    <span class="built_in">free</span>(pcmd);</span><br><span class="line">                    pcmd=tmp;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/* funcs implementation */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(struct cmd *pcmd)</span></span>&#123;</span><br><span class="line">    pcmd-&gt;bgExec=<span class="number">0</span>;</span><br><span class="line">    pcmd-&gt;argc=<span class="number">0</span>;</span><br><span class="line">    pcmd-&gt;lredir=pcmd-&gt;rredir=<span class="number">0</span>;</span><br><span class="line">    pcmd-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">    pcmd-&gt;begin=pcmd-&gt;end=<span class="number">-1</span>;</span><br><span class="line">    <span class="comment">/* // notice!!! Avoid using resudent args  */</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;MAX_ARG_NUM;++i)pcmd-&gt;args[i]=<span class="literal">NULL</span>; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Error</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">switch</span>(n)&#123;</span><br><span class="line">        <span class="keyword">case</span> FORK_ERROR:<span class="built_in">printf</span>(<span class="string">"fork error\n"</span>);<span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> EXEC_ERROR:<span class="built_in">printf</span>(<span class="string">"exec error\n"</span>);<span class="keyword">break</span>;</span><br><span class="line">truetrue<span class="keyword">default</span>:<span class="built_in">printf</span>(<span class="string">"Error, exit ...\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getInput</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">/* multi line input */</span></span><br><span class="line">    <span class="keyword">int</span> pCmdStr=<span class="number">0</span>,cur;</span><br><span class="line">    <span class="keyword">char</span> newline = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(newline)&#123;</span><br><span class="line">        cur = MAX_CMD_LENGTH-pCmdStr;</span><br><span class="line">        <span class="keyword">if</span>(cur&lt;=<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"[Error]: You cmdStr is too long to exec.\n"</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;<span class="comment">// return -1 if cmdStr size is bigger than LENGTH</span></span><br><span class="line">        &#125;</span><br><span class="line">        fgets(cmdStr+pCmdStr,cur,<span class="built_in">stdin</span>);</span><br><span class="line">        newline = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(cmdStr[pCmdStr]==<span class="string">'\\'</span>&amp;&amp;cmdStr[pCmdStr+<span class="number">1</span>]==<span class="string">'\n'</span>)&#123;</span><br><span class="line">                newline=<span class="number">1</span>;</span><br><span class="line">                cmdStr[pCmdStr++]=<span class="string">'\0'</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(cmdStr[pCmdStr]==<span class="string">'\n'</span>)&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            ++pCmdStr;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pCmdStr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">parseCmds</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="comment">/* clean the cmdStr and get pos of each cmd in the cmdStr (OoO) */</span></span><br><span class="line">    <span class="keyword">char</span> beginCmd=<span class="number">0</span>;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">cmd</span> * <span class="title">head</span>;</span> <span class="comment">// use head cmd to mark background.</span></span><br><span class="line">    <span class="keyword">for</span>( <span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n;++i)&#123;</span><br><span class="line">        <span class="keyword">switch</span>(cmdStr[i])&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'&amp;'</span>:&#123;</span><br><span class="line">                <span class="keyword">if</span>(cmdStr[i+<span class="number">1</span>]==<span class="string">'\n'</span>||cmdStr[i+<span class="number">1</span>]==<span class="string">';'</span>)&#123;</span><br><span class="line">                    cmdStr[i]=<span class="string">' '</span>;</span><br><span class="line">                    head-&gt;bgExec=<span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">truetruetrue<span class="keyword">case</span> <span class="string">'\t'</span>:cmdStr[i]=<span class="string">' '</span>;<span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">';'</span>:&#123;<span class="comment">//including  ';'  a new cmdStr</span></span><br><span class="line">                beginCmd = <span class="number">0</span>;</span><br><span class="line">                cmdStr[i]=<span class="string">'\0'</span>;  </span><br><span class="line">                cmdinfo[cmdNum++].end=i;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'\n'</span>:&#123;</span><br><span class="line">                cmdStr[i]=<span class="string">'\0'</span>;</span><br><span class="line">                cmdinfo[cmdNum++].end =i;</span><br><span class="line">                <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">' '</span>:<span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>:<span class="keyword">if</span>(!beginCmd)&#123;</span><br><span class="line">                beginCmd=<span class="number">1</span>;</span><br><span class="line">                head = cmdinfo+cmdNum;</span><br><span class="line">                cmdinfo[cmdNum].begin =  i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getItem</span><span class="params">(<span class="keyword">char</span> *dst,<span class="keyword">char</span>*src, <span class="keyword">int</span> p)</span></span>&#123;   </span><br><span class="line">    <span class="comment">/* get redirect file path from the cmdStr */</span></span><br><span class="line">    <span class="keyword">int</span> ct=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(src[++p]==<span class="string">' '</span>);</span><br><span class="line">    <span class="keyword">if</span>(src[p]==<span class="string">'\n'</span>)<span class="keyword">return</span> <span class="number">-1</span>; <span class="comment">//no file </span></span><br><span class="line">    <span class="keyword">char</span> c;</span><br><span class="line">    <span class="keyword">while</span>(c=dst[ct]=src[p])&#123;</span><br><span class="line">        <span class="keyword">if</span>(c==<span class="string">' '</span>||c==<span class="string">'|'</span>||c==<span class="string">'&lt;'</span>||c==<span class="string">'&gt;'</span>||c==<span class="string">'\n'</span>)<span class="keyword">break</span>;</span><br><span class="line">        ++ct,++p;</span><br><span class="line">    &#125;</span><br><span class="line">    dst[ct]=<span class="string">'\0'</span>;</span><br><span class="line">    <span class="keyword">return</span> p<span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">handleVar</span><span class="params">(struct cmd *pcmd,<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> * arg = pcmd-&gt;args[n];</span><br><span class="line">    <span class="keyword">int</span> p_arg=<span class="number">0</span>,p_var=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(arg[p_arg])&#123;</span><br><span class="line">        <span class="keyword">if</span>((arg[p_arg]==<span class="string">'$'</span>)&amp;&amp;(arg[p_arg<span class="number">-1</span>]!=<span class="string">'\\'</span>))&#123;</span><br><span class="line">            <span class="keyword">if</span>(arg[p_arg+<span class="number">1</span>]==<span class="string">'&#123;'</span>)p_arg+=<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">else</span> p_arg+=<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">char</span> *tmp=&amp;envVar[varNum][p_var];</span><br><span class="line">            <span class="keyword">int</span> ct=<span class="number">0</span>;</span><br><span class="line">            <span class="keyword">while</span>(tmp[ct]=arg[p_arg])&#123;</span><br><span class="line">                <span class="keyword">if</span>(tmp[ct]==<span class="string">'&#125;'</span>)&#123;</span><br><span class="line">                    ++p_arg;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(tmp[ct]==<span class="string">' '</span>||tmp[ct]==<span class="string">'\n'</span>||tmp[ct]==<span class="string">'\0'</span>)<span class="keyword">break</span>;</span><br><span class="line">                ++ct,++p_arg;</span><br><span class="line">            &#125;</span><br><span class="line">            tmp[ct]=<span class="string">'\0'</span>;</span><br><span class="line">            tmp = getenv(tmp);</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;envVar[varNum][p_var++]=tmp[i++];);</span><br><span class="line">            p_var-=<span class="number">1</span>; <span class="comment">//necessary</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> envVar[varNum][p_var++]=arg[p_arg++];</span><br><span class="line">    &#125;</span><br><span class="line">    envVar[varNum][p_var]=<span class="string">'\0'</span>;</span><br><span class="line">    pcmd-&gt;args[n] = envVar[varNum++];</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">parseArgs</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">/* get args of each cmd and  create cmd-node seperated by pipe */</span></span><br><span class="line">    <span class="keyword">char</span> beginItem=<span class="number">0</span>,beginQuote=<span class="number">0</span>,beginDoubleQuote=<span class="number">0</span>,hasVar=<span class="number">0</span>,c;</span><br><span class="line">true<span class="keyword">int</span> begin,end;</span><br><span class="line">true<span class="class"><span class="keyword">struct</span> <span class="title">cmd</span>* <span class="title">pcmd</span>;</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> p=<span class="number">0</span>;p&lt;cmdNum;++p)&#123;</span><br><span class="line">truetrue<span class="keyword">if</span>(beginQuote||beginItem||beginDoubleQuote)&#123;</span><br><span class="line">truetruetrue<span class="keyword">return</span> <span class="number">-1</span>;  <span class="comment">// wrong cmdStr</span></span><br><span class="line">truetrue&#125;</span><br><span class="line">        pcmd=&amp;cmdinfo[p];</span><br><span class="line">        begin = pcmd-&gt;begin,end = pcmd-&gt;end;</span><br><span class="line">        init(pcmd);<span class="comment">// initalize </span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=begin;i&lt;end;++i)&#123;</span><br><span class="line">            c = cmdStr[i];</span><br><span class="line">truetruetrue<span class="keyword">if</span>((c==<span class="string">'\"'</span>)&amp;&amp;(cmdStr[i<span class="number">-1</span>]!=<span class="string">'\\'</span>&amp;&amp;(!beginQuote)))&#123;</span><br><span class="line">truetruetruetrue<span class="keyword">if</span>(beginDoubleQuote)&#123;</span><br><span class="line">truetruetruetruetruecmdStr[i]=beginDoubleQuote=beginItem=<span class="number">0</span>;</span><br><span class="line">                    <span class="keyword">if</span>(hasVar)&#123;</span><br><span class="line">                        hasVar=<span class="number">0</span>;</span><br><span class="line">                        handleVar(pcmd,pcmd-&gt;argc<span class="number">-1</span>);  <span class="comment">//note that is argc-1, not argc</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">truetruetruetruetruebeginDoubleQuote=<span class="number">1</span>;</span><br><span class="line">truetruetruetruetruepcmd-&gt;args[pcmd-&gt;argc++]=cmdStr+i+<span class="number">1</span>;</span><br><span class="line">truetruetruetrue&#125;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">truetruetrue&#125;<span class="keyword">else</span> <span class="keyword">if</span>(beginDoubleQuote)&#123;</span><br><span class="line">                <span class="keyword">if</span>((c==<span class="string">'$'</span>) &amp;&amp;(cmdStr[i<span class="number">-1</span>]!=<span class="string">'\\'</span>)&amp;&amp;(!hasVar))hasVar=<span class="number">1</span>;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span>((c==<span class="string">'\''</span>)&amp;&amp;(cmdStr[i<span class="number">-1</span>]!=<span class="string">'\\'</span>))&#123;</span><br><span class="line">                <span class="keyword">if</span>(beginQuote)&#123;</span><br><span class="line">truetruetruetruetruecmdStr[i]=beginQuote=beginItem=<span class="number">0</span>;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    beginQuote=<span class="number">1</span>;</span><br><span class="line">                    pcmd-&gt;args[pcmd-&gt;argc++]=cmdStr+i+<span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(beginQuote) <span class="keyword">continue</span>;</span><br><span class="line">            </span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span>(c==<span class="string">'&lt;'</span>||c==<span class="string">'&gt;'</span>||c==<span class="string">'|'</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span>(beginItem)beginItem=<span class="number">0</span>;</span><br><span class="line">                cmdStr[i]=<span class="string">'\0'</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(c==<span class="string">'&lt;'</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span>(cmdStr[i+<span class="number">1</span>]==<span class="string">'&lt;'</span>)&#123;</span><br><span class="line">                    pcmd-&gt;lredir+=<span class="number">2</span>;  <span class="comment">//&lt;&lt;</span></span><br><span class="line">                    cmdStr[i+<span class="number">1</span>]=<span class="string">' '</span>;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    pcmd-&gt;lredir+=<span class="number">1</span>;  <span class="comment">//&lt;</span></span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">int</span> tmp = getItem(pcmd-&gt;fromFile,cmdStr,i);</span><br><span class="line">                <span class="keyword">if</span>(tmp&gt;<span class="number">0</span>)i = tmp;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(c==<span class="string">'&gt;'</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span>(cmdStr[i+<span class="number">1</span>]==<span class="string">'&gt;'</span>)&#123;</span><br><span class="line">                    pcmd-&gt;rredir+=<span class="number">2</span>;  <span class="comment">//&gt;&gt;</span></span><br><span class="line">                    cmdStr[i+<span class="number">1</span>]=<span class="string">' '</span>;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    pcmd-&gt;rredir+=<span class="number">1</span>;  <span class="comment">//&gt;</span></span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">int</span> tmp = getItem(pcmd-&gt;toFile,cmdStr,i);</span><br><span class="line">                <span class="keyword">if</span>(tmp&gt;<span class="number">0</span>)i = tmp;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span> (c==<span class="string">'|'</span>)&#123;</span><br><span class="line">                <span class="comment">/*when encountering pipe | , create new cmd node chained after the fommer one   */</span></span><br><span class="line">                pcmd-&gt;end = i;</span><br><span class="line">                pcmd-&gt;next = (struct cmd*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(struct cmd));</span><br><span class="line">                pcmd = pcmd-&gt;next;</span><br><span class="line">                init(pcmd);</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(c==<span class="string">' '</span>||c==<span class="string">'\0'</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span>(beginItem)&#123;</span><br><span class="line">                    beginItem=<span class="number">0</span>;</span><br><span class="line">                    cmdStr[i]=<span class="string">'\0'</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">if</span>(pcmd-&gt;begin==<span class="number">-1</span>)pcmd-&gt;begin=i;</span><br><span class="line">                <span class="keyword">if</span>(!beginItem)&#123;</span><br><span class="line">                    beginItem=<span class="number">1</span>;</span><br><span class="line">                    <span class="keyword">if</span>((c==<span class="string">'$'</span>) &amp;&amp;(cmdStr[i<span class="number">-1</span>]!=<span class="string">'\\'</span>)&amp;&amp;(!hasVar))hasVar=<span class="number">1</span>;</span><br><span class="line">                    pcmd-&gt;args[pcmd-&gt;argc++]=cmdStr+i;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span>(hasVar)&#123;</span><br><span class="line">                hasVar=<span class="number">0</span>;</span><br><span class="line">                handleVar(pcmd,pcmd-&gt;argc<span class="number">-1</span>);  <span class="comment">//note that is argc-1, not argc</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        pcmd-&gt;end=end;</span><br><span class="line">        <span class="comment">//printf("%dfrom:%s   %dto:%s\n",pcmd-&gt;lredir,pcmd-&gt;fromFile,pcmd-&gt;rredir,pcmd-&gt;toFile);</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">execInner</span><span class="params">(struct cmd* pcmd)</span></span>&#123;  </span><br><span class="line">    <span class="comment">/*if inner cmd, &#123;exec, return 0&#125; else return 1  */</span></span><br><span class="line">    <span class="keyword">if</span> (!pcmd-&gt;args[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">strcmp</span>(pcmd-&gt;args[<span class="number">0</span>], <span class="string">"cd"</span>) == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">stat</span> <span class="title">st</span>;</span></span><br><span class="line">        <span class="keyword">if</span> (pcmd-&gt;args[<span class="number">1</span>])&#123;</span><br><span class="line">            stat(pcmd-&gt;args[<span class="number">1</span>],&amp;st);</span><br><span class="line">            <span class="keyword">if</span> (S_ISDIR(st.st_mode))</span><br><span class="line">                chdir(pcmd-&gt;args[<span class="number">1</span>]);</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"[Error]: cd '%s': No such directory\n"</span>,pcmd-&gt;args[<span class="number">1</span>]);</span><br><span class="line">                <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">strcmp</span>(pcmd-&gt;args[<span class="number">0</span>], <span class="string">"pwd"</span>) == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%s\n"</span>,getcwd(pcmd-&gt;args[<span class="number">1</span>] , MAX_PATH_LENGTH));</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">strcmp</span>(pcmd-&gt;args[<span class="number">0</span>], <span class="string">"unset"</span>) == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;pcmd-&gt;argc;++i)unsetenv(pcmd-&gt;args[i]);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">strcmp</span>(pcmd-&gt;args[<span class="number">0</span>], <span class="string">"export"</span>) == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;pcmd-&gt;argc;++i)&#123;  <span class="comment">//putenv(pcmd-&gt;args[i]);</span></span><br><span class="line">            <span class="keyword">char</span> *val,*p;</span><br><span class="line">            <span class="keyword">for</span>(p = pcmd-&gt;args[i];*p!=<span class="string">'='</span>;++p);</span><br><span class="line">            *p=<span class="string">'\0'</span>;</span><br><span class="line">            val = p+<span class="number">1</span>;</span><br><span class="line">            setenv(pcmd-&gt;args[i],val,<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">strcmp</span>(pcmd-&gt;args[<span class="number">0</span>], <span class="string">"exit"</span>) == <span class="number">0</span>)</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125; </span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setIO</span><span class="params">(struct cmd *pcmd,<span class="keyword">int</span> rfd,<span class="keyword">int</span> wfd)</span></span>&#123;</span><br><span class="line">        <span class="comment">/* settle file redirect  */</span></span><br><span class="line">    <span class="keyword">if</span>(pcmd-&gt;rredir&gt;<span class="number">0</span>)&#123;  <span class="comment">//  &gt;,  &gt;&gt;</span></span><br><span class="line">        <span class="keyword">int</span> flag ;</span><br><span class="line">        <span class="keyword">if</span>(pcmd-&gt;rredir==<span class="number">1</span>)flag=O_WRONLY|O_TRUNC|O_CREAT;  <span class="comment">// &gt;  note: trunc is necessary!!!</span></span><br><span class="line">        <span class="keyword">else</span> flag=O_WRONLY|O_APPEND|O_CREAT; <span class="comment">//&gt;&gt;</span></span><br><span class="line">        <span class="keyword">int</span> wport = open(pcmd-&gt;toFile,flag);</span><br><span class="line">        dup2(wport,STDOUT_FILENO);</span><br><span class="line">        close(wport);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(pcmd-&gt;lredir&gt;<span class="number">0</span>)&#123;  <span class="comment">//&lt;, &lt;&lt;</span></span><br><span class="line">        <span class="keyword">int</span> rport  = open(pcmd-&gt;fromFile,O_RDONLY);</span><br><span class="line">        dup2(rport,STDIN_FILENO);</span><br><span class="line">        close(rport);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/* pipe  */</span></span><br><span class="line">    <span class="keyword">if</span>(rfd!=STDIN_FILENO)&#123;</span><br><span class="line">        dup2(rfd,STDIN_FILENO);</span><br><span class="line">        close(rfd);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(wfd!=STDOUT_FILENO)&#123;</span><br><span class="line">        dup2(wfd,STDOUT_FILENO);</span><br><span class="line">        close(wfd);</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">execOuter</span><span class="params">(struct cmd * pcmd)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!pcmd-&gt;next)&#123;</span><br><span class="line">        setIO(pcmd,STDIN_FILENO,STDOUT_FILENO);</span><br><span class="line">        execvp(pcmd-&gt;args[<span class="number">0</span>],pcmd-&gt;args);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> fd[<span class="number">2</span>];</span><br><span class="line">    pipe(fd);</span><br><span class="line">    <span class="keyword">pid_t</span> pid = fork();</span><br><span class="line">    <span class="keyword">if</span>(pid&lt;<span class="number">0</span>)&#123;</span><br><span class="line">        Error(FORK_ERROR);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (pid==<span class="number">0</span>)&#123;</span><br><span class="line">        close(fd[<span class="number">0</span>]);</span><br><span class="line">        setIO(pcmd,STDIN_FILENO,fd[<span class="number">1</span>]);</span><br><span class="line">        execvp(pcmd-&gt;args[<span class="number">0</span>],pcmd-&gt;args);</span><br><span class="line">        Error(EXEC_ERROR);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        wait(<span class="literal">NULL</span>);</span><br><span class="line">        pcmd = pcmd-&gt;next;  <span class="comment">//notice</span></span><br><span class="line">        close(fd[<span class="number">1</span>]);</span><br><span class="line">        setIO(pcmd,fd[<span class="number">0</span>],STDOUT_FILENO);  </span><br><span class="line">        execOuter(pcmd);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/simple-shell.html">『linux』c 语言实现一个简易的 shell</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">mbinary</a></p>
+        <p><span>发布时间:</span>2018-06-08, 16:22:22</p>
+        <p><span>最后更新:</span>2019-01-30, 17:50:41</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/simple-shell.html" title="『linux』c 语言实现一个简易的 shell">https://mbinary.xyz/simple-shell.html</a>
+            <span class="copy-path" data-clipboard-text="原文: https://mbinary.xyz/simple-shell.html　　作者: mbinary" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/multiprocessor.html">
+                    『现代操作系统』多处理机
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/deadlock.html">
+                    『现代操作系统』死锁
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Table-of-Content"><span class="toc-number">1.</span> <span class="toc-text">Table of Content</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-测试结果"><span class="toc-number">2.</span> <span class="toc-text">1. 测试结果</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-大致框架"><span class="toc-number">3.</span> <span class="toc-text">2. 大致框架</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-全局变量说明"><span class="toc-number">4.</span> <span class="toc-text">3. 全局变量说明</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-cmdStr"><span class="toc-number">4.1.</span> <span class="toc-text">3.1. cmdStr</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-cmdNum-varNum"><span class="toc-number">4.2.</span> <span class="toc-text">3.2. cmdNum, varNum</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-envVar"><span class="toc-number">4.3.</span> <span class="toc-text">3.3. envVar</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-cmd-结构"><span class="toc-number">4.4.</span> <span class="toc-text">3.4. cmd 结构</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-解析命令字符串"><span class="toc-number">5.</span> <span class="toc-text">4. 解析命令字符串</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-多条命令的解析—"><span class="toc-number">6.</span> <span class="toc-text">5. 多条命令的解析—;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-实现后台运行—-amp"><span class="toc-number">7.</span> <span class="toc-text">6. 实现后台运行—-&amp;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-处理变量—"><span class="toc-number">8.</span> <span class="toc-text">7. 处理变量—$</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-内建命令"><span class="toc-number">9.</span> <span class="toc-text">8. 内建命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#8-1-实现-ls"><span class="toc-number">9.1.</span> <span class="toc-text">8.1. 实现 ls</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-2-实现-cd"><span class="toc-number">9.2.</span> <span class="toc-text">8.2. 实现 cd</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-3-实现-pwd"><span class="toc-number">9.3.</span> <span class="toc-text">8.3. 实现 pwd</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-4-实现unset"><span class="toc-number">9.4.</span> <span class="toc-text">8.4. 实现unset</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-5-实现-export"><span class="toc-number">9.5.</span> <span class="toc-text">8.5. 实现 export</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9-实现重定向与管道—-lt-gt-gt-gt"><span class="toc-number">10.</span> <span class="toc-text">9. 实现重定向与管道— &lt;,&gt;,&gt;&gt;,|</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#9-1-文件重定向"><span class="toc-number">10.1.</span> <span class="toc-text">9.1. 文件重定向</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-2-管道重定向"><span class="toc-number">10.2.</span> <span class="toc-text">9.2. 管道重定向</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#10-外部命令"><span class="toc-number">11.</span> <span class="toc-text">10. 外部命令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#11-其他"><span class="toc-number">12.</span> <span class="toc-text">11. 其他</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#12-完整代码"><span class="toc-number">13.</span> <span class="toc-text">12. 完整代码</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-6 i,
+        .toc-level-6 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"『linux』c 语言实现一个简易的 shell　| mbinary's blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+
+<!--<script src="//cdn.jsdelivr.net/npm/leancloud-storage@latest/dist/av-min.js"></script>
+<script src='//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js'></script>-->
+
+<div id="vcomments"></div>
+<script>
+    var notify = false == true ? true : false;
+    var verify = false == true ? true : false;
+    var visitor = true == true ? true : false;
+new Valine({
+    el: '#vcomments',
+    notify: notify,
+    verify: verify,
+    appId: 'ArpEYbLUBmpXK3f245hKNu4A-gzGzoHsz',
+    appKey: 'X5cHcMU1ATb8q0prtPGEqIPX',
+    lang: 'en',
+    placeholder: '留下你的小脚印^_^ (支持 markdown, 上面三项 昵称,邮件(可用于回复),网址都是可选填的)',
+    avatar: 'monsterid',
+    pageSize: 10,
+    visitor: visitor
+    });
+</script>
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/multiprocessor.html" title="上一篇: 『现代操作系统』多处理机">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/deadlock.html" title="下一篇: 『现代操作系统』死锁">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/number-theory.html">Number-Theory</a></li><li class="post-list-item"><a class="post-list-link" href="/string-matching.html">String-Mathching-Algorithm</a></li><li class="post-list-item"><a class="post-list-link" href="/graph.html">图算法</a></li><li class="post-list-item"><a class="post-list-link" href="/fib-heap.html">『数据结构』Fibonacci-heap</a></li><li class="post-list-item"><a class="post-list-link" href="/b-tree.html">『数据结构』B树(B-Tree)及其变体 B+树,B*树</a></li><li class="post-list-item"><a class="post-list-link" href="/introduction-to-bitcoin.html">『比特币』概述</a></li><li class="post-list-item"><a class="post-list-link" href="/introduction-to-blockchain.html">『区块链』简介</a></li><li class="post-list-item"><a class="post-list-link" href="/algorithm-general.html">『算法』概述</a></li><li class="post-list-item"><a class="post-list-link" href="/red-black-tree.html">『数据结构』红黑树(red-black tree)</a></li><li class="post-list-item"><a class="post-list-link" href="/tree.html">『数据结构』树</a></li><li class="post-list-item"><a class="post-list-link" href="/hashTable.html">『数据结构』散列表</a></li><li class="post-list-item"><a class="post-list-link" href="/sort.html">『算法』排序</a></li><li class="post-list-item"><a class="post-list-link" href="/bus.html">『计算机组成原理』总线</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-device.html">『现代操作系统』IO设备</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-software.html">『现代操作系统』IO软件原理</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-hardware.html">『现代操作系统』IO硬件原理</a></li><li class="post-list-item"><a class="post-list-link" href="/os-general.html">『现代操作系统』操作系统引论</a></li><li class="post-list-item"><a class="post-list-link" href="/linux-file-io.html">『Unix环境高级编程』linux 文件 I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/multiprocessor.html">『现代操作系统』多处理机</a></li><li class="post-list-item"><a class="post-list-link" href="/simple-shell.html">『linux』c 语言实现一个简易的 shell</a></li><li class="post-list-item"><a class="post-list-link" href="/deadlock.html">『现代操作系统』死锁</a></li><li class="post-list-item"><a class="post-list-link" href="/risk-predict.html">信用卡持卡人风险预测</a></li><li class="post-list-item"><a class="post-list-link" href="/comics-about-staying-up.html">『小仓鼠漫画』熬夜的危害与防护</a></li><li class="post-list-item"><a class="post-list-link" href="/ctf-basic.html">『CTF』网络信息安全攻防实验室之基础关 writeup</a></li><li class="post-list-item"><a class="post-list-link" href="/send-blog-automatically.html">『WEB』用 python 发送 csdn 博客</a></li><li class="post-list-item"><a class="post-list-link" href="/the-roommate-that-uses-mechanical-keyboard.html">用机械键盘的室友</a></li><li class="post-list-item"><a class="post-list-link" href="/csapp-bomb-lab-report.html">CSAPP-BOMB-LAB</a></li><li class="post-list-item"><a class="post-list-link" href="/learning-and-forgetting.html">学习与遗忘</a></li><li class="post-list-item"><a class="post-list-link" href="/20-years-old-summary.html">2017 年，20 岁，大二寒假总结与感悟</a></li><li class="post-list-item"><a class="post-list-link" href="/decrypt-netease-music.html">『WEB』从网易云音乐缓存文件得到MP3</a></li><li class="post-list-item"><a class="post-list-link" href="/all-one-data-structure.html">『数据结构』inc,dec,getMin,getMax 均为 O(1)</a></li><li class="post-list-item"><a class="post-list-link" href="/video.html">影视作品观后感</a></li><li class="post-list-item"><a class="post-list-link" href="/books.html">书籍总结与推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/common-lisp-macro.html">『common lisp』宏及函数的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/hacker-and-painter.html">『读书笔记』黑客与画家</a></li><li class="post-list-item"><a class="post-list-link" href="/from-chem-to-cs.html">从化院到计院</a></li><li class="post-list-item"><a class="post-list-link" href="/from-zhuzhong-to-ustc.html">从竹中到科大</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017-2019 mbinary
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+    </div>
+</footer>
+
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+<!-->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<--!>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>

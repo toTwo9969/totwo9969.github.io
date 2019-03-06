@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="mbinary">
+
+
+
+<meta name="description" content="概述, 包括基本的算法分析与设计方法, (递归式, 递归树, 主方法), 以及随机算法, 概率分析, 摊还分析等">
+<meta name="keywords" content="算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="『算法』概述">
+<meta property="og:url" content="https://mbinary.xyz/algorithm-general.html">
+<meta property="og:site_name" content="mbinary&#39;s blog">
+<meta property="og:description" content="概述, 包括基本的算法分析与设计方法, (递归式, 递归树, 主方法), 以及随机算法, 概率分析, 摊还分析等">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-d452e7efb6fb3433.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-4a1b9b6ee852b725.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-780b9795b6d9a2bd.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-7d112b304e2d78b6.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-f104d530f2a57c99.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-be0fd1b57a5ff305.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-01-30T12:57:15.627Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="『算法』概述">
+<meta name="twitter:description" content="概述, 包括基本的算法分析与设计方法, (递归式, 递归树, 主方法), 以及随机算法, 概率分析, 摊还分析等">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/7130568-d452e7efb6fb3433.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="mbinary&#39;s blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/yinyang.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>『算法』概述 | mbinary&#39;s blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+
+
+
+</head></html>
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">mbinary</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">淡泊明志, 宁静致远</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="Let me search for you>_<" class="search form-control" autocomplete="off" autocorrect="off" searchonload="false">
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class="no-result">No results found <i class="fa fa-spinner fa-pulse"></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/archives/">归档</a></li>
+                        
+                            <li><a href="/tags/">标签</a></li>
+                        
+                            <li><a href="/leetcode/">编程</a></li>
+                        
+                            <li><a href="/about/">关于</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Github" href="https://github.com/mbinary" title="Github"></a>
+                            
+                                <a class="fa Leetcode" href="https://leetcode-cn.com/mbinary/" title="Leetcode"></a>
+                            
+                                <a class="fa LinkedIn" href="http://www.linkedin.com/in/cs-heqin-zhu" title="LinkedIn"></a>
+                            
+                                <a class="fa Email" href="mailto:zhuheqin1@gmail.com" title="Email"></a>
+                            
+                                <a class="fa QQ" href="http://wpa.qq.com/msgrd?v=3&uin=414313516&site=qq&menu=yes" title="QQ"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/B树/">B树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/USTC/">USTC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/">api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/common-lisp/">common lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/macro/">macro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/人际交往/">人际交往</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分享/">分享</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动态规划/">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/区块链/">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/图/">图</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/娱乐/">娱乐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串匹配/">字符串匹配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/室友/">室友</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/影视/">影视</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/总结/">总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/惰性学习/">惰性学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序/">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/散列表/">散列表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数字货币/">数字货币</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/斐波那契堆/">斐波那契堆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机械键盘/">机械键盘</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树/">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/比特币/">比特币</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编/">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/红黑树/">红黑树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机组成原理/">计算机组成原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逆向/">逆向</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/选择/">选择</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/黑客/">黑客</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://mbinary.xyz/links/">交换友链说明</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.4spaces.org">4spaces</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">mbinary</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">mbinary</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">淡泊明志, 宁静致远</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">归档</a></li>
+                
+                    <li><a href="/tags/">标签</a></li>
+                
+                    <li><a href="/leetcode/">编程</a></li>
+                
+                    <li><a href="/about/">关于</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Github" target="_blank" href="https://github.com/mbinary" title="Github"></a>
+                            
+                                <a class="fa Leetcode" target="_blank" href="https://leetcode-cn.com/mbinary/" title="Leetcode"></a>
+                            
+                                <a class="fa LinkedIn" target="_blank" href="http://www.linkedin.com/in/cs-heqin-zhu" title="LinkedIn"></a>
+                            
+                                <a class="fa Email" target="_blank" href="mailto:zhuheqin1@gmail.com" title="Email"></a>
+                            
+                                <a class="fa QQ" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=414313516&site=qq&menu=yes" title="QQ"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
+</nav>
+      <div class="body-wrap"><article id="post-algorithm-general" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/algorithm-general.html" class="article-date">
+      <time datetime="2018-07-21T10:20:00.000Z" itemprop="datePublished">2018-07-21</time>
+</a>
+
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      『算法』概述
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/数据结构与算法/">数据结构与算法</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <script src="/assets/js/APlayer.min.js"> </script><!-- TOC -->
+<ul>
+<li><a href="#1-算法">1. 算法</a></li>
+<li><a href="#2-可以解决哪些类型的问题">2. 可以解决哪些类型的问题</a></li>
+<li><a href="#3-算法分析">3. 算法分析</a></li>
+<li><a href="#4-算法设计">4. 算法设计</a><ul>
+<li><a href="#41-分治divide-and-conquer">4.1. 分治(divide and conquer)</a></li>
+</ul>
+</li>
+<li><a href="#5-递归式">5. 递归式</a><ul>
+<li><a href="#51-代换法">5.1. 代换法</a><ul>
+<li><a href="#511-步骤">5.1.1. 步骤</a></li>
+<li><a href="#512-例子">5.1.2. 例子</a></li>
+<li><a href="#513-放缩">5.1.3. 放缩</a></li>
+<li><a href="#514-改变变量">5.1.4. 改变变量</a></li>
+</ul>
+</li>
+<li><a href="#52-递归树">5.2. 递归树</a></li>
+<li><a href="#53-主方法master-method">5.3. 主方法(master method)</a><ul>
+<li><a href="#531-记忆">5.3.1. 记忆</a></li>
+<li><a href="#532-证明">5.3.2. 证明</a><ul>
+<li><a href="#5321-证明当-n-为-b-的正合幂时成立">5.3.2.1. 证明当 n 为 b 的正合幂时成立</a></li>
+<li><a href="#5322-分析扩展至所有正整数-n-都成立">5.3.2.2. 分析扩展至所有正整数 n 都成立</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#6-随机算法">6. 随机算法</a><ul>
+<li><a href="#61-随机排列数组shuffle">6.1. 随机排列数组(shuffle)</a><ul>
+<li><a href="#611-permute-by-sorting">6.1.1. PERMUTE-BY-SORTING</a></li>
+<li><a href="#612-randomize-in-place">6.1.2. RANDOMIZE-IN-PLACE</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#7-组合方程的近似算法">7. 组合方程的近似算法</a></li>
+<li><a href="#8-概率分析与指示器变量例子">8. 概率分析与指示器变量例子</a><ul>
+<li><a href="#81-球与盒子">8.1. 球与盒子</a></li>
+<li><a href="#82-序列">8.2. 序列</a></li>
+</ul>
+</li>
+<li><a href="#9-摊还分析">9. 摊还分析</a><ul>
+<li><a href="#91-聚合分析aggregate-analysis">9.1. 聚合分析(aggregate analysis)</a></li>
+<li><a href="#92-核算法-accounting-method">9.2. 核算法 (accounting method)</a></li>
+<li><a href="#93-势能法potential-method">9.3. 势能法(potential method)</a></li>
+</ul>
+</li>
+</ul>
+<!-- /TOC -->
+<p><a id="markdown-1-算法" name="1-算法"></a></p>
+<h1 id="1-算法"><a href="#1-算法" class="headerlink" title="1. 算法"></a>1. 算法</h1><p>定义良好的计算过程,取输入,并产生输出. 即算法是一系列的计算步骤,将输入数据转化为输出结果</p>
+<p>算法的特点:</p>
+<ul>
+<li>有穷性</li>
+<li>确定性</li>
+<li>可行性</li>
+<li>0 或多个输入</li>
+<li>1 或多个输出</li>
+</ul>
+<p><a id="markdown-2-可以解决哪些类型的问题" name="2-可以解决哪些类型的问题"></a></p>
+<h1 id="2-可以解决哪些类型的问题"><a href="#2-可以解决哪些类型的问题" class="headerlink" title="2. 可以解决哪些类型的问题"></a>2. 可以解决哪些类型的问题</h1><ul>
+<li>大数据的存储,以及开发出进行这方面数据分析的工具</li>
+<li>网络数据的传输,寻路, 搜索</li>
+<li>电子商务密码, (数值算法,数论)</li>
+<li>资源分配,最大效益</li>
+<li>…</li>
+</ul>
+<p><a id="markdown-3-算法分析" name="3-算法分析"></a></p>
+<h1 id="3-算法分析"><a href="#3-算法分析" class="headerlink" title="3. 算法分析"></a>3. 算法分析</h1><p>衡量算法的优劣<br><img src="https://upload-images.jianshu.io/upload_images/7130568-d452e7efb6fb3433.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<ul>
+<li>$\omicron,O,\Omega,\Theta$</li>
+<li>最坏情况, 平均情况</li>
+<li>增长的量级$ O(1), O(log^*n), O(logn), O(n), O(n^k), O(a^n) $</li>
+</ul>
+<p>$\log^{*}<em>(\log x) = log^{\</em>}x-1$</p>
+<p><a id="markdown-4-算法设计" name="4-算法设计"></a></p>
+<h1 id="4-算法设计"><a href="#4-算法设计" class="headerlink" title="4. 算法设计"></a>4. 算法设计</h1><p><a id="markdown-41-分治divide-and-conquer" name="41-分治divide-and-conquer"></a></p>
+<h2 id="4-1-分治-divide-and-conquer"><a href="#4-1-分治-divide-and-conquer" class="headerlink" title="4.1. 分治(divide and conquer)"></a>4.1. 分治(divide and conquer)</h2><p>结构上是递归的,<br>步骤: 分解,解决, 合并<br>eg.  快排,归并排序, 矩阵乘法(Strassen $O(log_2 7)$</p>
+<p><a id="markdown-5-递归式" name="5-递归式"></a></p>
+<h1 id="5-递归式"><a href="#5-递归式" class="headerlink" title="5. 递归式"></a>5. 递归式</h1><p> $T(n) = aT(\frac{n} {b})+f(n)$</p>
+<p><a id="markdown-51-代换法" name="51-代换法"></a></p>
+<h2 id="5-1-代换法"><a href="#5-1-代换法" class="headerlink" title="5.1. 代换法"></a>5.1. 代换法</h2><p><a id="markdown-511-步骤" name="511-步骤"></a></p>
+<h3 id="5-1-1-步骤"><a href="#5-1-1-步骤" class="headerlink" title="5.1.1. 步骤"></a>5.1.1. 步骤</h3><ul>
+<li>猜测解的形式</li>
+<li>用数学归纳法找出常数</li>
+</ul>
+<p><a id="markdown-512-例子" name="512-例子"></a></p>
+<h3 id="5-1-2-例子"><a href="#5-1-2-例子" class="headerlink" title="5.1.2. 例子"></a>5.1.2. 例子</h3><p>$T(n) = 2T(\frac{n} {2})+n$<br>猜测$T(n) = O(nlogn)$<br>证明 $ T(n)\leqslant cnlogn$<br>归纳奠基 n=2,3<br>归纳假设 $T(\frac{n} {2}) \leqslant \frac{cn}{2}$<br>递归<br>$<br>\begin{aligned}<br>T(n) &amp;\leqslant  2c\frac{n}{2}log(\frac{n}{2}) + n \leqslant cnlog(\frac{n}{2})  \\<br>\end{aligned}<br>$</p>
+<p><a id="markdown-513-放缩" name="513-放缩"></a></p>
+<h3 id="5-1-3-放缩"><a href="#5-1-3-放缩" class="headerlink" title="5.1.3. 放缩"></a>5.1.3. 放缩</h3><p>对于 $T(n) = 2T(\frac{cn}{2}) + 1$<br>如果 直接猜测 $T(n) =  O (n)$ 不能证明,<br>而且不要猜测更高的界 $O (n^2)$<br>可以放缩为 n-b</p>
+<p><a id="markdown-514-改变变量" name="514-改变变量"></a></p>
+<h3 id="5-1-4-改变变量"><a href="#5-1-4-改变变量" class="headerlink" title="5.1.4. 改变变量"></a>5.1.4. 改变变量</h3><p>对于 $ T(n) = 2T(\sqrt{n})+logn $<br>可以 令 <code>m = logn</code>, 得到<br>$T(2^m) = 2T(m^{\frac{m}{2}}) + m $<br>令 $S(m) = T(2^m)$<br>得到 $ S(m) = 2S(\frac{m}{2}) + m $</p>
+<script type="math/tex; mode=display">T(n)=T(2^m)=S(m)=\Theta(m\log m)=\Theta(\log n \log^2 n)</script><p><a id="markdown-52-递归树" name="52-递归树"></a></p>
+<h2 id="5-2-递归树"><a href="#5-2-递归树" class="headerlink" title="5.2. 递归树"></a>5.2. 递归树</h2><p>例如 $T(n) = 3T(\frac{n}{4}) + c n^2$<br>不妨假设 n 为4的幂, 则有如下递归树<br><img src="https://upload-images.jianshu.io/upload_images/7130568-4a1b9b6ee852b725.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="recursive-tree.jpg"></p>
+<script type="math/tex; mode=display">
+T(n) = \sum_{i=0}^{ {\log_4 n}-1}cn^2*(\frac{3}{16})^i + \Theta(n^{\log4 3})</script><p>每个结点是代价, 将每层加起来即可</p>
+<p><a id="markdown-53-主方法master-method" name="53-主方法master-method"></a></p>
+<h2 id="5-3-主方法-master-method"><a href="#5-3-主方法-master-method" class="headerlink" title="5.3. 主方法(master method)"></a>5.3. 主方法(master method)</h2><p>对于 $T(n) = aT(\frac{n} {b})+f(n)$</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+T(n)=\begin{cases}
+\Theta(n^{log_b a}),\quad f(n)=O(n^{ {log_b a}-\epsilon})   \\
+\Theta(n^{log_b a}logn),\quad  f(n)=\Theta(n^{log_b a})   \\
+\Theta(f(n)),\quad f(n)=\Omega(n^{ {log_b a}+ \epsilon}),af(\frac{n}{b})\leqslant cf(n)  \\
+\qquad \qquad \quad  \text{其中常数c<1,变量n任意大}    \\
+unknown, \quad others
+\end{cases}
+\end{aligned}</script><p><a id="markdown-531-记忆" name="531-记忆"></a></p>
+<h3 id="5-3-1-记忆"><a href="#5-3-1-记忆" class="headerlink" title="5.3.1. 记忆"></a>5.3.1. 记忆</h3><p>直观上, 比较 $n^{log_b a}$ 和 $f(n)$, 谁大就是谁,<br>相等的话就是 $\Theta(f(n))\log n$<br>这里的大是多项式上的比较, 即比较次数, 而不是渐近上的<br>比如 $n$ 与 $nlogn$ 渐近上后者大, 但多项式上是不能比较的</p>
+<p><a id="markdown-532-证明" name="532-证明"></a></p>
+<h3 id="5-3-2-证明"><a href="#5-3-2-证明" class="headerlink" title="5.3.2. 证明"></a>5.3.2. 证明</h3><p><a id="markdown-5321-证明当-n-为-b-的正合幂时成立" name="5321-证明当-n-为-b-的正合幂时成立"></a></p>
+<h4 id="5-3-2-1-证明当-n-为-b-的正合幂时成立"><a href="#5-3-2-1-证明当-n-为-b-的正合幂时成立" class="headerlink" title="5.3.2.1. 证明当 n 为 b 的正合幂时成立"></a>5.3.2.1. 证明当 n 为 b 的正合幂时成立</h4><ul>
+<li>用递归树可以得到 总代价为 $\sum_{j=0}^{log_b n-1} a^j f(\frac{n}{b^j})$</li>
+<li>决定上式的渐近界</li>
+<li>结合前两点</li>
+</ul>
+<p><a id="markdown-5322-分析扩展至所有正整数-n-都成立" name="5322-分析扩展至所有正整数-n-都成立"></a></p>
+<h4 id="5-3-2-2-分析扩展至所有正整数-n-都成立"><a href="#5-3-2-2-分析扩展至所有正整数-n-都成立" class="headerlink" title="5.3.2.2. 分析扩展至所有正整数 n 都成立"></a>5.3.2.2. 分析扩展至所有正整数 n 都成立</h4><p>主要是应用数学技巧来解决 floor, ceiling 函数的处理问题</p>
+<p><a id="markdown-6-随机算法" name="6-随机算法"></a></p>
+<h1 id="6-随机算法"><a href="#6-随机算法" class="headerlink" title="6. 随机算法"></a>6. 随机算法</h1><p><a id="markdown-61-随机排列数组shuffle" name="61-随机排列数组shuffle"></a></p>
+<h2 id="6-1-随机排列数组-shuffle"><a href="#6-1-随机排列数组-shuffle" class="headerlink" title="6.1. 随机排列数组(shuffle)"></a>6.1. 随机排列数组(shuffle)</h2><p><a id="markdown-611-permute-by-sorting" name="611-permute-by-sorting"></a></p>
+<h3 id="6-1-1-PERMUTE-BY-SORTING"><a href="#6-1-1-PERMUTE-BY-SORTING" class="headerlink" title="6.1.1. PERMUTE-BY-SORTING"></a>6.1.1. PERMUTE-BY-SORTING</h3><p>给出初始数组, eg A={1,2,3}, 选择随机的优先级 P={16,4,10}<br>则得出 B={2,3,1},因为第二个(2)优先级最小, 为4, 接着第三个,最后第1个.<br>优先级数组的产生, 一般在 RANDOM(1,n^3), 这样优先级各不相同的概率至少为 1-1/n</p>
+<p>由于要排序优先级数组, 所以时间复杂度 $O(nlogn)$</p>
+<p>如果优先级唯一,  则此算法可以 shuffle 数组<br>应证明 同样排列的概率是 $\frac{1}{n!}$</p>
+<p><a id="markdown-612-randomize-in-place" name="612-randomize-in-place"></a></p>
+<h3 id="6-1-2-RANDOMIZE-IN-PLACE"><a href="#6-1-2-RANDOMIZE-IN-PLACE" class="headerlink" title="6.1.2. RANDOMIZE-IN-PLACE"></a>6.1.2. RANDOMIZE-IN-PLACE</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">myshuffle</span><span class="params">(arr)</span>:</span></span><br><span class="line">    n = len(arr)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        p = randint(i,n<span class="number">-1</span>)</span><br><span class="line">        arr[i],arr[p] = arr[p],arr[i]</span><br><span class="line">    <span class="keyword">return</span> arr</span><br></pre></td></tr></table></figure>
+<p>时间复杂度 $O(n)$<br>证明<br>定义循环不变式: 对每个可能的 $A_n^{i-1}$ 排列, 其在 arr[1..i-1] 中的概率为 $\frac{1}{A_n^{i-1}}$<br>初始化: i=1 成立<br>保持 : 假设 在第 i-1 次迭代之前,成立, 证明在第 i 次迭代之后, 仍然成立,<br>终止: 在 结束后, i=n+1, 得到 概率为 $\frac{1}{n!}$</p>
+<p><a id="markdown-7-组合方程的近似算法" name="7-组合方程的近似算法"></a></p>
+<h1 id="7-组合方程的近似算法"><a href="#7-组合方程的近似算法" class="headerlink" title="7. 组合方程的近似算法"></a>7. 组合方程的近似算法</h1><ul>
+<li>Stiring’s approximation: $ n! \approx \sqrt{2\pi n}\left(\frac{n}{e}\right)^n$</li>
+<li>对于 $C_n^x=a$, 有 $x=\frac{ln^2 a}{n}$</li>
+<li>对于 $C_x^n=a$, 有 $x=(a*n!)^{\frac{1}{n}}+\frac{n}{2}$</li>
+</ul>
+<p><a id="markdown-8-概率分析与指示器变量例子" name="8-概率分析与指示器变量例子"></a></p>
+<h1 id="8-概率分析与指示器变量例子"><a href="#8-概率分析与指示器变量例子" class="headerlink" title="8. 概率分析与指示器变量例子"></a>8. 概率分析与指示器变量例子</h1><p><a id="markdown-81-球与盒子" name="81-球与盒子"></a></p>
+<h2 id="8-1-球与盒子"><a href="#8-1-球与盒子" class="headerlink" title="8.1. 球与盒子"></a>8.1. 球与盒子</h2><p>把相同的秋随机投到 b 个盒子里,问在每个盒子里至少有一个球之前,平均至少要投多少个球?<br>称投入一个空盒为击中, 即求取得 b 次击中的概率<br>设投 n 次, 称第 i 个阶段包括第 i-1 次击中到 第 i 次击中的球, 则第 i 次击中的概率为 $p_i=\frac{b-i+1}{b}$<br>用 $n_i$表示第 i 阶段的投球数,则 $n=\sum_{i=1}^b n_i$<br>且 $n_i$服从几何分布, $E(n_i)=\frac{b}{b-i+1}$,<br>则由期望的线性性, </p>
+<script type="math/tex; mode=display">
+E(n)=E(\sum_{i=1}^b n_i)=\sum_{i=1}^b E(n_i)=\sum_{i=1}^b \frac{b}{b-i+1}=b\sum_{i=1}^b \frac{1}{i}=b(lnb+O(1))</script><p>这个问题又被称为 赠券收集者问题(coupon collector’s problem),即集齐 b 种不同的赠券,在随机情况下平均需要买 blnb 张<br><a id="markdown-82-序列" name="82-序列"></a></p>
+<h2 id="8-2-序列"><a href="#8-2-序列" class="headerlink" title="8.2. 序列"></a>8.2. 序列</h2><p>抛 n 次硬币, 期望看到的连续正面的次数<br>答案是 $\Theta(logn)$<br>记 长度至少为 k 的正面序列开始与第 i 次抛, 由于独立, 所有 k 次抛掷都是正面的 概率为<br>$P(A_{ik})=\frac{1}{2^k}$,对于 $k=2\lceil lgn\rceil$<br><img src="https://upload-images.jianshu.io/upload_images/7130568-780b9795b6d9a2bd.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="coin1.jpg"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/7130568-7d112b304e2d78b6.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="coin2.jpg"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/7130568-f104d530f2a57c99.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="coin3.jpg"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/7130568-be0fd1b57a5ff305.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="coin4.jpg"></p>
+<p><a id="markdown-9-摊还分析" name="9-摊还分析"></a></p>
+<h1 id="9-摊还分析"><a href="#9-摊还分析" class="headerlink" title="9. 摊还分析"></a>9. 摊还分析</h1><p><a id="markdown-91-聚合分析aggregate-analysis" name="91-聚合分析aggregate-analysis"></a></p>
+<h2 id="9-1-聚合分析-aggregate-analysis"><a href="#9-1-聚合分析-aggregate-analysis" class="headerlink" title="9.1. 聚合分析(aggregate analysis)"></a>9.1. 聚合分析(aggregate analysis)</h2><p> 一个 n 个操作的序列最坏情况下花费的总时间为$T(n)$, 则在最坏情况下, 每个操作的摊还代价为 $\frac{T(n)}{n}$</p>
+<p>如栈中的 push, pop 操作都是 $O(1)$, 增加一个新操作 <code>multipop</code>,<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">multipop</span><span class="params">(stk,k)</span>:</span></span><br><span class="line">  <span class="keyword">while</span> <span class="keyword">not</span> stk.empty() <span class="keyword">and</span> k&gt;<span class="number">0</span>:</span><br><span class="line">    stk.pop()</span><br><span class="line">    k-=<span class="number">1</span></span><br></pre></td></tr></table></figure></p>
+<p>multipop 的时间复杂度为 min(stk.size,k), 最坏情况为 $O(n)$, 则 n 个包含 push pop multipop 的操作列的最坏情况是 $O(n^2)$, 并不是这样, 注意到, 必须栈中有元素, 再 pop, 所以 push 操作与pop 操作(包含 multipop中的pop), 个数相当, 所以 实际上应为 $O(n)$, 每个操作的摊还代价 为$O(1)$</p>
+<p><a id="markdown-92-核算法-accounting-method" name="92-核算法-accounting-method"></a></p>
+<h2 id="9-2-核算法-accounting-method"><a href="#9-2-核算法-accounting-method" class="headerlink" title="9.2. 核算法 (accounting method)"></a>9.2. 核算法 (accounting method)</h2><p>对不同操作赋予不同费用 cost (称为摊还代价 $c_i’$), 可能多于或者少于其实际代价 $c_i$ </p>
+<p>当 $c_i’&gt;c_i$, 将  $c_i’-c_i$( <code>credit</code>) 存入数据结构中的特定对象.. 对于后续 $c_i’&lt;c_i$时, 可以使用这些credit来 支付差额.. 有要求 </p>
+<script type="math/tex; mode=display">\sum_{i}c_i' \geqslant \sum_{i}c_i</script><p>如栈</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">op</th>
+<th style="text-align:center">$c_i’$</th>
+<th style="text-align:center">$c_i$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">push</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">pop</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">multipop</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">min(s,k)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>由核算法, 摊还代价满足要求,  所以 n 个操作总代价 $O(n)$, 每个操作摊还代价为 $O(1)$</p>
+<p><a id="markdown-93-势能法potential-method" name="93-势能法potential-method"></a></p>
+<h2 id="9-3-势能法-potential-method"><a href="#9-3-势能法-potential-method" class="headerlink" title="9.3. 势能法(potential method)"></a>9.3. 势能法(potential method)</h2><p>势能释放用来支付未来操作的代价, 势能是整个数据结构的, 不是特定对象的(核算法是).</p>
+<p>数据结构 $D_0$为初始状态, 依次 执行 n 个操作 $op_i$进行势能转换 $D_i =op_i(D_{i-1}), i=1,2,\ldots,n$ , 各操作代价为 $c_i$</p>
+<p>势函数 $\Phi:D_i\rightarrow R$, $\Phi(D_i)$即为 $D_i$的势</p>
+<p>则第 i 个操作的摊还代价 </p>
+<script type="math/tex; mode=display">c_i'=c_i+\Phi(D_i)-\Phi(D_{i-1})</script><p>则</p>
+<script type="math/tex; mode=display">\sum_{i=1}^{n}c_i'=\sum_{i=1}^{n}c_i+\Phi(D_n)-\Phi(D_0)</script><p>如果定义一个势函数$\Phi, st \ \Phi(D_i)\geqslant\Phi(D_0)$, 则总摊还代价给出了实际代价的一个上界<br>可以简单地以 $D_0 \text{为参考状态}, then \ \Phi(D_0)=0$</p>
+<p>例如栈操作,<br>设空栈为 $D_0$, 势函数定义为栈的元素数<br>对于push, $ \Phi(D_i)-\Phi(D_{i-1})=1$<br>则 $c’ = c +\Phi(D_i)-\Phi(D_{i-1}) = c+1 = 2$</p>
+<p>对于 multipop,  $ \Phi(D_i)-\Phi(D_{i-1})=- min(k,s)$<br>则 $c’ = c - min(k,s) = 0$</p>
+<p>同理 pop  的摊还代价也是0, 则总摊还代价的上界(最坏情况) 为 $O(n)$</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/algorithm-general.html">『算法』概述</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">mbinary</a></p>
+        <p><span>发布时间:</span>2018-07-21, 18:20:00</p>
+        <p><span>最后更新:</span>2019-01-30, 20:57:15</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/algorithm-general.html" title="『算法』概述">https://mbinary.xyz/algorithm-general.html</a>
+            <span class="copy-path" data-clipboard-text="原文: https://mbinary.xyz/algorithm-general.html　　作者: mbinary" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/introduction-to-blockchain.html">
+                    『区块链』简介
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/red-black-tree.html">
+                    『数据结构』红黑树(red-black tree)
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-算法"><span class="toc-number">1.</span> <span class="toc-text">1. 算法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-可以解决哪些类型的问题"><span class="toc-number">2.</span> <span class="toc-text">2. 可以解决哪些类型的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-算法分析"><span class="toc-number">3.</span> <span class="toc-text">3. 算法分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-算法设计"><span class="toc-number">4.</span> <span class="toc-text">4. 算法设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-分治-divide-and-conquer"><span class="toc-number">4.1.</span> <span class="toc-text">4.1. 分治(divide and conquer)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-递归式"><span class="toc-number">5.</span> <span class="toc-text">5. 递归式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-代换法"><span class="toc-number">5.1.</span> <span class="toc-text">5.1. 代换法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-1-步骤"><span class="toc-number">5.1.1.</span> <span class="toc-text">5.1.1. 步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-2-例子"><span class="toc-number">5.1.2.</span> <span class="toc-text">5.1.2. 例子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-3-放缩"><span class="toc-number">5.1.3.</span> <span class="toc-text">5.1.3. 放缩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-4-改变变量"><span class="toc-number">5.1.4.</span> <span class="toc-text">5.1.4. 改变变量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-递归树"><span class="toc-number">5.2.</span> <span class="toc-text">5.2. 递归树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3-主方法-master-method"><span class="toc-number">5.3.</span> <span class="toc-text">5.3. 主方法(master method)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-1-记忆"><span class="toc-number">5.3.1.</span> <span class="toc-text">5.3.1. 记忆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-2-证明"><span class="toc-number">5.3.2.</span> <span class="toc-text">5.3.2. 证明</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-3-2-1-证明当-n-为-b-的正合幂时成立"><span class="toc-number">5.3.2.1.</span> <span class="toc-text">5.3.2.1. 证明当 n 为 b 的正合幂时成立</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-3-2-2-分析扩展至所有正整数-n-都成立"><span class="toc-number">5.3.2.2.</span> <span class="toc-text">5.3.2.2. 分析扩展至所有正整数 n 都成立</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-随机算法"><span class="toc-number">6.</span> <span class="toc-text">6. 随机算法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#6-1-随机排列数组-shuffle"><span class="toc-number">6.1.</span> <span class="toc-text">6.1. 随机排列数组(shuffle)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-1-PERMUTE-BY-SORTING"><span class="toc-number">6.1.1.</span> <span class="toc-text">6.1.1. PERMUTE-BY-SORTING</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-2-RANDOMIZE-IN-PLACE"><span class="toc-number">6.1.2.</span> <span class="toc-text">6.1.2. RANDOMIZE-IN-PLACE</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-组合方程的近似算法"><span class="toc-number">7.</span> <span class="toc-text">7. 组合方程的近似算法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-概率分析与指示器变量例子"><span class="toc-number">8.</span> <span class="toc-text">8. 概率分析与指示器变量例子</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#8-1-球与盒子"><span class="toc-number">8.1.</span> <span class="toc-text">8.1. 球与盒子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-2-序列"><span class="toc-number">8.2.</span> <span class="toc-text">8.2. 序列</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9-摊还分析"><span class="toc-number">9.</span> <span class="toc-text">9. 摊还分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#9-1-聚合分析-aggregate-analysis"><span class="toc-number">9.1.</span> <span class="toc-text">9.1. 聚合分析(aggregate analysis)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-2-核算法-accounting-method"><span class="toc-number">9.2.</span> <span class="toc-text">9.2. 核算法 (accounting method)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-3-势能法-potential-method"><span class="toc-number">9.3.</span> <span class="toc-text">9.3. 势能法(potential method)</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-6 i,
+        .toc-level-6 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"『算法』概述　| mbinary's blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+
+<!--<script src="//cdn.jsdelivr.net/npm/leancloud-storage@latest/dist/av-min.js"></script>
+<script src='//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js'></script>-->
+
+<div id="vcomments"></div>
+<script>
+    var notify = false == true ? true : false;
+    var verify = false == true ? true : false;
+    var visitor = true == true ? true : false;
+new Valine({
+    el: '#vcomments',
+    notify: notify,
+    verify: verify,
+    appId: 'ArpEYbLUBmpXK3f245hKNu4A-gzGzoHsz',
+    appKey: 'X5cHcMU1ATb8q0prtPGEqIPX',
+    lang: 'en',
+    placeholder: '留下你的小脚印^_^ (支持 markdown, 上面三项 昵称,邮件(可用于回复),网址都是可选填的)',
+    avatar: 'monsterid',
+    pageSize: 10,
+    visitor: visitor
+    });
+</script>
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/introduction-to-blockchain.html" title="上一篇: 『区块链』简介">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/red-black-tree.html" title="下一篇: 『数据结构』红黑树(red-black tree)">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/number-theory.html">Number-Theory</a></li><li class="post-list-item"><a class="post-list-link" href="/string-matching.html">String-Mathching-Algorithm</a></li><li class="post-list-item"><a class="post-list-link" href="/graph.html">图算法</a></li><li class="post-list-item"><a class="post-list-link" href="/fib-heap.html">『数据结构』Fibonacci-heap</a></li><li class="post-list-item"><a class="post-list-link" href="/b-tree.html">『数据结构』B树(B-Tree)及其变体 B+树,B*树</a></li><li class="post-list-item"><a class="post-list-link" href="/introduction-to-bitcoin.html">『比特币』概述</a></li><li class="post-list-item"><a class="post-list-link" href="/introduction-to-blockchain.html">『区块链』简介</a></li><li class="post-list-item"><a class="post-list-link" href="/algorithm-general.html">『算法』概述</a></li><li class="post-list-item"><a class="post-list-link" href="/red-black-tree.html">『数据结构』红黑树(red-black tree)</a></li><li class="post-list-item"><a class="post-list-link" href="/tree.html">『数据结构』树</a></li><li class="post-list-item"><a class="post-list-link" href="/hashTable.html">『数据结构』散列表</a></li><li class="post-list-item"><a class="post-list-link" href="/sort.html">『算法』排序</a></li><li class="post-list-item"><a class="post-list-link" href="/bus.html">『计算机组成原理』总线</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-device.html">『现代操作系统』IO设备</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-software.html">『现代操作系统』IO软件原理</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-hardware.html">『现代操作系统』IO硬件原理</a></li><li class="post-list-item"><a class="post-list-link" href="/os-general.html">『现代操作系统』操作系统引论</a></li><li class="post-list-item"><a class="post-list-link" href="/linux-file-io.html">『Unix环境高级编程』linux 文件 I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/multiprocessor.html">『现代操作系统』多处理机</a></li><li class="post-list-item"><a class="post-list-link" href="/simple-shell.html">『linux』c 语言实现一个简易的 shell</a></li><li class="post-list-item"><a class="post-list-link" href="/deadlock.html">『现代操作系统』死锁</a></li><li class="post-list-item"><a class="post-list-link" href="/risk-predict.html">信用卡持卡人风险预测</a></li><li class="post-list-item"><a class="post-list-link" href="/comics-about-staying-up.html">『小仓鼠漫画』熬夜的危害与防护</a></li><li class="post-list-item"><a class="post-list-link" href="/ctf-basic.html">『CTF』网络信息安全攻防实验室之基础关 writeup</a></li><li class="post-list-item"><a class="post-list-link" href="/send-blog-automatically.html">『WEB』用 python 发送 csdn 博客</a></li><li class="post-list-item"><a class="post-list-link" href="/the-roommate-that-uses-mechanical-keyboard.html">用机械键盘的室友</a></li><li class="post-list-item"><a class="post-list-link" href="/csapp-bomb-lab-report.html">CSAPP-BOMB-LAB</a></li><li class="post-list-item"><a class="post-list-link" href="/learning-and-forgetting.html">学习与遗忘</a></li><li class="post-list-item"><a class="post-list-link" href="/20-years-old-summary.html">2017 年，20 岁，大二寒假总结与感悟</a></li><li class="post-list-item"><a class="post-list-link" href="/decrypt-netease-music.html">『WEB』从网易云音乐缓存文件得到MP3</a></li><li class="post-list-item"><a class="post-list-link" href="/all-one-data-structure.html">『数据结构』inc,dec,getMin,getMax 均为 O(1)</a></li><li class="post-list-item"><a class="post-list-link" href="/video.html">影视作品观后感</a></li><li class="post-list-item"><a class="post-list-link" href="/books.html">书籍总结与推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/common-lisp-macro.html">『common lisp』宏及函数的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/hacker-and-painter.html">『读书笔记』黑客与画家</a></li><li class="post-list-item"><a class="post-list-link" href="/from-chem-to-cs.html">从化院到计院</a></li><li class="post-list-item"><a class="post-list-link" href="/from-zhuzhong-to-ustc.html">从竹中到科大</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017-2019 mbinary
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+    </div>
+</footer>
+
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+<!-->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<--!>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>

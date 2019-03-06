@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="mbinary">
+
+
+
+<meta name="description" content="操作系统引论">
+<meta name="keywords" content="操作系统,读书笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="『现代操作系统』操作系统引论">
+<meta property="og:url" content="https://mbinary.xyz/os-general.html">
+<meta property="og:site_name" content="mbinary&#39;s blog">
+<meta property="og:description" content="操作系统引论">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-d5fdb2eecc5e3f98.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-5cbf57420d27cf50.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-b1d3ffd85fdf3b2a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-9d20da741a3da50f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-bbf46c176f455aa8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-35cfd63ea4c9ec13.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7130568-58e00c2166e2e226.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-01-30T09:48:57.171Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="『现代操作系统』操作系统引论">
+<meta name="twitter:description" content="操作系统引论">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/7130568-d5fdb2eecc5e3f98.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="mbinary&#39;s blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/yinyang.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>『现代操作系统』操作系统引论 | mbinary&#39;s blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+
+
+
+</head></html>
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">mbinary</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">淡泊明志, 宁静致远</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="Let me search for you>_<" class="search form-control" autocomplete="off" autocorrect="off" searchonload="false">
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class="no-result">No results found <i class="fa fa-spinner fa-pulse"></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/archives/">归档</a></li>
+                        
+                            <li><a href="/tags/">标签</a></li>
+                        
+                            <li><a href="/leetcode/">编程</a></li>
+                        
+                            <li><a href="/about/">关于</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Github" href="https://github.com/mbinary" title="Github"></a>
+                            
+                                <a class="fa Leetcode" href="https://leetcode-cn.com/mbinary/" title="Leetcode"></a>
+                            
+                                <a class="fa LinkedIn" href="http://www.linkedin.com/in/cs-heqin-zhu" title="LinkedIn"></a>
+                            
+                                <a class="fa Email" href="mailto:zhuheqin1@gmail.com" title="Email"></a>
+                            
+                                <a class="fa QQ" href="http://wpa.qq.com/msgrd?v=3&uin=414313516&site=qq&menu=yes" title="QQ"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/B树/">B树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/USTC/">USTC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/">api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/common-lisp/">common lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/macro/">macro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/人际交往/">人际交往</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分享/">分享</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动态规划/">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/区块链/">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/图/">图</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/娱乐/">娱乐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串匹配/">字符串匹配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/室友/">室友</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/影视/">影视</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/总结/">总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/惰性学习/">惰性学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序/">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/散列表/">散列表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数字货币/">数字货币</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/斐波那契堆/">斐波那契堆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机械键盘/">机械键盘</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树/">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/比特币/">比特币</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编/">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/红黑树/">红黑树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机组成原理/">计算机组成原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逆向/">逆向</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/选择/">选择</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/黑客/">黑客</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://mbinary.xyz/links/">交换友链说明</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.4spaces.org">4spaces</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">mbinary</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">mbinary</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">淡泊明志, 宁静致远</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">归档</a></li>
+                
+                    <li><a href="/tags/">标签</a></li>
+                
+                    <li><a href="/leetcode/">编程</a></li>
+                
+                    <li><a href="/about/">关于</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Github" target="_blank" href="https://github.com/mbinary" title="Github"></a>
+                            
+                                <a class="fa Leetcode" target="_blank" href="https://leetcode-cn.com/mbinary/" title="Leetcode"></a>
+                            
+                                <a class="fa LinkedIn" target="_blank" href="http://www.linkedin.com/in/cs-heqin-zhu" title="LinkedIn"></a>
+                            
+                                <a class="fa Email" target="_blank" href="mailto:zhuheqin1@gmail.com" title="Email"></a>
+                            
+                                <a class="fa QQ" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=414313516&site=qq&menu=yes" title="QQ"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
+</nav>
+      <div class="body-wrap"><article id="post-os-general" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/os-general.html" class="article-date">
+      <time datetime="2018-06-14T15:33:25.000Z" itemprop="datePublished">2018-06-14</time>
+</a>
+
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      『现代操作系统』操作系统引论
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/操作系统/">操作系统</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/读书笔记/">读书笔记</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <script src="/assets/js/APlayer.min.js"> </script><p><strong>操作系统引论</strong></p>
+<a id="more"></a>
+<!-- TOC -->
+<ul>
+<li><a href="#位置">位置</a></li>
+<li><a href="#功能">功能</a><ul>
+<li><a href="#向应用程序提供抽象--自顶向下">向应用程序提供抽象—自顶向下</a></li>
+<li><a href="#资源管理--自底向上">资源管理—自底向上</a></li>
+</ul>
+</li>
+<li><a href="#发展历史">发展历史</a><ul>
+<li><a href="#第一代1945-1955--真空管和穿孔卡片">第一代(1945-1955)—真空管和穿孔卡片</a></li>
+<li><a href="#第二代1955-1965--晶体管和批处理系统">第二代(1955-1965)—晶体管和批处理系统</a></li>
+<li><a href="#第三代1965-1980--集成电路芯片和多道程序设计">第三代(1965-1980)—集成电路芯片和多道程序设计</a></li>
+<li><a href="#第四代1980至今--个人计算机">第四代(1980至今)—个人计算机</a></li>
+</ul>
+</li>
+<li><a href="#操作系统结构">操作系统结构</a><ul>
+<li><a href="#单体结构">单体结构</a></li>
+<li><a href="#层次式系统">层次式系统</a></li>
+<li><a href="#微内核">微内核</a></li>
+<li><a href="#client-server模式">Client-Server模式</a></li>
+<li><a href="#虚拟机">虚拟机</a><ul>
+<li><a href="#优点">优点</a></li>
+<li><a href="#条件">条件</a></li>
+<li><a href="#ⅰ型管理程序">Ⅰ型管理程序</a></li>
+<li><a href="#ⅱ型管理程序">Ⅱ型管理程序</a></li>
+<li><a href="#准虚拟化paravirtualized">准虚拟化(paravirtualized)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<!-- /TOC -->
+<p><a id="markdown-位置" name="位置"></a></p>
+<h2 id="位置"><a href="#位置" class="headerlink" title="位置"></a>位置</h2><p><img src="https://upload-images.jianshu.io/upload_images/7130568-d5fdb2eecc5e3f98.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="os"></p>
+<p><a id="markdown-功能" name="功能"></a></p>
+<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><p><a id="markdown-向应用程序提供抽象--自顶向下" name="向应用程序提供抽象--自顶向下"></a></p>
+<h3 id="向应用程序提供抽象—自顶向下"><a href="#向应用程序提供抽象—自顶向下" class="headerlink" title="向应用程序提供抽象—自顶向下"></a>向应用程序提供抽象—自顶向下</h3><p>抽象是管理复杂性的一个关键, 好的抽象可以把一个几乎不可能管理的任务划分为两个可管理的部分:</p>
+<ul>
+<li>有关抽象的定义和实现</li>
+<li>用这些抽象解决问题</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/7130568-5cbf57420d27cf50.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br><a id="markdown-资源管理--自底向上" name="资源管理--自底向上"></a></p>
+<h3 id="资源管理—自底向上"><a href="#资源管理—自底向上" class="headerlink" title="资源管理—自底向上"></a>资源管理—自底向上</h3><p>在相互竞争的程序之间有序地控制对处理器,  存储器以及其他 I/O 接口设备的分配</p>
+<p><a id="markdown-发展历史" name="发展历史"></a></p>
+<h2 id="发展历史"><a href="#发展历史" class="headerlink" title="发展历史"></a>发展历史</h2><p><a id="markdown-第一代1945-1955--真空管和穿孔卡片" name="第一代1945-1955--真空管和穿孔卡片"></a></p>
+<h3 id="第一代-1945-1955-—真空管和穿孔卡片"><a href="#第一代-1945-1955-—真空管和穿孔卡片" class="headerlink" title="第一代(1945-1955)—真空管和穿孔卡片"></a>第一代(1945-1955)—真空管和穿孔卡片</h3><p>ENIAC ,  程序设计是用纯粹的机器语言,</p>
+<p>使用: 程序员在墙上的机时表上预约一段时间,,然后到机房中将他的插件板接到计算机中,在接下来的几小时等待(计算的都是简单的数字运算, 如制作对数表)</p>
+<p><a id="markdown-第二代1955-1965--晶体管和批处理系统" name="第二代1955-1965--晶体管和批处理系统"></a></p>
+<h3 id="第二代-1955-1965-—晶体管和批处理系统"><a href="#第二代-1955-1965-—晶体管和批处理系统" class="headerlink" title="第二代(1955-1965)—晶体管和批处理系统"></a>第二代(1955-1965)—晶体管和批处理系统</h3><p>批处理系统(batch system), 在输入室中手机全部的作业 ,然后用一台相对便宜的计算机,读到磁带上. 磁带被送到机房里并装到磁带机上. 然后操作员装入一个特殊的程序(现代操作系统的前身), 它从磁带上读入第一个作业并运行. 如此反复</p>
+<p><a id="markdown-第三代1965-1980--集成电路芯片和多道程序设计" name="第三代1965-1980--集成电路芯片和多道程序设计"></a></p>
+<h3 id="第三代-1965-1980-—集成电路芯片和多道程序设计"><a href="#第三代-1965-1980-—集成电路芯片和多道程序设计" class="headerlink" title="第三代(1965-1980)—集成电路芯片和多道程序设计"></a>第三代(1965-1980)—集成电路芯片和多道程序设计</h3><p>多道程序设计(multiprogramming): 若当前作业因等待磁带或其他 I/O 操作而暂停时, 为了不让 CPU 一直等待这一个作业, 将<code>内存</code>分几个部分, 每一部分存放不同的作业, 在一个作业等待 I/O 时, 可以让另一个作业使用 CPU. </p>
+<p>在内存中防止多个作业需要特殊的硬件来保护, 以免作业的信息被窃取或受到攻击.</p>
+<p>程序员希望得到更快响应, 由此出现<code>分时系统(timesharing)</code>.</p>
+<p><a id="markdown-第四代1980至今--个人计算机" name="第四代1980至今--个人计算机"></a></p>
+<h3 id="第四代-1980至今-—个人计算机"><a href="#第四代-1980至今-—个人计算机" class="headerlink" title="第四代(1980至今)—个人计算机"></a>第四代(1980至今)—个人计算机</h3><p>大规模集成电路(LSI)的发展, 晶体管个数在单位平方厘米面积的芯片上可达数千个.</p>
+<p>逐步发展处 网络操作系统, 分布式操作系统</p>
+<p><a id="markdown-操作系统结构" name="操作系统结构"></a></p>
+<h2 id="操作系统结构"><a href="#操作系统结构" class="headerlink" title="操作系统结构"></a>操作系统结构</h2><p><a id="markdown-单体结构" name="单体结构"></a></p>
+<h3 id="单体结构"><a href="#单体结构" class="headerlink" title="单体结构"></a>单体结构</h3><p><img src="https://upload-images.jianshu.io/upload_images/7130568-b1d3ffd85fdf3b2a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="单体结构"></p>
+<ul>
+<li>主程序: 处理服务过程请求</li>
+<li>服务过程: 执行系统调用</li>
+<li>实用过程: 辅助服务过程</li>
+</ul>
+<p><a id="markdown-层次式系统" name="层次式系统"></a></p>
+<h3 id="层次式系统"><a href="#层次式系统" class="headerlink" title="层次式系统"></a>层次式系统</h3><p><img src="https://upload-images.jianshu.io/upload_images/7130568-9d20da741a3da50f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="by Dijkstra"></p>
+<p><a id="markdown-微内核" name="微内核"></a></p>
+<h3 id="微内核"><a href="#微内核" class="headerlink" title="微内核"></a>微内核</h3><p>传统上,所有的层都在内核中, 但是这样并没有必要. 尽可能减少内核态中功能的做法更好. 要知道, 代码量越大, bug 越多. </p>
+<p><strong>思想</strong><br>为了实现高可靠性,将操作系统划分成更小的, 良好定义的模块. 只有其中一个模块—<code>微内核</code> 运行在内核态上. </p>
+<p><img src="https://upload-images.jianshu.io/upload_images/7130568-bbf46c176f455aa8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><a id="markdown-client-server模式" name="client-server模式"></a></p>
+<h3 id="Client-Server模式"><a href="#Client-Server模式" class="headerlink" title="Client-Server模式"></a>Client-Server模式</h3><p>将进程划分为两类,</p>
+<ul>
+<li>服务器: 提供服务</li>
+<li>客户端: 使用服务</li>
+</ul>
+<p>通常在系统最底层是微内核</p>
+<p><a id="markdown-虚拟机" name="虚拟机"></a></p>
+<h3 id="虚拟机"><a href="#虚拟机" class="headerlink" title="虚拟机"></a>虚拟机</h3><p><a id="markdown-优点" name="优点"></a></p>
+<h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>节省硬件成本, 如不同服务器(web, ftp, mail…)可以在一台宿主机上</li>
+<li><strong>同时</strong>运行多个 OS 的需求(如软件开发过程, 运行在某些 OS 不支持的程序)</li>
+<li>检查点, 虚拟机的迁移: 仅需移动内存映像</li>
+</ul>
+<p><a id="markdown-条件" name="条件"></a></p>
+<h4 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h4><ul>
+<li><code>敏感指令( sensitive instruction )</code>.:有<code>内核态</code>和<code>用户态</code>的 CPU 的一组只能在内核态执行的指令集, 比如 I/O 指令, 改变 MMU 状态的指令等,</li>
+<li><code>特权指令( privileged insttruction)</code>: 在用户态下执行会引起陷入</li>
+</ul>
+<p>当 敏感指令是  特权指令的子集时, 机器才是可虚拟化的</p>
+<p>解决的基本思想: 创建容器使得虚拟机在其内运行</p>
+<p><a id="markdown-ⅰ型管理程序" name="ⅰ型管理程序"></a></p>
+<h4 id="Ⅰ型管理程序"><a href="#Ⅰ型管理程序" class="headerlink" title="Ⅰ型管理程序"></a>Ⅰ型管理程序</h4><p>在其上的 OS 称为客户操作系统</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/7130568-35cfd63ea4c9ec13.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="virtual machine"></p>
+<p>虚拟机在用户态以用户进程的身份运行, 因此不允许执行敏感指令,否则崩溃</p>
+<p>在支持VT技术的 CPU 上, 客户操作系统执行敏感指令会发生陷入. 管理程序分析指令</p>
+<ul>
+<li>来自客户操作系统: 管理程序调度将要执行的指令</li>
+<li>来自虚拟机中用户程序: 仿真面对运行在用户态的敏感指令时真是硬件的行为</li>
+</ul>
+<p><a id="markdown-ⅱ型管理程序" name="ⅱ型管理程序"></a></p>
+<h4 id="Ⅱ型管理程序"><a href="#Ⅱ型管理程序" class="headerlink" title="Ⅱ型管理程序"></a>Ⅱ型管理程序</h4><p>在其上的 OS 称为宿主操作系统,如上图 b</p>
+<p>VMware就是采用的这种管理程序:<br> 当运行一个二进制文件, VMware 先浏览代码段以寻找<code>基本块(basic block)</code>. </p>
+<p>所谓基本块就是以 jump, call, trap 等改变控制流的指令结束的可顺序执行的指令序列, 而基本块中就不含其他改变 程序计数器 的指令</p>
+<p>如果基本块中含有敏感指令, VMware 将其替换为相应的 VMware 过程调用, 基本块的最后一条指令也被过程调用替换</p>
+<p>这种 找出, 仿真敏感指令 的技术称为 <code>二进制翻译(binary translation)</code></p>
+<p>所以, 即使在不可虚拟化的硬件上, Ⅱ型 也能正常: 因为所有的敏感指令被仿真, 不会被真正的硬件执行,管理程序的调用可以代替.</p>
+<p><a id="markdown-准虚拟化paravirtualized" name="准虚拟化paravirtualized"></a></p>
+<h4 id="准虚拟化-paravirtualized"><a href="#准虚拟化-paravirtualized" class="headerlink" title="准虚拟化(paravirtualized)"></a>准虚拟化(paravirtualized)</h4><p>前面介绍的两种, 在其上的客户操作系统都是没有修改过的. 可以更改客户操作系统的源码, 将其中的敏感指令都转换为 管理程序调用. 这就要给管理 程序 定义 过程调用集合, 从而形成 API, 虽然这个接口是供客户 OS, 而不是 应用程序. </p>
+<p>其实就将管理程序变成了一个微内核.</p>
+<p>这种方法就是准虚拟化, 这样会使得虚拟机技术更容易被支持和使用<br><img src="https://upload-images.jianshu.io/upload_images/7130568-58e00c2166e2e226.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>问题:</p>
+<ul>
+<li>如果所有敏感指令都被代替, 操作系统不能在物理机器上运行</li>
+<li>如果市场下有很多管理程序, 有不同的 API 接口</li>
+</ul>
+<p>Amsden 的一个解决方案:<br>当内核需要执行一些敏感指令操作时会调用特殊的例程(称为 VMI 虚拟机接口), VMI 形成的底层与硬件或管理程序进行交互. 将 VMI 设计得通用化, 不依赖硬件或特定的管理程序</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/os-general.html">『现代操作系统』操作系统引论</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">mbinary</a></p>
+        <p><span>发布时间:</span>2018-06-14, 23:33:25</p>
+        <p><span>最后更新:</span>2019-01-30, 17:48:57</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/os-general.html" title="『现代操作系统』操作系统引论">https://mbinary.xyz/os-general.html</a>
+            <span class="copy-path" data-clipboard-text="原文: https://mbinary.xyz/os-general.html　　作者: mbinary" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/IO-software.html">
+                    『现代操作系统』IO软件原理
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/linux-file-io.html">
+                    『Unix环境高级编程』linux 文件 I/O
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#位置"><span class="toc-number">1.</span> <span class="toc-text">位置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#功能"><span class="toc-number">2.</span> <span class="toc-text">功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#向应用程序提供抽象—自顶向下"><span class="toc-number">2.1.</span> <span class="toc-text">向应用程序提供抽象—自顶向下</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#资源管理—自底向上"><span class="toc-number">2.2.</span> <span class="toc-text">资源管理—自底向上</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#发展历史"><span class="toc-number">3.</span> <span class="toc-text">发展历史</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一代-1945-1955-—真空管和穿孔卡片"><span class="toc-number">3.1.</span> <span class="toc-text">第一代(1945-1955)—真空管和穿孔卡片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二代-1955-1965-—晶体管和批处理系统"><span class="toc-number">3.2.</span> <span class="toc-text">第二代(1955-1965)—晶体管和批处理系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第三代-1965-1980-—集成电路芯片和多道程序设计"><span class="toc-number">3.3.</span> <span class="toc-text">第三代(1965-1980)—集成电路芯片和多道程序设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第四代-1980至今-—个人计算机"><span class="toc-number">3.4.</span> <span class="toc-text">第四代(1980至今)—个人计算机</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作系统结构"><span class="toc-number">4.</span> <span class="toc-text">操作系统结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#单体结构"><span class="toc-number">4.1.</span> <span class="toc-text">单体结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#层次式系统"><span class="toc-number">4.2.</span> <span class="toc-text">层次式系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#微内核"><span class="toc-number">4.3.</span> <span class="toc-text">微内核</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Client-Server模式"><span class="toc-number">4.4.</span> <span class="toc-text">Client-Server模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#虚拟机"><span class="toc-number">4.5.</span> <span class="toc-text">虚拟机</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#优点"><span class="toc-number">4.5.1.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#条件"><span class="toc-number">4.5.2.</span> <span class="toc-text">条件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Ⅰ型管理程序"><span class="toc-number">4.5.3.</span> <span class="toc-text">Ⅰ型管理程序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Ⅱ型管理程序"><span class="toc-number">4.5.4.</span> <span class="toc-text">Ⅱ型管理程序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#准虚拟化-paravirtualized"><span class="toc-number">4.5.5.</span> <span class="toc-text">准虚拟化(paravirtualized)</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-6 i,
+        .toc-level-6 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"『现代操作系统』操作系统引论　| mbinary's blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+
+<!--<script src="//cdn.jsdelivr.net/npm/leancloud-storage@latest/dist/av-min.js"></script>
+<script src='//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js'></script>-->
+
+<div id="vcomments"></div>
+<script>
+    var notify = false == true ? true : false;
+    var verify = false == true ? true : false;
+    var visitor = true == true ? true : false;
+new Valine({
+    el: '#vcomments',
+    notify: notify,
+    verify: verify,
+    appId: 'ArpEYbLUBmpXK3f245hKNu4A-gzGzoHsz',
+    appKey: 'X5cHcMU1ATb8q0prtPGEqIPX',
+    lang: 'en',
+    placeholder: '留下你的小脚印^_^ (支持 markdown, 上面三项 昵称,邮件(可用于回复),网址都是可选填的)',
+    avatar: 'monsterid',
+    pageSize: 10,
+    visitor: visitor
+    });
+</script>
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/IO-software.html" title="上一篇: 『现代操作系统』IO软件原理">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/linux-file-io.html" title="下一篇: 『Unix环境高级编程』linux 文件 I/O">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/number-theory.html">Number-Theory</a></li><li class="post-list-item"><a class="post-list-link" href="/string-matching.html">String-Mathching-Algorithm</a></li><li class="post-list-item"><a class="post-list-link" href="/graph.html">图算法</a></li><li class="post-list-item"><a class="post-list-link" href="/fib-heap.html">『数据结构』Fibonacci-heap</a></li><li class="post-list-item"><a class="post-list-link" href="/b-tree.html">『数据结构』B树(B-Tree)及其变体 B+树,B*树</a></li><li class="post-list-item"><a class="post-list-link" href="/introduction-to-bitcoin.html">『比特币』概述</a></li><li class="post-list-item"><a class="post-list-link" href="/introduction-to-blockchain.html">『区块链』简介</a></li><li class="post-list-item"><a class="post-list-link" href="/algorithm-general.html">『算法』概述</a></li><li class="post-list-item"><a class="post-list-link" href="/red-black-tree.html">『数据结构』红黑树(red-black tree)</a></li><li class="post-list-item"><a class="post-list-link" href="/tree.html">『数据结构』树</a></li><li class="post-list-item"><a class="post-list-link" href="/hashTable.html">『数据结构』散列表</a></li><li class="post-list-item"><a class="post-list-link" href="/sort.html">『算法』排序</a></li><li class="post-list-item"><a class="post-list-link" href="/bus.html">『计算机组成原理』总线</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-device.html">『现代操作系统』IO设备</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-software.html">『现代操作系统』IO软件原理</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-hardware.html">『现代操作系统』IO硬件原理</a></li><li class="post-list-item"><a class="post-list-link" href="/os-general.html">『现代操作系统』操作系统引论</a></li><li class="post-list-item"><a class="post-list-link" href="/linux-file-io.html">『Unix环境高级编程』linux 文件 I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/multiprocessor.html">『现代操作系统』多处理机</a></li><li class="post-list-item"><a class="post-list-link" href="/simple-shell.html">『linux』c 语言实现一个简易的 shell</a></li><li class="post-list-item"><a class="post-list-link" href="/deadlock.html">『现代操作系统』死锁</a></li><li class="post-list-item"><a class="post-list-link" href="/risk-predict.html">信用卡持卡人风险预测</a></li><li class="post-list-item"><a class="post-list-link" href="/comics-about-staying-up.html">『小仓鼠漫画』熬夜的危害与防护</a></li><li class="post-list-item"><a class="post-list-link" href="/ctf-basic.html">『CTF』网络信息安全攻防实验室之基础关 writeup</a></li><li class="post-list-item"><a class="post-list-link" href="/send-blog-automatically.html">『WEB』用 python 发送 csdn 博客</a></li><li class="post-list-item"><a class="post-list-link" href="/the-roommate-that-uses-mechanical-keyboard.html">用机械键盘的室友</a></li><li class="post-list-item"><a class="post-list-link" href="/csapp-bomb-lab-report.html">CSAPP-BOMB-LAB</a></li><li class="post-list-item"><a class="post-list-link" href="/learning-and-forgetting.html">学习与遗忘</a></li><li class="post-list-item"><a class="post-list-link" href="/20-years-old-summary.html">2017 年，20 岁，大二寒假总结与感悟</a></li><li class="post-list-item"><a class="post-list-link" href="/decrypt-netease-music.html">『WEB』从网易云音乐缓存文件得到MP3</a></li><li class="post-list-item"><a class="post-list-link" href="/all-one-data-structure.html">『数据结构』inc,dec,getMin,getMax 均为 O(1)</a></li><li class="post-list-item"><a class="post-list-link" href="/video.html">影视作品观后感</a></li><li class="post-list-item"><a class="post-list-link" href="/books.html">书籍总结与推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/common-lisp-macro.html">『common lisp』宏及函数的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/hacker-and-painter.html">『读书笔记』黑客与画家</a></li><li class="post-list-item"><a class="post-list-link" href="/from-chem-to-cs.html">从化院到计院</a></li><li class="post-list-item"><a class="post-list-link" href="/from-zhuzhong-to-ustc.html">从竹中到科大</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017-2019 mbinary
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+    </div>
+</footer>
+
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+<!-->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<--!>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
