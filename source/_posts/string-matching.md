@@ -8,7 +8,7 @@ mathjax: true
 description: 
 ---
 
-See more on [github](https://github.com/mbinary/algorithm-in-python)
+See more on [github](https://github.com/mbinary/algorithm)
 
 In this article, I will show you some kinds of popular string matching algorithm and  dynamic programming  algorithm for wildcard matching.
 

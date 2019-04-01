@@ -175,7 +175,7 @@ $$
 
 代码
 
-**[github地址](https://github.com/mbinary/algorithm-in-python.git)**
+**[github地址](https://github.com/mbinary/algorithm.git)**
 ```python
 class item:
     def __init__(self,key,val,nextItem=None):

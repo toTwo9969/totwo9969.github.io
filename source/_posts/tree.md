@@ -245,7 +245,7 @@ Aho-Corasick automation,是在字典树上添加匹配失败边(失配指针), �
 
 <a id="markdown-7-附代码" name="7-附代码"></a>
 # 7. 附代码
-**[github地址](https://github.com/mbinary/algorithm-in-python.git)**
+**[github地址](https://github.com/mbinary/algorithm.git)**
 
 <a id="markdown-71-二叉树binarytree" name="71-二叉树binarytree"></a>
 ## 7.1. 二叉树(binaryTree)

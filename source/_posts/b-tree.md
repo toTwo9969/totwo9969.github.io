@@ -375,7 +375,7 @@ B*-tree [^5] 是 B+-tree 的变体,在 B+ 树的基础上 (所有的叶子结点
 
 <a id="markdown-8-代码实现与测试" name="8-代码实现与测试"></a>
 # 8. 代码实现与测试
-[github地址](https://github.com/mbinary/algorithm-in-python)
+[github地址](https://github.com/mbinary/algorithm)
 
 <a id="markdown-81-测试" name="81-测试"></a>
 ## 8.1. 测试

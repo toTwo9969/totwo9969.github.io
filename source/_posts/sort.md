@@ -483,4 +483,4 @@ def select(lst,i):
     return _select(0,len(lst)-1)
 ```
 
-**[github地址](https://github.com/mbinary/algorithm-in-python.git)**
+**[github地址](https://github.com/mbinary/algorithm.git)**
