@@ -1,10 +1,8 @@
 <!--  style=flat/plastic/social,  label force to change the title -->
 
-<div align="center">
-    <a href="https://mbinary.xyz">
-    <img src="https://raw.githubusercontent.com/mbinary/personal_awesome_src/master/>
-    </a>
-</div>
+<a href="https://mbinary.xyz">
+    <img align="center" src="https://raw.githubusercontent.com/mbinary-toys/resource/master/images/logo.png">
+</a>
 
 
 [![Followers](https://img.shields.io/github/followers/mbinary.svg?label=Follow)](https://github.com/mbinary)
