@@ -28,6 +28,7 @@ script:
   - hexo generate
   - ls -l themes/yelee
   - ls -l public
+  - cp README.md public
 
 # 设置git提交名，邮箱；替换真实token到_config.yml文件，最后depoy部署
 after_script:
