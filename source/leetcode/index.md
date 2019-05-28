@@ -30,6 +30,7 @@ fancybox: true
 * [24-Game](#24-Game)
 * [Remove-Invalid-Parentheses](#Remove-Invalid-Parentheses)
 * [Valid-Triangle-Number](#Valid-Triangle-Number)
+* [max-chain-words](#max-chain-words)
 
 
 ## 回溯
@@ -73,7 +74,7 @@ fancybox: true
 * [Integer to Roman](#Roman)
 * [Integer-to-English-Words](#Integer-to-English-Words)
 * [Word-Search-II( trie优化) ](#Word-Search-II)
-
+* [sliding-window](#sliding-window)
 
 
 ## 动态规划
@@ -100,6 +101,134 @@ fancybox: true
 
 
 # 日志
+
+## 2019-5-27
+![](/uploads/divider.png)
+ <a id="sliding-window></a>
+### [sliding-window](https://leetcode-cn.com/problems/minimum-window-substring/) leetcode 76 
+#### 题目
+
+    给定一个字符串 S 和一个字符串 T，请在 S 中找出包含 T 所有字母的最小子串。
+输入: S = "ADOBECODEBANC", T = "ABC"
+输出: "BANC"
+说明：
+    如果 S 中不存这样的子串，则返回空字符串 ""。
+    如果 S 中存在这样的子串，我们保证它是唯一的答案。
+
+#### 思路
+
+since you have to find the minimum window in S which has all the characters from T, you need to expand and contract the window using the two pointers and keep checking the window for all the characters. This approach is also called Sliding Window Approach.
+
+L ------------------------ R , Suppose this is the window that contains all characters of T
+        L----------------- R , this is the contracted window. We found a smaller window that still contains all the characters in T
+
+When the window is no longer valid, start expanding again using the right pointer.
+
+#### 代码
+```python
+from collections import defaultdict
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        def expand(j,lacked,dic):
+            while j<n and lacked:
+                if s[j] in lacked:
+                    lacked[s[j]]-=1
+                    if lacked[s[j]]==0:
+                        del lacked[s[j]]
+                dic[s[j]]+=1
+                j+=1
+            return j
+        def contract(left,right):
+            for i in range(left,right):
+                dic[s[i]]-=1
+                if dic[s[i]]==0:
+                    del dic[s[i]]
+                if s[i] in chars and (s[i] not in dic or dic[s[i]]<chars[s[i]]):
+                    return i+1,{s[i]:1}
+        n ,i, j= len(s),0,0
+        ans = ''
+        dic,lacked = defaultdict(int), defaultdict(int)
+        for c in t:
+            lacked[c]+=1
+        chars = lacked.copy()
+        while j<n and lacked:
+            j = expand(j,lacked,dic)
+            if  not lacked:
+                i,lacked=contract(i,j)
+                if ans=='' or len(ans)>j-i+1:
+                    ans = s[i-1:j]
+        return ans 
+```
+## 2019-5-27
+![](/uploads/divider.png)
+ <a id="max-chain-words"></a>
+### [max-chain-words](https://leetcode-cn.com/problems/longest-string-chain)--leetcode 1048
+#### 题目
+
+    给出一个单词列表，其中每个单词都由小写英文字母组成。
+
+    如果我们可以在 word1 的任何地方添加一个字母使其变成 word2，那么我们认为 word1 是 word2 的前身。例如，"abc" 是 "abac" 的前身。
+
+    词链是单词 [word_1, word_2, ..., word_k] 组成的序列，k >= 1，其中 word_1 是 word_2 的前身，word_2 是 word_3 的前身，依此类推。
+
+    从给定单词列表 words 中选择单词组成词链，返回词链的最长可能长度。
+#### 思路
+dfs 遍历即可， 注意 isAdj 函数是判断有向图节点相邻的函数。
+另外可以优化剪枝：当当前 ans 比剩下的节点长度都长的时候，就可以停止了。
+即代码 倒数第四行
+#### 代码
+
+```python
+class Solution:
+    def longestStrChain(self, words: List[str]) -> int:
+        def isAdj(s1,s2):
+            if len(s1)>len(s2):
+                s1,s2 = s2,s1
+            n1,n2 = len(s1),len(s2)
+            if n2-n1!=1:
+                return False
+            i=j=0
+            flag = False
+            while i<n1 and j<n2:
+                if s1[i]!=s2[j]:
+                    if flag:
+                        return False
+                    flag = True
+                    j+=1
+                else:
+                    i+=1
+                    j+=1
+            return True
+                        
+        def dfs(begin):
+            ans = 1
+            w = words[begin]
+            n = len(w)
+            if n+1 in lenDic:
+                for nd in lenDic[n+1]:
+                    #print(w,words[nd],isAdj(w,words[nd]))
+                    if isAdj(w,words[nd]):
+                        ans = max(ans,1+dfs(nd))
+            return ans
+        lenDic = {}
+        for i in range(len(words)):
+            n = len(words[i])
+            if n in lenDic:
+                lenDic[n].add(i)
+            else:
+                lenDic[n]={i}
+        
+        lens = sorted(lenDic)
+        n = len(lens)
+        ans = 0
+        for i in range(n):
+            if ans < n-i:
+                for nd in lenDic[lens[i]]:
+                    ans = max(ans,dfs(nd))          
+        return ans
+```
+                
+
 ## 2018-12-28
 ![](/uploads/divider.png)
  <a id="complete-binary-tree-inserter"></a>

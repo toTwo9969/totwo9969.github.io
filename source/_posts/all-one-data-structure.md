@@ -1,10 +1,9 @@
 ---
-title: 『数据结构』inc,dec,getMin,getMax 均为 O(1)
+title: 『数据结构』inc,dec,getMin,getMax 均为 O(1) 并用于实现 LRU
 date: 2018-1-24
 categories: 数据结构与算法
-tags: [数据结构]
-keywords: O(1),有趣,数据结构,最大值,最小值,leetcode
-
+tags: [数据结构,LRU]
+keywords: O(1),数据结构,LRU,leetcode
 ---
 
 做 leetcode 题时遇到这样一道题，挺有趣的数据结构，所以记下来：)
@@ -88,7 +87,7 @@ Challenge: Perform all these in O(1) time complexity.
 
 ## 4.1. 测试代码
 ```python
-from allOoneDS import AllOne
+from allOne import allOne
 from time import time
 from  random import choice,sample,randint
 
@@ -109,7 +108,7 @@ class hashMap:
         return max(list(self.mp.keys()),key=lambda key:self.mp[key])
 
 
-op_origin = ['inc','dec','getMinKey','getMaxKey','getMinKey','getMaxKey','getMinKey','getMaxKey','getMinKey','getMaxKey','getMinKey','getMaxKey']
+op_origin = ['inc','dec','getMinKey','getMaxKey']#'getMinKey','getMaxKey','getMinKey','getMaxKey','getMinKey','getMaxKey','getMinKey','getMaxKey']
 ch=list('qwertyuiopasdfghjklzxcvbnm')
 keys =[ ''.join(sample(ch,i)) for j in range(10) for i in range(1,20,5)]
 
@@ -120,19 +119,25 @@ def testCase(n=1000):
         p = randint(0,len(op_origin)-1)
         ops.append(op_origin[p])
         if p<2:
-            data.append([randint(1,10)])
+            data.append([randint(1,5)])
         else:data.append([])
     return ops,data
 
-def test(repeat=1000):
+def test(repeat=100):
     t1,t2=0,0
     for i in range(repeat):
-        allOne = AllOne()
+        obj = allOne()
+        operate = {
+            "inc": obj.inc,
+            "dec": obj.dec,
+            "getMaxKey": obj.getMaxKey,
+            "getMinKey": obj.getMinKey
+        }
         hsmp = hashMap()
         ops,data = testCase()
         t1-=time()
         for op,datum in zip(ops,data):
-            allOne.op[op](*datum)
+            operate[op](*datum)
         t1+=time()
 
         t2-=time()
@@ -144,144 +149,259 @@ def test(repeat=1000):
 
 if __name__=='__main__':
     t1,t2= test()
-    print(t1,t2)
+    print(f'allOne: {t1}')
+    print(f'hashmap: {t2}')
 ```
 ---
 # 5. allOne 代码
 ```python
+''' mbinary
+#########################################################################
+# File : allOne.py
+# Author: mbinary
+# Mail: zhuheqin1@gmail.com
+# Blog: https://mbinary.xyz
+# Github: https://github.com/mbinary
+# Created Time: 2018-05-19  23:07
+# Description:
+#########################################################################
+'''
+
+
 class node:
-    def __init__(self,val=None,data_mp=None,pre=None,next=None):
-        self.val=val
-        self.data_mp = {} if data_mp is None else data_mp
-        self.pre=pre
-        self.next=next
-    def __lt__(self,nd):
-        return  self.val<nd.val
-    def getOne(self):
-        if not self.data_mp:
-            return ''
-        else:return list(self.data_mp.items())[0][0]
-    def __getitem__(self,key):
-        return self.data_mp[key]
-    def __iter__(self):
-        return iter(self.data_mp)
-    def __delitem__(self,key):
-        del self.data_mp[key]
-    def __setitem__(self,key,val):
-        self.data_mp[key]= val
-    def isEmpty(self):
-        return self.data_mp=={}
+    def __init__(self, val=None, keys=None, pre=None, next=None):
+        self.val = val
+        self.keys = set() if keys is None else keys
+        self.pre = pre
+        self.next = next
+
+    def __lt__(self, nd):
+        return self.val < nd.val
+
+
+    def __contains__(self, k):
+        return k in self.keys
+
+    def __bool__(self):
+        return len(self.keys) != 0
+
     def __repr__(self):
-        return 'node({},{})'.format(self.val,self.data_mp)
-class doubleLinkedList:
+        return 'node({},{})'.format(self.val, self.keys)
+    def addKey(self, key):
+        self.keys.add(key)
+
+
+    def remove(self, key):
+        self.keys.remove(key)
+
+    def getOneKey(self):
+        if self:
+            key = self.keys.pop()
+            self.keys.add(key)
+            return key
+        return None
+
+
+class allOne:
     def __init__(self):
-        self.head=  self.tail = node(0)
+        self.head = self.tail = node(0)
         self.head.next = self.head
         self.head.pre = self.head
-        self.chain_mp={0:self.head}
+        self.val_node = {0: self.head}
+        self.key_value = {}
+
     def __str__(self):
-        li = list(self.chain_mp.values())
+        li = list(self.val_node.values())
         li = [str(i) for i in li]
         return  'min:{}, max:{}\n'.format(self.head.val,self.tail.val)   \
-               + '\n'.join(li)
-    def getMax(self):
-        return self.tail.getOne()
-    def getMin(self):
-        return self.head.getOne()
-    def addIncNode(self,val):
-        # when adding a node,inc 1, so it's guranted that node(val-1)  exists
-        self.chain_mp[val].pre= self.chain_mp[val-1]
-        self.chain_mp[val].next= self.chain_mp[val-1].next
-        self.chain_mp[val-1].next.pre = self.chain_mp[val-1].next = self.chain_mp[val]
-    def addDecNode(self,val):
-        # when adding a node,dec 1, so it's guranted that node(val+1)  exists
-        self.chain_mp[val].next= self.chain_mp[val+1]
-        self.chain_mp[val].pre= self.chain_mp[val+1].pre
-        self.chain_mp[val+1].pre.next = self.chain_mp[val+1].pre = self.chain_mp[val]
-    def addNode(self,val,dec=False):
-        self.chain_mp[val] = node(val)
-        if dec:self.addDecNode(val)
-        else:self.addIncNode(val)
-        if self.tail.val<val:self.tail = self.chain_mp[val]
-        if self.head.val>val or self.head.val==0:self.head= self.chain_mp[val]
-    def delNode(self,val):
-        self.chain_mp[val].next.pre = self.chain_mp[val].pre
-        self.chain_mp[val].pre.next = self.chain_mp[val].next
-        if self.tail.val==val:self.tail = self.chain_mp[val].pre
-        if self.head.val==val:self.head = self.chain_mp[val].next
-        del self.chain_mp[val]
-    def incTo(self,key,val):
-        if val not in self.chain_mp:
-            self.addNode(val)
-        self.chain_mp[val][key] = val
-        if val!=1 :  # key in the pre node
-            del self.chain_mp[val-1][key]
-            #print(self.chain_mp[val-1])
-            if self.chain_mp[val-1].isEmpty():
-                #print('*'*20)
-                self.delNode(val-1)
-    def decTo(self,key,val):
-        if val not in self.chain_mp:
-            self.addNode(val,dec=True)
-        # notice that the headnode(0) shouldn't add key
-        if val!=0: self.chain_mp[val][key] = val
-        del self.chain_mp[val+1][key]
-        if self.chain_mp[val+1].isEmpty():
-            self.delNode(val+1)
+                + '\n'.join(li)
+    def __contains__(self,k):
+        return k in self.key_value
 
-class AllOne:
-    def __init__(self):
-        """
-        Initialize your data structure here.
-        """
-        self.op = {"inc":self.inc,"dec":self.dec,"getMaxKey":self.getMaxKey,"getMinKey":self.getMinKey}
-        self.mp = {}
-        self.dll = doubleLinkedList()
-    def __str__(self):
-        return str(self.dll)
-    def __getitem__(self,key):
-        return self.mp[key]
-    def __delitem__(self,key):
-        del self.mp[key]
-    def __setitem__(self,key,val):
-        self.mp[key]= val
-    def __iter__(self):
-        return iter(self.mp)
-    def inc(self, key,n=1):
-        """
-        Inserts a new key <Key> with value 1. Or increments an existing key by 1.
-        :type key: str
-        :rtype: void
-        """
-        if key in self:
-            self[key]+=n
-        else:self[key]=n
-        for i in range(n): self.dll.incTo(key, self[key])
-    def dec(self, key,n=1):
-        """
-        Decrements an existing key by 1. If Key's value is 1, remove it from the data structure.
-        :type key: str
-        :rtype: void
-        """
-        if key in self.mp:
-            mn = min( self[key],n)
-            for i in range(mn): self.dll.decTo(key, self[key]-i-1)
-            if self[key] == n:
-                del self[key]
-            else:
-                self[key] = self[key]-n
     def getMaxKey(self):
-        """
-        Returns one of the keys with maximal value.
-        :rtype: str
-        """
-        return self.dll.getMax()
+        return self.tail.getOneKey()
 
     def getMinKey(self):
-        """
-        Returns one of the keys with Minimal value.
-        :rtype: str
-        """
-        return self.dll.getMin()
+        return self.head.getOneKey()
+
+    def getMaxVal(self):
+        k = self.getMaxKey()
+        if k is not None:
+            return self.key_value[k]
+
+    def getMinVal(self):
+        k = self.getMinKey()
+        if k is not None:
+            return self.key_value[k]
+
+    def addIncNode(self, val):
+        # when adding a node,inc 1, so it's guranted that node(val-1)  exists
+        self.val_node[val] = node(val)
+        self.val_node[val].pre = self.val_node[val - 1]
+        self.val_node[val].next = self.val_node[val - 1].next
+        self.val_node[val - 1].next.pre = self.val_node[
+                                                        val - 1].next = self.val_node[val]
+        if self.tail.val < val:
+            self.tail = self.val_node[val]
+        if self.head.val > val or self.head.val == 0:
+            self.head = self.val_node[val]
+
+    def addDecNode(self, val):
+        # when adding a node,dec 1, so it's guranted that node(val+1)  exists
+        self.val_node[val] = node(val)
+        self.val_node[val].next = self.val_node[val + 1]
+        self.val_node[val].pre = self.val_node[val + 1].pre
+        self.val_node[val + 1].pre.next = self.val_node[
+                                                        val + 1].pre = self.val_node[val]
+        if self.head.val > val:
+            self.head = self.val_node[val]
+
+    def delNode(self, val):
+        self.val_node[val].next.pre = self.val_node[val].pre
+        self.val_node[val].pre.next = self.val_node[val].next
+        if self.tail.val == val: self.tail = self.val_node[val].pre
+        if self.head.val == val: self.head = self.val_node[val].next
+        del self.val_node[val]
+
+    def inc(self, key):
+        ''' inc key to value val'''
+        val = 1
+        if key in self.key_value:
+            val += self.key_value[key]
+        self.key_value[key] = val
+        if val not in self.val_node:
+            self.addIncNode(val)
+        self.val_node[val].addKey(key)
+        if val != 1:  # key in the pre node
+            preVal = val - 1
+            nd = self.val_node[preVal]
+            if key in nd:
+                nd.remove(key)
+                if not nd:
+                    self.delNode(preVal)
+
+    def dec(self, key):
+        if key in self.key_value:
+            self.key_value[key] -= 1
+            val = self.key_value[key]
+            if val == 0:
+                del self.key_value[key]
+            elif val>0:
+                if val not in self.val_node:
+                    self.addDecNode(val)
+                # notice that the headnode(0) shouldn't add key
+                self.val_node[val].addKey(key)
+            nextVal = val + 1
+            nd = self.val_node[nextVal]
+            if key in nd:
+                nd.remove(key)
+                if not nd:
+                    self.delNode(nextVal)
+
+    def delMinKey(self):
+        key = self.getMinKey()
+        if key is not None:
+            val = self.key_value.pop(key)
+            nd = self.val_node[val]
+            nd.remove(key)
+            if not nd:
+                self.delNode(val)
+        return key
+    def append(self,key):
+        if key in self.key_value:
+            raise Exception(f'[Error]: key "{key}" exists')
+        if self.key_value:
+            val = self.key_value[self.getMaxKey()]
+            self.key_value[key] = val
+            self.val_node[val].addKey(key)
+        self.inc(key)
+    def move_to_end(self,key):
+        val = self.key_value.pop(key)
+        nd = self.val_node[val]
+        nd.remove(key)
+        if not nd:
+            self.delNode(val)
+        self.append(key)
+
+
+
+if __name__ == '__main__':
+    ops = [
+           "inc", "inc", "inc", "inc", "inc", "dec", "dec", "getMaxKey",
+           "getMinKey",'dec'
+          ]
+    obj = allOne()
+    data = [["a"], ["b"], ["b"], ["b"], ["b"], ["b"], ["b"], [], [],['a']]
+    operate = {
+               "inc": obj.inc,
+               "dec": obj.dec,
+               "getMaxKey": obj.getMaxKey,
+               "getMinKey": obj.getMinKey
+              }
+    for op, datum in zip(ops, data):
+        print(f'{op}({datum}): {operate[op](*datum)}')
+        print(obj)
+        print()
 ```
 
+
+## 应用
+上面的数据结构可以用来实现 LRU 算法,如下
+初始化, 定义 容量, eg cache
+get 函数返回 key 对应的值, 如果没有返回 -1
+put 函数将 key, value 存储起来. 如果容量未满, 直接存储, 否者要先按LRU 替换出去, 再存储
+
+```python
+from allOne import  allOne
+
+'''In this implementation, the lru doesn't use some funcs of allOne,
+    such as dec,addDecNode
+'''
+class lru:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.allOne = allOne()
+        self.data = {}
+    def get(self,key):
+        if key in self.data:
+            self.allOne.move_to_end(key)
+            return self.data[key]
+        return -1
+    def put(self,key,value):
+        if key not in self.data:
+            if len(self.data)==self.capacity:
+                k = self.allOne.delMinKey()
+                if k in self.data:
+                    del self.data[k]
+            self.data[key]=value
+            self.allOne.append(key)
+        else:
+            self.data[key]=value
+            self.allOne.move_to_end(key)
+
+
+if __name__ == '__main__':
+    ops = ["put","put","get","put","get","put","get","get","get"]
+    data = [[1,1],[2,2],[1],[3,3],[2],[4,4],[1],[3],[4]]
+    obj = lru(2)
+    operate = {'get':obj.get,'put':obj.put}
+    for op, args in zip(ops,data):
+        print(f'{op}({args}): {operate[op](*args)}\n{obj.data}\n')
+```
+当然, LRU 用python 自带的 ordered dict 实现更简洁
+```python
+class LRUCache(object):
+
+    def __init__(self, capacity):
+        self.od, self.cap = collections.OrderedDict(), capacity
+
+    def get(self, key):
+        if key not in self.od: return -1
+        self.od.move_to_end(key)
+        return self.od[key]
+
+    def put(self, key, value):
+        if key in self.od: del self.od[key]
+        elif len(self.od) == self.cap: self.od.popitem(False)
+        self.od[key] = value 
+```

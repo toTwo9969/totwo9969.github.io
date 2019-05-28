@@ -19,7 +19,7 @@
 
 <!-- 控制图片: <img width="60" height="75" align="right" src="haha"> -->
 
-我的博客：
+blog：
 - [mbinary.xyz](https://mbinary.xyz)
 - [mbinary.github.io](https://mbinary.github.io)
 
