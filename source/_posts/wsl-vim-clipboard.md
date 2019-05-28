@@ -22,10 +22,10 @@ WSL(Windows Subsystem for Linux)真香，然而还是存在一些瑕疵。比如
 而且 `vim --version | grep clipboard` 没有 加号（系统）寄存器， 再加之懒得重新编译 vim（开启 featured) . 所以我只有另寻解决办法. 
 
 >说明
--`<c-r>` 代表组合键 `ctrl`+`r` 
--`<cr>` 代表回车键
+- `<c-r>` 代表组合键 `ctrl`+`r` 
+- `<cr>` 代表回车键
 - `<f1>` 可以从 1到12， 代表`F1`
--`^J` 代表换行的控制字符，而不是`^`,`^J`的连接，在 linux 上 换行为 `^@`, 
+- `^J` 代表换行的控制字符，而不是`^`,`J`的连接，在 linux 上 换行为 `^@`, 
 VIM 要输入控制字符，比如`^M`，需要按下`<c-r><c-m>`
 
 ## 命令行
@@ -45,7 +45,7 @@ vim 下就比较麻烦了。我尝试了很多种方法，从操作的**舒适�
 然而拷贝的文本很可能不能直接在shell 下作为参数，有特殊字符，比如`"`,`$`等等。
 所以要进行转义，用 vim 的 `escape`函数 （我试了`shellescape`, 效果不怎么好）
 
-把上面的操作映射到按键下， 我映射的是 `;y` 就得到如下的 vim 键盘映射
+把上面的操作映射到按键下， 我映射的是 `;y`, 就得到如下的 vim 键盘映射
 在 visual 模式下，依次按下 `;y`
 
 `map ;y  "ay: let @a="'".escape(@a,"\\'\"")."'" <cr>:!echo <c-r>a \|"/mnt/c/Windows/System32/clip.exe"<cr>`
@@ -62,12 +62,11 @@ vim 下就比较麻烦了。我尝试了很多种方法，从操作的**舒适�
 
 在 visual 模式下，依次按下 `;y`
 
-```
-map ;y "ay: vs vim-copy<cr>"aP:wq<cr>:call system("/mnt/c/Windows/System32/clip.exe < vim-copy && rm vim-copy")<cr><cr>
-```
+`map ;y "ay: vs vim-copy<cr>"aP:wq<cr>:call system("/mnt/c/Windows/System32/clip.exe < vim-copy && rm vim-copy")<cr><cr>`
+
 各部分解释如下
 - `"ay`: 复制选中区域到 `a`寄存器
-- `vs vim-copy<cr>`: 新建文件 `vim-copy`到新窗口
+- `vs vim-copy`: 新建文件 `vim-copy`到新窗口
 - `"aP:wq`: 拷贝 `a` 内容到 文件并保存退出
 - `call system("...")`: 执行 shell 命令， shell 命令的内容就是复制 文件内容到剪切板，再删除文件
 
@@ -101,12 +100,12 @@ write 命令缩写为 w， 直接使用就是 保存缓冲区
 而这样输入命令切换很麻烦， 可以`set pastetoggle=<f12>`，或者其他按键，这样按一次就可以切换 paste 状态。
 
 
-这样比平常的 paste 动作 要多一个 设置`paste` 变量操作，所以不好
+这样比平常的 paste 动作 要多一个--设置`paste` 变量操作，所以不好
 
 ### windows paste 程序
 在 了解到上面 复制时使用的 `clip.exe`程序，我就在想是不是 windows 有也专门`paste`的程序 （这个程序是和 cmd 交互的，加之， wsl 也可以执行 `exe`程序)
 
-很遗憾，没有
+很遗憾，windows 没有
 
 但是令人高兴的是，一个网站上有，[点击这里](下载https://www.c3scripts.com/tutorials/msdos/paste.zip)
 然后使用 vim 的 read 命令进行与 shell 的交互， 即将 shell命令执行的输出 读到当前 buffer
@@ -117,7 +116,7 @@ write 命令缩写为 w， 直接使用就是 保存缓冲区
 map ;p :read !/mnt/c/Windows/System32/paste.exe <cr>i<bs><esc>l
 map! ;p <esc>:read !/mnt/c/Windows/System32/paste.exe <cr>i<bs><esc>l
 ```
-后面的 `i<bs><esc>l`只是执行退格操作， 不然的话后 paste 到新的一行
+后面的 `i<bs><esc>l`只是执行退格操作，以便接着当前的行 粘贴。不然的话后 paste 到新的一行.
 
 
 
@@ -130,15 +129,16 @@ map! ;p <esc>:read !/mnt/c/Windows/System32/paste.exe <cr>i<bs><esc>l
 ```
 
 
-终于可以愉快地和 VIM 玩耍了 ��
-另外， WSL 真香，强烈推荐入坑
+终于可以愉快地和 VIM 玩耍了:grimacing:
+
+WSL 真香，强烈推荐入坑
 还想起一个 瑕疵， WSL 不支持32 位的程序， 不过可以安装  qemu 等解决。
 
 另外 windows terminal 在今年 6月中旬也会来到，值得期待。
 
 
 ## 参考
-[MS-DOS-Tutorial](https://www.c3scripts.com/tutorials/msdos/paste.html)
-[vim-doc-zh-CN](http://vimcdoc.sourceforge.net/doc/eval.html#functions)
-[shell转义，单引号，双引号，反撇号](https://www.cnblogs.com/mydomain/archive/2011/10/15/2213017.html)
+- [MS-DOS-Tutorial](https://www.c3scripts.com/tutorials/msdos/paste.html)
+- [vim-doc-zh-CN](http://vimcdoc.sourceforge.net/doc/eval.html#functions)
+- [shell转义，单引号，双引号，反撇号](https://www.cnblogs.com/mydomain/archive/2011/10/15/2213017.html)
 
