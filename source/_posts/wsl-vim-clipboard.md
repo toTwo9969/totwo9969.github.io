@@ -46,7 +46,7 @@ vim 下就比较麻烦了。我尝试了很多种方法，从操作的**舒适�
 所以要进行转义，用 vim 的 `escape`函数 （我试了`shellescape`, 效果不怎么好）
 
 把上面的操作映射到按键下， 我映射的是 `;y`, 就得到如下的 vim 键盘映射
-在 visual 模式下，依次按下 `;y`
+在 visual 模式下选中，依次按下 `;y`即可复制
 
 `map ;y  "ay: let @a="'".escape(@a,"\\'\"")."'" <cr>:!echo <c-r>a \|"/mnt/c/Windows/System32/clip.exe"<cr>`
 
@@ -57,10 +57,10 @@ vim 下就比较麻烦了。我尝试了很多种方法，从操作的**舒适�
 
 ### 新建文件
 由于寄存器难以传到 shell 作为参数， 我就想到可以把寄存器的内容复制到一个新的 文件 buffer 中， 然后将文件内容拷贝到剪切板，然后删除文件。
-如下，没有 `<cr>` 分隔开 两条 命令，
+如下，每个 `<cr>` 分隔开 两条 命令，
 
 
-在 visual 模式下，依次按下 `;y`
+在 visual 模式下选中，依次按下 `;y`即可复制
 
 `map ;y "ay: vs vim-copy<cr>"aP:wq<cr>:call system("/mnt/c/Windows/System32/clip.exe < vim-copy && rm vim-copy")<cr><cr>`
 
@@ -70,7 +70,7 @@ vim 下就比较麻烦了。我尝试了很多种方法，从操作的**舒适�
 - `"aP:wq`: 拷贝 `a` 内容到 文件并保存退出
 - `call system("...")`: 执行 shell 命令， shell 命令的内容就是复制 文件内容到剪切板，再删除文件
 
-这个办法可以很好的复制， 唯一的缺点就是打开新buffer 窗口，再关闭，这个看着不舒服:astonished:
+这个办法可以很好地复制， 唯一的缺点就是打开新buffer 窗口，再关闭，屏幕画面变化大，看着不舒服:astonished:
 
 ### write命令
 write 命令缩写为 w， 直接使用就是 保存缓冲区
@@ -84,7 +84,8 @@ write 命令缩写为 w， 直接使用就是 保存缓冲区
 而进入 visual 模式下选中，再按下`:`， 则进入命令行且将选择的位置也输入进命令行
 这是可以 直接 传递给 `clip.exe` 程序。 执行后，选中的部分备剪切掉了，可以按 `u`恢复
 
-最终映射如下
+
+在 visual 模式下选中，依次按下 `;y`即可复制
 `map ;y : !/mnt/c/Windows/System32/clip.exe<cr>u`
 这也是最优的方法了，如果你有更好的方法，欢迎赐教。
 
@@ -100,38 +101,36 @@ write 命令缩写为 w， 直接使用就是 保存缓冲区
 而这样输入命令切换很麻烦， 可以`set pastetoggle=<f12>`，或者其他按键，这样按一次就可以切换 paste 状态。
 
 
-这样比平常的 paste 动作 要多一个--设置`paste` 变量操作，所以不好
+这样比平常的 paste 动作 要多一个`pastetoggle` 操作，所以不好
 
 ### windows paste 程序
 在 了解到上面 复制时使用的 `clip.exe`程序，我就在想是不是 windows 有也专门`paste`的程序 （这个程序是和 cmd 交互的，加之， wsl 也可以执行 `exe`程序)
 
 很遗憾，windows 没有
 
-但是令人高兴的是，一个网站上有，[点击这里](下载https://www.c3scripts.com/tutorials/msdos/paste.zip)
-然后使用 vim 的 read 命令进行与 shell 的交互， 即将 shell命令执行的输出 读到当前 buffer
+但是令人高兴的是，一个网站上有，[点击这里下载](https://www.c3scripts.com/tutorials/msdos/paste.zip), 然后解压放到 `C:Windows/System32`目录下
+使用 vim 的 read 命令进行与 shell 的交互， 即将 shell命令执行的输出 读到当前 buffer
+
 映射如下
 
-在任何模式下按下 `;p`
+在任何模式下按下 `;p` 即可粘贴
 ```
 map ;p :read !/mnt/c/Windows/System32/paste.exe <cr>i<bs><esc>l
 map! ;p <esc>:read !/mnt/c/Windows/System32/paste.exe <cr>i<bs><esc>l
 ```
-后面的 `i<bs><esc>l`只是执行退格操作，以便接着当前的行 粘贴。不然的话后 paste 到新的一行.
-
-
-
+后面的 `i<bs><esc>l`执行退格操作，以便接着当前的行 粘贴。不然会 paste 到新的一行.
 
 综上所述，最终解决方案为:
+[点击这里下载](https://www.c3scripts.com/tutorials/msdos/paste.zip), 然后解压放到 `C:Windows/System32`目录下
+
+再在 `.vimrc`文件中增加如下映射
 ```
 map ;y : !/mnt/c/Windows/System32/clip.exe<cr>u
 map ;p :read !/mnt/c/Windows/System32/paste.exe <cr>i<bs><esc>l
 map! ;p <esc>:read !/mnt/c/Windows/System32/paste.exe <cr>i<bs><esc>l
 ```
 
-
-终于可以愉快地和 VIM 玩耍了:grimacing:
-
-WSL 真香，强烈推荐入坑
+WSL 真香，强烈推荐入坑 :grimacing:
 还想起一个 瑕疵， WSL 不支持32 位的程序， 不过可以安装  qemu 等解决。
 
 另外 windows terminal 在今年 6月中旬也会来到，值得期待。
@@ -141,4 +140,3 @@ WSL 真香，强烈推荐入坑
 - [MS-DOS-Tutorial](https://www.c3scripts.com/tutorials/msdos/paste.html)
 - [vim-doc-zh-CN](http://vimcdoc.sourceforge.net/doc/eval.html#functions)
 - [shell转义，单引号，双引号，反撇号](https://www.cnblogs.com/mydomain/archive/2011/10/15/2213017.html)
-
