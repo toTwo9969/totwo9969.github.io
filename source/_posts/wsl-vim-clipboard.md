@@ -48,7 +48,7 @@ vim 下就比较麻烦了。我尝试了很多种方法，从操作的**舒适�
 把上面的操作映射到按键下， 我映射的是 `;y`, 就得到如下的 vim 键盘映射
 在 visual 模式下选中，依次按下 `;y`即可复制
 
-`map ;y  "ay: let @a="'".escape(@a,"\\'\"")."'" <cr>:!echo <c-r>a \|"/mnt/c/Windows/System32/clip.exe"<cr>`
+`vmap ;y  "ay: let @a="'".escape(@a,"\\'\"")."'" <cr>:!echo <c-r>a \|"/mnt/c/Windows/System32/clip.exe"<cr>`
 
 然而在复制多行时,寄存器中会包含换行控制字符`^J`或`^@`,`^M`，这在传递到shell 中时执行会截断这个参数（在参数还没有输入完全按下 enter 回车),所以有时不会成功。
 而且有些字符 escape 也很难转换为 shell 的原文本参数
@@ -62,7 +62,7 @@ vim 下就比较麻烦了。我尝试了很多种方法，从操作的**舒适�
 
 在 visual 模式下选中，依次按下 `;y`即可复制
 
-`map ;y "ay: vs vim-copy<cr>"aP:wq<cr>:call system("/mnt/c/Windows/System32/clip.exe < vim-copy && rm vim-copy")<cr><cr>`
+`vmap ;y "ay: vs vim-copy<cr>"aP:wq<cr>:call system("/mnt/c/Windows/System32/clip.exe < vim-copy && rm vim-copy")<cr><cr>`
 
 各部分解释如下
 - `"ay`: 复制选中区域到 `a`寄存器
@@ -86,7 +86,7 @@ write 命令缩写为 w， 直接使用就是 保存缓冲区
 
 
 在 visual 模式下选中，依次按下 `;y`即可复制
-`map ;y : !/mnt/c/Windows/System32/clip.exe<cr>u`
+`vmap ;y : !/mnt/c/Windows/System32/clip.exe<cr>u''`
 这也是最优的方法了，如果你有更好的方法，欢迎赐教。
 
 ## 粘贴
@@ -115,19 +115,19 @@ write 命令缩写为 w， 直接使用就是 保存缓冲区
 
 在任何模式下按下 `;p` 即可粘贴
 ```
-map ;p :read !/mnt/c/Windows/System32/paste.exe <cr>i<bs><esc>l
-map! ;p <esc>:read !/mnt/c/Windows/System32/paste.exe <cr>i<bs><esc>l
+map ;p :read !/mnt/c/Windows/System32/paste.exe <cr>
+map! ;p <esc>:read !/mnt/c/Windows/System32/paste.exe <cr>
 ```
-后面的 `i<bs><esc>l`执行退格操作，以便接着当前的行 粘贴。不然会 paste 到新的一行.
+这个是在新行开始粘贴, 如果在行内粘贴，粘贴的内容在一行内，可以按下`i<bs><esc>l`执行退格操作（同样可以映射一下）
 
 综上所述，最终解决方案为:
-[点击这里下载](https://www.c3scripts.com/tutorials/msdos/paste.zip), 然后解压放到 `C:Windows/System32`目录下
+[点击这里下载](https://www.c3scripts.com/tutorials/msdos/paste.zip), 然后解压放到 `C:Windows\System32`目录下
 
 再在 `.vimrc`文件中增加如下映射
 ```
-map ;y : !/mnt/c/Windows/System32/clip.exe<cr>u
-map ;p :read !/mnt/c/Windows/System32/paste.exe <cr>i<bs><esc>l
-map! ;p <esc>:read !/mnt/c/Windows/System32/paste.exe <cr>i<bs><esc>l
+vmap ;y : !/mnt/c/Windows/System32/clip.exe<cr>u''
+map ;p :read !/mnt/c/Windows/System32/paste.exe <cr>
+map! ;p <esc>:read !/mnt/c/Windows/System32/paste.exe <cr>
 ```
 
 WSL 真香，强烈推荐入坑 :grimacing:
