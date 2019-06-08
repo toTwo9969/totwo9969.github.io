@@ -5,7 +5,7 @@ FOLDER = './source/_posts'
 
 TITLE = re.compile(r'title: +(.*?)\n')
 
-DATE = re.compile(r'date: +(\d{4}-\d{1,2}-\d{1,2})')
+DATE = re.compile(r'date: +(\d{4})-(\d{1,2})-(\d{1,2})')
 
 PRE = 'https://github.com/mbinary/mbinary.github.io/tree/hexo/source/_posts/'
 
@@ -21,9 +21,15 @@ def parseHeader(path):
         name = os.path.basename(path)
         title = name.rstrip('.md')
 
-    m = DATE.search(cont)
-    if m:
-        date = m.group(1)
+    match = DATE.search(cont)
+    if match:
+        y,m,d = match.groups()
+        if len(m)<2:
+            m = '0'+m
+        if len(d)<2:
+            d = '0'+d
+        date = f'{y}-{m}-{d}'
+
     return title, date
 
 
