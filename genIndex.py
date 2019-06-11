@@ -24,12 +24,12 @@ def parseHeader(path):
 
     match = DATE.search(cont)
     if match:
-        y,m,d = match.groups()
-        if len(m)<2:
-            m = '0'+m
-        if len(d)<2:
-            d = '0'+d
-        date = f'{y}-{m}-{d}'
+        y, m, d = match.groups()
+        if len(m) < 2:
+            m = '0' + m
+        if len(d) < 2:
+            d = '0' + d
+        date =f'{y}-{m}-{d}'
 
     return title, date
 
@@ -42,11 +42,9 @@ def genIndex(folder=FOLDER):
         title = re.sub(r'[\(\[]', '{', title)
         title = re.sub(r'[\)\]]', '}', title)
         title = re.sub(r'[\*]', '-', title)
-        li.append((date, title, name))
+        li.append((date, title, name.rstrip('.md')))
     li.sort(reverse=True)
-    return '\n'.join(
-                     f'- {date}: {title}--[GitHub 网页]({PRE+name}),[博客网页]({BLOG+name})' for date, title, name in li)
-
+    return '\n'.join(f'- {date}: {title}--[GitHub 网页]({PRE+name}.md),[博客网页]({BLOG+name}.html)' for date, title, name in li)
 
 if __name__ == '__main__':
     with open('README.md', 'w') as f:
