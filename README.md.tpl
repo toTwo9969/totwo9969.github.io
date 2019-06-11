@@ -18,4 +18,5 @@
 
 
 # Posts
+GitHub 页面不能 渲染 mathjax 公式，有的文章中含有 mathjax 公式的可以到我的博客地址看
 {index}

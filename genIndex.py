@@ -8,6 +8,7 @@ TITLE = re.compile(r'title: +(.*?)\n')
 DATE = re.compile(r'date: +(\d{4})-(\d{1,2})-(\d{1,2})')
 
 PRE = 'https://github.com/mbinary/mbinary.github.io/tree/hexo/source/_posts/'
+BLOG = 'https://mbinary.github.io'
 
 
 def parseHeader(path):
@@ -44,7 +45,7 @@ def genIndex(folder=FOLDER):
         li.append((date, title, name))
     li.sort(reverse=True)
     return '\n'.join(
-        f'- [{date}: {title}]({PRE+name})' for date, title, name in li)
+                     f'- {date}: {title}--[GitHub 网页]({PRE+name}),[博客网页]({BLOG+name})' for date, title, name in li)
 
 
 if __name__ == '__main__':
