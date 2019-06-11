@@ -8,7 +8,7 @@ TITLE = re.compile(r'title: +(.*?)\n')
 DATE = re.compile(r'date: +(\d{4})-(\d{1,2})-(\d{1,2})')
 
 PRE = 'https://github.com/mbinary/mbinary.github.io/tree/hexo/source/_posts/'
-BLOG = 'https://mbinary.github.io'
+BLOG = 'https://mbinary.github.io/'
 
 
 def parseHeader(path):
