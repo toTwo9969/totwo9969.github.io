@@ -66,7 +66,7 @@ top:
 
 <a id="markdown-性能指标" name="性能指标"></a>
 ## 性能指标
-![](https://upload-images.jianshu.io/upload_images/7130568-086f81263d6f9aa8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![bus-1](images/bus-1.png)
 总线宽度：通常指数据总线的根数；
 总线带宽：总线的数据传输率，指单位时间内总线上传输数据的位数；
 总线复用：指同一条信号线可以分时传输不同的信号。
@@ -81,22 +81,22 @@ top:
 * 单总线
 * 双总线(引入通道)
 
-![](https://upload-images.jianshu.io/upload_images/7130568-f14a87e692745448.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![bus-2](images/bus-2.png)
 
 * 三总线1
 
 IO总线, DMA 总线, 主存总线
-![](https://upload-images.jianshu.io/upload_images/7130568-70083c92ac7630f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![bus-3](images/bus-3.png)
 
 * 三总线2
 
 局部总线,  系统总线, 扩展总线
-![](https://upload-images.jianshu.io/upload_images/7130568-794ed9ae438b4423.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![bus-4](images/bus-4.png)
 
 * 四总线
 
 局部总线,  系统总线, 扩展总线, <mark>高速总线</mark> ( 适用高速 I/O 设备)
-![四总线](https://upload-images.jianshu.io/upload_images/7130568-40ed1a3129cd4a66.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![四总线](images/四总线.png)
 
 <a id="markdown-总线控制" name="总线控制"></a>
 ## 总线控制
@@ -105,11 +105,11 @@ IO总线, DMA 总线, 主存总线
 
 * 仲裁逻辑
 
-  * 链式查询 ![](https://upload-images.jianshu.io/upload_images/7130568-60e223afbc1a07a8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+  * 链式查询 ![bus-5](images/bus-5.png)
 
-  * 计数器定时查询 ![](https://upload-images.jianshu.io/upload_images/7130568-9e2515f3cf7b0b01.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+  * 计数器定时查询 ![bus-6](images/bus-6.png)
 
-* 独立请求 ![](https://upload-images.jianshu.io/upload_images/7130568-d69f183709dd8d91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+* 独立请求 ![bus-7](images/bus-7.png)
 
 
 比较
@@ -151,8 +151,8 @@ IO总线, DMA 总线, 主存总线
 <a id="markdown-同步" name="同步"></a>
 ### 同步
 通信双方由统一时标控制数据传送
-![](https://upload-images.jianshu.io/upload_images/7130568-b58d4454d9e6da1c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-![](https://upload-images.jianshu.io/upload_images/7130568-dea70cabf7a85189.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![bus-8](images/bus-8.png)
+![bus-9](images/bus-9.png)
 
 
 <a id="markdown-异步" name="异步"></a>

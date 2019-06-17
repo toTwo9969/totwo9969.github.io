@@ -33,9 +33,7 @@ keywords: 网易云音乐,爬虫,解密,python,正则表达式,mutagen,文件
 # 解密缓存文件
 
 在手机上的缓存文件在 `netease/cloudmusic/Cache/Music1`里
-观察可以发现，歌曲缓存文件包括两个，一个是index文件.idx!，另一个是歌曲文件，index文件和歌词文件(歌曲id命名)都是txt文件，可以直接打开，而歌曲文件.uc!打开错误。缓存文件是修改过的。如图:
-
-![file](http://upload-images.jianshu.io/upload_images/7130568-4b0a94bbb8488990.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+观察可以发现，歌曲缓存文件包括两个，一个是index文件.idx!，另一个是歌曲文件，index文件和歌词文件(歌曲id命名)都是txt文件，可以直接打开，而歌曲文件.uc!打开错误。缓存文件是修改过的。
 
 
 进一步地，缓存文件和源文件大小一样大，所以没有经过压缩，最简单的想法是异或运算，这样最简单，加密，解密一样的操作。逐个尝试，发现每字节和0xa3异或即可，得到正确的文件，可以播放，哈哈 :smiley: 下面是代码，注意用bytearray修改bytes
@@ -58,11 +56,9 @@ with open(newFile,'wb') as out:
 
 还有另一种方法，mp3等文件格式有一些metadata (元素据)，mp3文件的 id3 tag里面就包含标题，歌手。这是[wiki的介绍](https://en.wikipedia.org/wiki/MP3)
 
-![mp3](http://upload-images.jianshu.io/upload_images/7130568-f6fccb61e5f4318a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![mp3](images/mp3.png)
 
-然后找python模块，网上说eyeD3比较好用，但是我安装好后提示libmagic找不到，搜索问题未能解决（如果你有解决办法，请告诉我，十分感谢）， 然后用的mutagen模块，这个模块能操作很多格式的文件，这是效果
-
-![id3](http://upload-images.jianshu.io/upload_images/7130568-98dc8ff3b5e8838c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+然后找python模块，网上说eyeD3比较好用，但是我安装好后提示libmagic找不到，搜索问题未能解决（如果你有解决办法，请告诉我，十分感谢）， 然后用的mutagen模块，这个模块能操作很多格式的文件.
 
 <a id="markdown-获取歌词" name="获取歌词"></a>
 # 获取歌词
@@ -71,7 +67,7 @@ with open(newFile,'wb') as out:
 ## lyric文件
 这是歌词文件内容
 
-![file](http://upload-images.jianshu.io/upload_images/7130568-1fdddb000bceac57.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![file](images/file.png)
 
 从这个文件中读取。 解析这个文件，由于没有统一的键,所以可以用正则表达式`r'(lyric|lrc|klyric|kalaokLyric|tlyric)\s*[\'\"]:\s*[\'\"]\s*\[')
 `来检查是否有歌词内容
@@ -106,23 +102,7 @@ def noLrc(self,s):
 * 展示
 
 
-![display.gif](https://upload-images.jianshu.io/upload_images/7130568-352232dddb447844.gif?imageMogr2/auto-orient/strip)
-
-
-
-*   运行输出
-
-
-![](https://upload-images.jianshu.io/upload_images/7130568-bce8718771f9f5aa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-
-*   歌词 
-
-![](https://upload-images.jianshu.io/upload_images/7130568-a311dce05e0e5d2c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-*   MP3
-
-![](https://upload-images.jianshu.io/upload_images/7130568-1d829d7c90a816c6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![display](images/display.gif)
 
 
 <a id="markdown-完整代码" name="完整代码"></a>
@@ -141,5 +121,24 @@ def noLrc(self,s):
 
 <a id="markdown-and-finally" name="and-finally"></a>
 # And finally
-![warning](http://upload-images.jianshu.io/upload_images/7130568-f552ddcc595f72c1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-（学习使用异或加密 :see_no_evil:
+```
+####### ######    ###           #     #    #    ######  #     #   ###   #     #
+#       #     #    #            #  #  #   # #   #     # ##    #    #    ##    #
+#       #     #    #            #  #  #  #   #  #     # # #   #    #    # #   #
+#####   ######     #            #  #  # #     # ######  #  #  #    #    #  #  #
+#       #     #    #            #  #  # ####### #   #   #   # #    #    #   # #
+#       #     #    #            #  #  # #     # #    #  #    ##    #    #    ##
+#       ######    ###            ## ##  #     # #     # #     #   ###   #     #
+
+
+< 请尊重版权，此文章以及代码仅供学习交流之用 >
+   \
+    \
+        .--.
+       |o_o |
+       |:_/ |
+      //   \ \
+     (|     | )
+    /'\_   _/`\
+    \___)=(___/
+```

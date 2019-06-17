@@ -37,7 +37,7 @@ categories:
 
 <a id="markdown-位置" name="位置"></a>
 ## 位置
-![os](https://upload-images.jianshu.io/upload_images/7130568-d5fdb2eecc5e3f98.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![os](images/os.png)
 
 <a id="markdown-功能" name="功能"></a>
 ## 功能
@@ -47,7 +47,7 @@ categories:
 * 有关抽象的定义和实现
 * 用这些抽象解决问题
 
-![](https://upload-images.jianshu.io/upload_images/7130568-5cbf57420d27cf50.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![os-general-1](images/os-general-1.png)
 <a id="markdown-资源管理--自底向上" name="资源管理--自底向上"></a>
 ### 资源管理--自底向上
 在相互竞争的程序之间有序地控制对处理器,  存储器以及其他 I/O 接口设备的分配
@@ -82,7 +82,7 @@ ENIAC ,  程序设计是用纯粹的机器语言,
 ## 操作系统结构
 <a id="markdown-单体结构" name="单体结构"></a>
 ### 单体结构
-![单体结构](https://upload-images.jianshu.io/upload_images/7130568-b1d3ffd85fdf3b2a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![单体结构](images/单体结构.png)
 
 * 主程序: 处理服务过程请求
 * 服务过程: 执行系统调用
@@ -91,7 +91,7 @@ ENIAC ,  程序设计是用纯粹的机器语言,
 
 <a id="markdown-层次式系统" name="层次式系统"></a>
 ### 层次式系统
-![by Dijkstra](https://upload-images.jianshu.io/upload_images/7130568-9d20da741a3da50f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![by Dijkstra](images/by Dijkstra.png)
 
 <a id="markdown-微内核" name="微内核"></a>
 ### 微内核
@@ -100,7 +100,7 @@ ENIAC ,  程序设计是用纯粹的机器语言,
 **思想**
 为了实现高可靠性,将操作系统划分成更小的, 良好定义的模块. 只有其中一个模块--`微内核` 运行在内核态上. 
 
-![](https://upload-images.jianshu.io/upload_images/7130568-bbf46c176f455aa8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![os-general-2](images/os-general-2.png)
 
 <a id="markdown-client-server模式" name="client-server模式"></a>
 ### Client-Server模式
@@ -136,7 +136,7 @@ ENIAC ,  程序设计是用纯粹的机器语言,
 #### Ⅰ型管理程序
 在其上的 OS 称为客户操作系统
 
-![virtual machine](https://upload-images.jianshu.io/upload_images/7130568-35cfd63ea4c9ec13.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![virtual machine](images/virtual machine.png)
 
 虚拟机在用户态以用户进程的身份运行, 因此不允许执行敏感指令,否则崩溃
 
@@ -169,7 +169,7 @@ VMware就是采用的这种管理程序:
 其实就将管理程序变成了一个微内核.
 
 这种方法就是准虚拟化, 这样会使得虚拟机技术更容易被支持和使用
-![](https://upload-images.jianshu.io/upload_images/7130568-58e00c2166e2e226.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![os-general-3](images/os-general-3.png)
 
 问题:
 * 如果所有敏感指令都被代替, 操作系统不能在物理机器上运行

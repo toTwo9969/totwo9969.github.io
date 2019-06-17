@@ -59,7 +59,7 @@ top:
 <a id="markdown-1-测试结果" name="1-测试结果"></a>
 # 1. 测试结果
 先上结果 (。・∀・)ノ
-![result](https://upload-images.jianshu.io/upload_images/7130568-524b23676fc29627.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![result](images/result.png)
 
 <a id="markdown-2-大致框架" name="2-大致框架"></a>
 # 2. 大致框架

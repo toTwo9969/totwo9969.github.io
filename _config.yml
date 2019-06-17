@@ -36,6 +36,7 @@ skip_render:
     - "photo/assets/**"
     - "photo/*.json"
     - "upload/**"
+    - "images/**"
     - "baidu_verify_CHFEqoI5M7.html"
     - "baidu_verify_IP4BRbpgtX.html"
     - "google4e522a8c3ff0f594.html"

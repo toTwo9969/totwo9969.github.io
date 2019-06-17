@@ -22,12 +22,12 @@ categories:
     *  ssize_t write(int fd, void *buf,size_t nbytes);*io效率**: buf设置为4096及更大效率较高
 
 # 进程文件结构
-    ![image.png](https://upload-images.jianshu.io/upload_images/7130568-41de9a42f1c26214.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+    ![linux-file-io-1](images/linux-file-io-1.png)
 
-    ![image.png](https://upload-images.jianshu.io/upload_images/7130568-88491773353c7aa6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+    ![linux-file-io-2](images/linux-file-io-2.png)
 
 ## 文件共享
-    ![image.png](https://upload-images.jianshu.io/upload_images/7130568-bb62bdea0df113e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+    ![linux-file-io-3](images/linux-file-io-3.png)
 # 原子操作
     一般有多个函数的操作,, 不是原子操作, 多进程运行时可能出错,比如
     ```
@@ -45,7 +45,7 @@ categories:
     // close fd2 and open fd,  note it's  an atomic op
     //if  fd2==fd : return fd2
     ```
-    ![image.png](https://upload-images.jianshu.io/upload_images/7130568-5a24c92f20e687e0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+    ![linux-file-io-4](images/linux-file-io-4.png)
 
 
     参考资料: UNIX环境高级编程 W.Richard Stevens, Stephen A. Rago

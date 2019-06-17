@@ -14,7 +14,7 @@ In this article, I will show you some kinds of popular string matching algorithm
 
 <!-- more -->
 # String Matching algorithm
-![](https://upload-images.jianshu.io/upload_images/7130568-e10dc137e9083a0e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![string-matching-1](images/string-matching-1.png)
 
 ## Rabin-Karp
 We can view a string of k characters (digits) as a length-k decimal number.  E.g., the string “31425” corresponds to the decimal number 31,425.
@@ -246,7 +246,7 @@ The preprocessing phase is in O(m+sigma) time and O(sigma) space complexity.
 During the searching phase the comparisons between pattern and text characters during each attempt can be done in any order. The searching phase has a quadratic worst case time complexity but it has a good practical behaviour.
 
 For instance,
-![image.png](https://upload-images.jianshu.io/upload_images/7130568-76d130ae24603d51.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![string-matching-2](images/string-matching-2.png)
 
 In this example, t0, ..., t4 =  a b c a b is the current text window that is compared with the pattern. Its suffix a b has matched, but the comparison c-a causes a mismatch. The bad-character heuristics of the Boyer-Moore algorithm (a) uses the "bad" text character c to determine the shift distance. The Horspool algorithm (b) uses the rightmost character b of the current text window. The Sunday algorithm (c) uses the character directly right of the text window, namely d in this example. Since d does not occur in the pattern at all, the pattern can be shifted past this position.
 
@@ -333,7 +333,7 @@ if __name__ =='__main__':
 
 
 # WildCard matching
- ![divider](/uploads/divider.png)
+ ![divider](images/divider.png)
 wild card:
 - `*`  matches 0 or any chars
 - `?` matches any single char.

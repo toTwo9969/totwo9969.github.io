@@ -50,7 +50,7 @@
 
 ## 爱情
 围观的吃瓜群众可以散开了，这里没戏 QwQ
-![](../uploads/pic/shy.gif)
+![20-years-old-summary-1](images/20-years-old-summary-1.png)
 //to do
 
 

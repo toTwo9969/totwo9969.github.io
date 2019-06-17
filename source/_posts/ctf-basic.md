@@ -43,8 +43,12 @@ ctrl+U 查看源码即得
 ### 解答
  最开始想到异或，但是不对呀，与谁异或，后来想到 rot13, caser 密码的一种，即 26 个字母移位即可
 
-![rot13.png](https://upload-images.jianshu.io/upload_images/7130568-cc147f8094524726.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
+```python
+li = list('xrlvf23xfqwsxsqf')
+for i,j in enumerate(li):
+    if j.isalpha():
+        li[i] = chr[ord('a')+(ord(j)-ord('a')+13)%26]
+```
 ### key
 `23ksdjfkfds`
 
@@ -61,8 +65,15 @@ ctrl+U 查看源码即得
 
 `s='....'.encode('utf8')`
 
+```python
+while 1:
+    try:
+        s= base64.decodestring(s)
+    except:
+        print(s)
+        break
+```
 
-![4base64.png](https://upload-images.jianshu.io/upload_images/7130568-b0f1434c64c74688.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ### key
 `jkljdkl232jkljkdl2389`
@@ -100,13 +111,18 @@ e0960851294d7b2253978ba858e24633
 
 
 ### 解答
-这个猜测是限制了请求头的语言
-所以用 python 的 requests 库构造请求头
+这个限制了请求头的语言, 同样构造请求头
+
+```python
+r = requests.get(url,headers={'Accept-Language':'en'})
+r.encoding = 'utf-8'
+print(r.text)
+```
 
  注意到 requests 库的自身编码为：r.encoding = ‘ISO-8859-1’
 要转换为 utf8 才能显示中文，下一题也是这样
 
-![en.png](https://upload-images.jianshu.io/upload_images/7130568-dbc0f1b2e31398e8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 
 ### key
 `*(TU687jksf6&*`
@@ -122,7 +138,11 @@ HAHA 浏览器
 ### 解答
 同上，构造 User-Agent
 
-![haha.png](https://upload-images.jianshu.io/upload_images/7130568-e4d08d75bb594233.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+```python
+r = requests.get(url,headers={'User-Agent':'HAHA'})
+r.encoding = 'utf-8'
+print(r.text)
+```
 
 ### key
 `meiyouHAHAiiulanqi`
@@ -141,8 +161,7 @@ Key 就在这里，猜猜这里是哪里呢？(Web 找 key 加强版）
 
 ### 解答
 源码没有信息，很自然的想到请求返回的内容
-
-![key.png](https://upload-images.jianshu.io/upload_images/7130568-1835d38d70fcfdd6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+按 F12， 找到 response Headers 下， 发现返回了 key
 
 ### key
 `kjh%#$#%FDjjj`
@@ -156,15 +175,7 @@ key 又找不到了
 小明这次可真找不到 key 去哪里了，你能帮他找到 key 吗？   [通关地址](http://lab1.xseclab.com/base8_0abd63aa54bef0464289d6a42465f354/index.php)
 
 ### 解答
-点击进入是一个链接
-
-![image.png](https://upload-images.jianshu.io/upload_images/7130568-9fc59a790918bc35.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-点击 search 那个链接，显示
-
-![image.png](https://upload-images.jianshu.io/upload_images/7130568-c4bd3b19a6f798d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-发现网址是 http://hacklist.sinaapp.com/base8_0abd63aa54bef0464289d6a42465f354/index_no_key.php
+点击进入是一个链接, ，点击到这里找 key， 发现网址是 http://hacklist.sinaapp.com/base8_0abd63aa54bef0464289d6a42465f354/index_no_key.php
 
 说明重定向了
 
@@ -174,8 +185,6 @@ key 又找不到了
 url 为`http://lab1.xseclab.com/base8_0abd63aa54bef0464289d6a42465f354/search_key.php`
 
 get 两次就发现了
-
-![image.png](https://upload-images.jianshu.io/upload_images/7130568-19f6a4fd46f80e59.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ### key
 `ohHTTP302dd`
@@ -195,7 +204,10 @@ get 两次就发现了
 F12
 发现 cookie 有一个键值是 Login=0, 猜测只要传递 Login=1 即可
 
-![image.png](https://upload-images.jianshu.io/upload_images/7130568-4461ab5d58369a14.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+```python
+r = requests.post(url,cookies={'Login':'1'})
+print(r.text)
+```
 
 ### key
 ``
@@ -210,8 +222,11 @@ F12
 ### 解答
 进入网页，查看源码，有 maxlength 限制，这是网页限制的，用 python 就不用担心这些，直接 post 一个很的数
 
-![image.png](https://upload-images.jianshu.io/upload_images/7130568-4e6503ceae96e8b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-### key
+```python
+r = requests.post(url,data={'v':'999999999'})
+print(r.text)
+```
+## key
 `768HKyu678567&*&K`
 
 ## **第 11 题**
@@ -225,11 +240,7 @@ F12
 网页内容：必须从本地访问
 
 ### 解答
-查看源码，emmmmmmmmmmm
-
-![](https://upload-images.jianshu.io/upload_images/7130568-95ae7432776ae461.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-如果正常来做的话，是在请求头传入'x-forwarded-for':'127.0.0.1' 来识别为本地 ip
+查看源码，在请求头传入'x-forwarded-for':'127.0.0.1' 来识别为本地 ip
 
 ### key
 `^&*(UIHKJjkadshf`

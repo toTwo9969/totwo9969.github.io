@@ -88,7 +88,7 @@ $$
 ## 2.3. 链接法
 通过链接法来解决碰撞
 
-![](https://upload-images.jianshu.io/upload_images/7130568-97d11b25923902c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![hashTable-1](images/hashTable-1.png)
 
 
 
@@ -154,7 +154,7 @@ $$
  有
  $$ E(\text{探查数})=\frac{1}{p}\leqslant \frac{1}{1-\alpha}$$
 
-![](https://upload-images.jianshu.io/upload_images/7130568-8d659aa8fe7de1a9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![hashTable-2](images/hashTable-2.png)
 
 <a id="markdown-2411-插入探查数的期望" name="2411-插入探查数的期望"></a>
 #### 2.4.1.1. 插入探查数的期望

@@ -13,48 +13,26 @@ description:
 <!-- more -->
 
 # 方法一 -- 用 api 来发送博客
-进入[开发者文档](http://open.csdn.net/wiki/api/blog/savearticle) 可以看到
-
-![](https://upload-images.jianshu.io/upload_images/7130568-0212939199855b10.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-注册开发者，使用文档中的方式获得 access_token 来获取授权
-
-![access_token.png](https://upload-images.jianshu.io/upload_images/7130568-0f252f0da319893f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-然后就可以 post 了，比如[这篇文章](https://blog.csdn.net/marvellousbinary/article/details/79832542),
-
-![success.png](https://upload-images.jianshu.io/upload_images/7130568-5f1385fab05d1d5e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-
-
-
+进入[开发者文档](http://open.csdn.net/wiki/api/blog/savearticle), 注册开发者，使用文档中的方式获得 access_token 来获取授权, 然后就可以 post 了，比如[这篇文章](https://blog.csdn.net/marvellousbinary/article/details/79832542),
 
 # 方法二 -- 模拟登陆
 用 python 来模拟登陆，为了简单，可以使用 cookies 来利用浏览器的会话 cookie 登陆
 
 ## 保存 cookie
-用 chrome, 点击进入发文章的页面，可以看到
-
-![cookie.png](https://upload-images.jianshu.io/upload_images/7130568-e8bb0265f6624b5a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-
-保存下来，等会在 python 脚本中使用
+用 chrome, 点击进入发文章的页面，F12-> network -> 选择 mdeditor.html -> header
+就可以看到 cookie, 保存下来，等会在 python 脚本中使用
 
 ## 抓包
 寻找 post, 提交内容的网址，我最开始一直以为是`https://mp.csdn.net/mdeditor/`, 返回的页面是成功的
-但是刷新博客页面，并没有发表文章，
+但是刷新博客页面，并没有发表文章， 后来用 fiddler 抓包才找到正确的网址
 
-![win.png](https://upload-images.jianshu.io/upload_images/7130568-06d9c81af1aceb65.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-后来用 fiddler 抓包才找到正确的网址
-
-![post.png](https://upload-images.jianshu.io/upload_images/7130568-f8acdc6fd23af593.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![post](images/post.png)
 
 
 ## 元数据
 然后构造发表的文章的元数据，在 fiddler 中可以发现
 
-![form.png](https://upload-images.jianshu.io/upload_images/7130568-672a3a6567bfcb94.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![form](images/form.png)
 就是这样的一个字典，
 
 ```python
@@ -74,18 +52,10 @@ data = {"title":"do you know my name?",
 
 那个 channel 就是要发表到的栏目，可以在网页右键审查元素发现各个值的含义
 
-![channel.png](https://upload-images.jianshu.io/upload_images/7130568-90cda1dd7c15bed6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
 ## 发表
-最后就可以发送了，第一次失败
+最后就可以发送了，第一次失败, 显示的是 unicode,, 应该打印 json 就行，然后知道是标题不能为空，添加标题就可以了
 
-![error.png](https://upload-images.jianshu.io/upload_images/7130568-1b3709c61aa5562d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-显示的是 unicode,, 应该打印 json 就行，然后知道是标题不能为空，添加标题就可以了
-
-尝试了多次，都成功了，这是返回的 json
-
-![suc.png](https://upload-images.jianshu.io/upload_images/7130568-69fc8287d1b31e46.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+尝试了多次，都成功了，返回的 json.
 
 
 由于不支持 markdown, 我又下载安装了 python markdown 模块，可以转成 html,
@@ -110,22 +80,7 @@ def md2html(s):
 
 ```
 
-这是 html 结果
-
- ![suc.png](https://upload-images.jianshu.io/upload_images/7130568-864198cdf6138734.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-
-当我沉浸在成功的喜悦中时，准备发一系列文章时，才知道 csdn 有限制
-
-![limit.png](https://upload-images.jianshu.io/upload_images/7130568-cb5928a3e0794fe3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-QAQ
-本来还想发表这些文章的
-
-![leet.png](https://upload-images.jianshu.io/upload_images/7130568-fc8a1df82d17c90f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-
-
-那以后发吧
+当我沉浸在成功的喜悦中时，准备发一系列文章时，才知道 csdn 每天限制发 10 篇 QAQ
 
 
 以下配置文件，最新完整的代码见 [github](https://github.com/mbinary/blog-sender), 欢迎 star, 如果想添加其他功能，欢迎 fork & PR

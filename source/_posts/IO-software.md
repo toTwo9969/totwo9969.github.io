@@ -50,18 +50,18 @@ CPU 要不断地查询设备, 这成为 `polling` 或 `busy waiting`
 
 <a id="markdown-io软件层次" name="io软件层次"></a>
 # IO软件层次
-![](https://upload-images.jianshu.io/upload_images/7130568-15e38d5c0266b3ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![IO-software-1](images/IO-software-1.png)
 
 <a id="markdown-中断处理程序" name="中断处理程序"></a>
 ## 中断处理程序
-![中断发生时软件需要做的](https://upload-images.jianshu.io/upload_images/7130568-8a083e447a046fde.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![中断发生时软件需要做的](images/中断发生时软件需要做的.png)
 <a id="markdown-设备驱动程序" name="设备驱动程序"></a>
 ## 设备驱动程序
 
 
 每个连接到计算机上的 I/O 设备都需要某些设备特定的代码来对其进行控制 , 注意 设备控制器是硬件上的, 驱动程序是软件上的. 
 
-![](https://upload-images.jianshu.io/upload_images/7130568-4db40de87e2d9454.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![IO-software-2](images/IO-software-2.png)
 
 <a id="markdown-位置" name="位置"></a>
 ### 位置
@@ -77,11 +77,11 @@ CPU 要不断地查询设备, 这成为 `polling` 或 `busy waiting`
 <a id="markdown-运行" name="运行"></a>
 ### 运行
 驱动程序在执行期间动态地装在到系统
-![](https://upload-images.jianshu.io/upload_images/7130568-49e9705b0b160924.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![IO-software-3](images/IO-software-3.png)
 
-![](https://upload-images.jianshu.io/upload_images/7130568-978e1aca394e0122.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![IO-software-4](images/IO-software-4.png)
 
-![](https://upload-images.jianshu.io/upload_images/7130568-b054c4666b855453.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![IO-software-5](images/IO-software-5.png)
 
 
 <a id="markdown-与设备无关的io软件" name="与设备无关的io软件"></a>
@@ -89,7 +89,7 @@ CPU 要不断地查询设备, 这成为 `polling` 或 `busy waiting`
 **功能**
 * 缓冲
 
-![](https://upload-images.jianshu.io/upload_images/7130568-fd1901f63a7e4c69.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![IO-software-6](images/IO-software-6.png)
 * 错误报告
 * 分配与释放专用设备
 * 提供与设备无关的块大小

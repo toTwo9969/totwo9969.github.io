@@ -128,7 +128,7 @@ description:
 事实上，在大多数钱包中，比特币地址和任何外部可识别的信息(包括用户的身份)之间没有关联。在该地址被引用作为比特币总帐的交易中的接收者之前，比特币地址只是在比特币中有效的大量可能的地址的一部分。只有一旦与交易相关联才能成为网络中已知地址的一部分。
 <a id="markdown-12-交易链" name="12-交易链"></a>
 ## 1.2. 交易链
-![](https://upload-images.jianshu.io/upload_images/7130568-92b124b74b93e751.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-1](images/introduction-to-bitcoin-1.png)
 <a id="markdown-13-找零" name="13-找零"></a>
 ## 1.3. 找零
 许多比特币交易都会包括新所有者的地址(买方地址)和当前所有者的地址(称为找零地址)的输出。这是因为交易输入，就像纸币那样能够，不能再分割。如果您在商店购买了5美元的商品，但是使用20美元的美金来支付商品，您预计会收到15美元的找零。
@@ -139,7 +139,7 @@ description:
 另外还有其他模式, 比如有一把零钱, 凑在一起,支付一次
 还有就是一次有很大一笔钱, 分给很多人. 
 如下图所示
-![](https://upload-images.jianshu.io/upload_images/7130568-f8921e33306fde3c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-2](images/introduction-to-bitcoin-2.png)
 <a id="markdown-14-钱包" name="14-钱包"></a>
 ## 1.4. 钱包
 钱包应用可以在完全离线时建立交易。就像在家里写张支票，	之后放到信封发给银行一样，比特币交易建立和签名时不用连接比特币网络。只有在执行交易时才需要将交易发送到网络。
@@ -205,10 +205,10 @@ $ bitcoin-cli dumpprivkey addr # ret 私钥
 # 3. 密钥与地址
 <a id="markdown-31-公钥加密" name="31-公钥加密"></a>
 ## 3.1. 公钥加密
-![](https://upload-images.jianshu.io/upload_images/7130568-809be1a06d9f30d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-3](images/introduction-to-bitcoin-3.png)
 <a id="markdown-32-椭圆曲线乘法" name="32-椭圆曲线乘法"></a>
 ## 3.2. 椭圆曲线乘法
-![例如](https://upload-images.jianshu.io/upload_images/7130568-9b07ac8ca45c4158.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![例如](images/例如.png)
 比特币使用 secp256k1标准定义的一种特殊的椭圆曲线和一系列常数
 secp256k1:
 $$y^2=(x^3+7) mod (p)$$
@@ -218,7 +218,7 @@ $$y^2=(x^3+7) mod (p)$$
 * 椭圆曲线加法: 两个点 p1,p2的加法p1+p2 得到一个点 p3,  记 p3'(x,y) 是 直线p1p2与椭圆曲线不同于p1,p2的交点, 则 p3(x,-y)
 注意p1=p2时, 直线p1p2定义为p1处的切线
 * 椭圆曲线乘法: $kP = P+P+\ldots+P(k\ times)$
-![](https://upload-images.jianshu.io/upload_images/7130568-ed541e595af1b057.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-4](images/introduction-to-bitcoin-4.png)
 
 
 <a id="markdown-33-生成公钥" name="33-生成公钥"></a>
@@ -234,12 +234,12 @@ $$y^2=(x^3+7) mod (p)$$
 <a id="markdown-34-生成比特币地址" name="34-生成比特币地址"></a>
 ## 3.4. 生成比特币地址
 
-![](https://upload-images.jianshu.io/upload_images/7130568-3816134683c0d4ec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-5](images/introduction-to-bitcoin-5.png)
 
 增加位权减少长度
 * Base64: 26个小写字母、26个大写字母、10个数字以及两个符号(例	如“+”和“/”)，
 * Base58: 不包括(0，O，l，I)的大小写字母和数字组成。
-![](https://upload-images.jianshu.io/upload_images/7130568-95a14014f2289c8e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-6](images/introduction-to-bitcoin-6.png)
 <a id="markdown-35-公钥格式" name="35-公钥格式"></a>
 ## 3.5. 公钥格式
 一个公钥是一个椭圆曲线上的点(x,	y)。而椭圆曲线实际是一个数学方程，曲线上的点实际是该方程的一个解。因此，知道了公钥的x坐标,通过解方程
@@ -250,12 +250,12 @@ $$y^2 \ mod \ p =(x^3+7)\ mod\ p $$
 使用二进制算术计算椭圆曲线的时候，y坐标可能是奇数或者偶数，分别对应前面所讲的y值的正负符号
 
 压缩格式公钥和非压缩格式公钥看起来不同,但是对应着同样的一个私钥。更重要的是，如果我们使用双哈希函数(RIPEMD160(SHA256(K)))将压缩格式公钥转化成比特币地址，得到的地址将会不同于由非压缩格式公钥产生的地址。这种结果会让人迷惑，因为一个私钥可以生成两种不同格式的公钥——压缩格式和非压缩格式，而这两种格式的公钥可以生成两个不同的比特币地址。但是，这两个不同的比特币地址的私钥是一样的。
-![](https://upload-images.jianshu.io/upload_images/7130568-bb84cdd4ce78127b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-7](images/introduction-to-bitcoin-7.png)
 <a id="markdown-36-私钥格式" name="36-私钥格式"></a>
 ## 3.6. 私钥格式
 当一个私钥被使用WIF压缩格式导出时，不但没有压缩，而且比“非压缩格式”私钥长出一个字节。这个多出来的一个字节是私钥被加了后缀01，用以表明该私钥是来自于一个较新的钱包，	只能被用来生成压缩的公钥。
 **私钥是非压缩的，也不能被压缩**。“压缩的私钥”实际上只是表示“用于生成压缩格式公钥的私钥”，而“非压缩格式私钥”用来表明“用于生成非压缩格式公钥的私钥”。
-![eg](https://upload-images.jianshu.io/upload_images/7130568-2793bccdfd10520b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![eg](images/eg.png)
 
 十六进制压缩私钥格式在末尾有一个额外的字节(十六进制为01)。虽然Base58编码版本前缀对于WIF和WIF压缩格式都是相同的(0x80)，但在数字末尾添加一个字节会导致Base58编码的第一个字符从5变为K或	L，考虑到对于Base58这是十进制编码100号和99号之间的差别。对于100是一个数字长于99的数字，它有一个前缀1，而不是前缀9。当长度变化，它会影响前缀。	在Base58中，前缀5改变为K或L，因为数字的长度增加一个字节。
 
@@ -307,7 +307,7 @@ P2SH函数最常见的实现是多重签名地址脚本。顾名思义，底层�
 <a id="markdown-42-hd钱包" name="42-hd钱包"></a>
 ## 4.2. HD钱包
 HD钱包包含以树状结构衍生的密钥
-![](https://upload-images.jianshu.io/upload_images/7130568-2ea70ffd26921624.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-8](images/introduction-to-bitcoin-8.png)
 
 优点:
 * 树状结构可以被用来表达额外的组织含义。比如当一个特定分支的子密钥被用来接收交易收入并且有另一个分支的子密钥用来负责支付花费。不同分支的密钥都可以被用在企业环境中，这就可以支配不同的分支部门、子公司、具体功能以及会计类别。
@@ -329,7 +329,7 @@ HD钱包包含以树状结构衍生的密钥
 4、将序列划分为包含11位的不同部分。
 5、将每个包含11位部分的值与一个已经预先定义2048个单词的字典做对应。
 6、生成的有顺序的单词组就是助记码。
-![](https://upload-images.jianshu.io/upload_images/7130568-c5d6dc5c056aff2d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-9](images/introduction-to-bitcoin-9.png)
 <a id="markdown-432-从助记词得到种子" name="432-从助记词得到种子"></a>
 ### 4.3.2. 从助记词得到种子
 助记词表示长度为128至256位的熵。	通过使用密钥延伸函数PBKDF2，熵被用于导出较长的
@@ -340,7 +340,7 @@ HD钱包包含以树状结构衍生的密钥
 7、PBKDF2密钥延伸函数的第一个参数是从步骤6生成的助记符。
 8、PBKDF2密钥延伸函数的第二个参数是盐。	由字符串常数“助记词”与可选的用户提供的密码字符串连接组成。
 9、PBKDF2使用HMAC-SHA512算法，使用2048次哈希来延伸助记符和盐参数，产生一个512位的值作为其最终输出。	这个512位的值就是种子。
-![image.png](https://upload-images.jianshu.io/upload_images/7130568-9a8d4450915df0d7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-10](images/introduction-to-bitcoin-10.png)
 **
 密钥延伸函数，使用2048次哈希是一种非常有效的保护，可以防止对助记词或密码短语的暴力攻击。	它使得攻击尝试非常昂贵(从计算的角度)，需要尝试超过几千个密码和助记符组合，而这样可能产生的种子的数量是巨大的(2^512)。
 **
@@ -365,7 +365,7 @@ BIP-39标准允许在推导种子时使用可选的密码短语。	如果没有�
 
 <a id="markdown-45-从种子中创造-hd-钱包" name="45-从种子中创造-hd-钱包"></a>
 ## 4.5. 从种子中创造 HD 钱包
-![](https://upload-images.jianshu.io/upload_images/7130568-4b22eaca34eea798.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-11](images/introduction-to-bitcoin-11.png)
 
 <a id="markdown-451-私有子密钥的衍生更" name="451-私有子密钥的衍生更"></a>
 ### 4.5.1. 私有子密钥的衍生
@@ -382,7 +382,7 @@ BIP-39标准允许在推导种子时使用可选的密码短语。	如果没有�
 改变索引可以让我们延长母密钥以及创造序列中的其他子密钥。比如子0，子1，子2等等。每一个母密钥可以有2,147,483,647	(2^31)	个子密钥。2^31是整个2^32范围可用的一半，因为另一半是为特定类型的推导而保留的.
 
 如下则是扩展母公钥来衍生子公钥的传递机制。
-![](https://upload-images.jianshu.io/upload_images/7130568-38397b0fd24cb691.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-12](images/introduction-to-bitcoin-12.png)
 
 <a id="markdown-452-扩展密钥" name="452-扩展密钥"></a>
 ### 4.5.2. 扩展密钥
@@ -410,7 +410,7 @@ BIP-39标准允许在推导种子时使用可选的密码短语。	如果没有�
 为了应对这种风险，HD钱包使用一种叫做硬化衍生(hardened	derivation)的替代衍生函数。
 
 这就“打破”了母公钥以及子链码之间的关系。这个硬化衍生函数使用了母私钥去推导子链码，而不是母公钥。这就在母/子顺序中创造了一道“防火墙”——有链码但并不能够用来推算子链码或者姊妹私钥。强化衍生函数看起来几乎与一般的衍生的子私钥相同，不同的是母私钥被用来输入散列函数中而不是母公钥，
-![](https://upload-images.jianshu.io/upload_images/7130568-578965fec8ce2574.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-13](images/introduction-to-bitcoin-13.png)
 
 <a id="markdown-455-索引号码" name="455-索引号码"></a>
 ### 4.5.5. 索引号码
@@ -444,7 +444,7 @@ BIP-44指定了包含5个预定义树状层级的结构：
 
 被HD钱包衍生的可用的地址是第四层级的子级，就是第五层级的树的“address_index”
 
-如![](https://upload-images.jianshu.io/upload_images/7130568-524f444dc15c0b5b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+如![introduction-to-bitcoin-14](images/introduction-to-bitcoin-14.png)
 
 <a id="markdown-5-交易" name="5-交易"></a>
 # 5. 交易
@@ -569,7 +569,7 @@ eee41c04f4938de5cc17b4a10fa336a8d752adf",
 每一个比特币验证节点会通过同时执行锁定和解锁脚本来验证一笔交易。每个输入都包含一个解锁脚本，并引用了之前存在的UTXO。	验证软件将复制解锁脚本，检索输入所引用的UTXO，并从该UTXO复制锁定脚本。	然后依次执行解锁和锁定脚本。如果解锁脚本满足锁定脚本条件，则输入有效。所有输入都是独立验证的，作为交易总体验证的一部分。
 
 形式上两个脚本拼接如下, 如后用栈的方式执行, 右边为栈顶. 最终结果为 TRUE 则 满足条件
-![](https://upload-images.jianshu.io/upload_images/7130568-5a40e048fd855eef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-15](images/introduction-to-bitcoin-15.png)
 
 如 
 锁定脚本:   `3	OP_ADD	5	OP_EQUAL`  
@@ -583,8 +583,8 @@ eee41c04f4938de5cc17b4a10fa336a8d752adf",
 锁定脚本: `OP_DUP	OP_HASH160	<Cafe	Public	Key	Hash>	OP_EQUALVERIFY	OP_CHECKSIG `
 解锁脚本: `<Cafe	Signature>	<Cafe	Public	Key>`
 验证过程
-![](https://upload-images.jianshu.io/upload_images/7130568-872ebbbd07c55134.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-![](https://upload-images.jianshu.io/upload_images/7130568-6b22b3bfa2497565.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-16](images/introduction-to-bitcoin-16.png)
+![introduction-to-bitcoin-17](images/introduction-to-bitcoin-17.png)
 
 <a id="markdown-58-数字签名ecdsa" name="58-数字签名ecdsa"></a>
 ## 5.8. 数字签名(ECDSA)
@@ -637,16 +637,16 @@ $$
 ### 5.8.4. 签名序列化(DER)
 如用 DER((Distinguished	Encoding	Rules)编码后的签名为
 `3045022100884d142d86652a3f47ba4746ec719bbfbd040a570b1deccbb6498c75c4ae24cb02204b9f039ff08df09cbe9f6addac960298cad530a863ea8f53982c09db8f6e381301`
-![](https://upload-images.jianshu.io/upload_images/7130568-963c1d271ddf9e11.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-18](images/introduction-to-bitcoin-18.png)
 这里 数字签名记为(R,S)
 
 <a id="markdown-585-签名哈希类型sighash" name="585-签名哈希类型sighash"></a>
 ### 5.8.5. 签名哈希类型(SIGHASH)
 SIGHASH,指示交易数据的哪一部分.SIGHASH	标志是附加到签名的单个字节。每个签名都有一个SIGHASH标志，该标志在不同输入之间也可以不同。 有三个 标志 如下
-![](https://upload-images.jianshu.io/upload_images/7130568-b4435d12de150cc8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-19](images/introduction-to-bitcoin-19.png)
 
 另外还有一个修饰符标志SIGHASH_ANYONECANPAY，它可以与前面的每个标志组合。	当设置ANYONECANPAY时，只有一个输入被签名，其余的(及其序列号)打开以进行修改。ANYONECANPAY的值为0x80，并通过按位OR运算，得到如下所示的组合标志：
-![](https://upload-images.jianshu.io/upload_images/7130568-a9fb3db8c7b725f3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-20](images/introduction-to-bitcoin-20.png)
 
 SIGHASH标志在签名和验证期间应用的方式是建立交易的副本和删节其中的某些字段(设置长度为零并清空)，继而生成的交易被序列化，SIGHASH标志被添加到序列化交易的结尾，并将结果哈希化	，得到的哈希值本身即是被签名的“消息”。	基于SIGHASH标志的使用，交易的不同部分被删节。	所得到的哈希值取决于交易中数据的不同子集。
 
@@ -691,9 +691,9 @@ P2SH 是针对 **多重签名** 以下问题提出的
 ### 6.2.2. 赎回脚本
 在P2SH	支付中锁定脚本由哈希运算后的20字节的散列值取代，被称为赎回脚本。当一笔交易试图支付UTXO时，要解锁支付脚本，它必须含有与哈希相匹配的脚本。
 如下
-![](https://upload-images.jianshu.io/upload_images/7130568-ad17c2dd5c36b5d9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-21](images/introduction-to-bitcoin-21.png)
 
-![](https://upload-images.jianshu.io/upload_images/7130568-ab5a223dfb5ecc3e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-22](images/introduction-to-bitcoin-22.png)
 
 赎回脚本本身之后作为解锁脚本在输出花费时的一部分出现。	这使得给矿工的交易费用从发送方转移到收款方，复杂的计算工作也从发送方转移到收款方。
 <a id="markdown-623-p2sh地址" name="623-p2sh地址"></a>
@@ -784,7 +784,7 @@ nSequence的原始含义从未被正确实现，并且在不利用时间锁定�
 交易可以包括时间锁定输入(nSequence	<2^31)和没有相对时间锁定(nsequence>	=2^31)的输入。	nSequence值以块或秒为单位, 类型标志用于区分计数块和计数时间(以秒为单位)的值。类型标志设置在第23个最低有效位(即值1	<<	22)。如果设置了类型标志，则nSequence值将被解释为512秒的倍数。如果未设置类型标志，则nSequence值被解释为块数。
 
 当将nSequence解释为相对时间锁定时，只考虑16个最低有效位。一旦评估了标志(位32和23)，nSequence值通常用16位掩码(例如nSequence＆0x0000FFFF)“屏蔽”。
-![](https://upload-images.jianshu.io/upload_images/7130568-4e8238691ba780c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-23](images/introduction-to-bitcoin-23.png)
 
 <a id="markdown-6422-checksequenceverifycsv" name="6422-checksequenceverifycsv"></a>
 #### 6.4.2.2. CHECKSEQUENCEVERIFY(CSV)
@@ -883,14 +883,14 @@ P2P是指位于同一网络中的每台计算机都彼此对等，各个节点�
 
 常见结点类型
 
-![](https://upload-images.jianshu.io/upload_images/7130568-92f73083321aaff4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-24](images/introduction-to-bitcoin-24.png)
 
-![](https://upload-images.jianshu.io/upload_images/7130568-00b89abe00ad8fea.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-25](images/introduction-to-bitcoin-25.png)
 
 <a id="markdown-71-扩展比特币网络" name="71-扩展比特币网络"></a>
 ## 7.1. 扩展比特币网络
 运行比特币P2P协议的比特币主网络由大约5000-8000个运行着不同版本比特币核心客户端(Bitcoin	Core)的监听节	点、以及几百个运行着各类比特币P2P协议的应用(例如BitcoinClassic,	Bitcoin	Unlimited,	BitcoinJ,	Libbitcoin,	btcd,	and	bcoin等)的节点组成。比特币P2P网络中的一小部分节点也是挖矿节点，它们竞争挖矿、验证交易、并创建新的区块。许多连接到比特币网络的大型公司运行	着基于Bitcoin核心客户端的全节点客户端，它们具有区块链的完整拷贝及网络节点，但不具备挖矿及钱包功能。这些节点是网络中的边缘路由器(edgerouters)，通过它们可以搭建其他服务，例如交易所、钱包、区块浏览器、商家支付处理(merchant	payment	processing)等
-![](https://upload-images.jianshu.io/upload_images/7130568-edcf2eb7df3424ca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-26](images/introduction-to-bitcoin-26.png)
 
 <a id="markdown-72-网络发现" name="72-网络发现"></a>
 ## 7.2. 网络发现
@@ -906,11 +906,11 @@ P2P是指位于同一网络中的每台计算机都彼此对等，各个节点�
 * BaseHeight: 当前节点区块链的区块高度	
 
 接收版本消息的本地对等体将检查远程对等体报告的nVersion，并确定远端对等体是否兼容。	如果远程对等体兼容，则本地对等体将确认版本消息，并通过发送一个verack建立连接。
-![](https://upload-images.jianshu.io/upload_images/7130568-34713a415fe96ec3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-27](images/introduction-to-bitcoin-27.png)
 
 **当建立一个或多个连接后**，新节点将一条包含自身IP地址的addr消息发送给其相邻节点。相邻节点再将此条addr消息依	次转发给它们各自的相邻节点，从而保证新节点信息被多个节点所接收、保证连接更稳定。然后，新接入的节点可以向	它的相邻节点发送getaddr消息，要求它们返回其已知对等节点的IP地址列表。
 
-![](https://upload-images.jianshu.io/upload_images/7130568-f6902e500cba6432.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-28](images/introduction-to-bitcoin-28.png)
 
 
 节点必须连接到若干不同的对等节点才能在比特币网络中建立通向比特币网络的种类各异的路径(path)。由于节点可以随时加入和离开，通讯路径是不可靠的。因此，节点必须持续进行两项工作：在失去已有连接时发现新节点，并在其他节点启动时为其提供帮助。节点启动时只需要一个连接，因为第一个节点可以将它引荐给它的对等节点，而这些节点又会进一步提供引荐。一个节点，如果连接到大量的其他对等节点，这既没必要，也是对网络资源的浪费。在启动完成	后，节点会记住它最近成功连接的对等节点；因此，当重新启动后它可以迅速与先前的对等节点网络重新建立连接。如果先前的网络的对等节点对连接请求无应答，该节点可以使用种子节点进行重启动。
@@ -923,7 +923,7 @@ P2P是指位于同一网络中的每台计算机都彼此对等，各个节点�
 此过程从发送version消息开始，这是因为该消息中含有的BestHeight字段标示了一个节点当前的区块链高度(区块数量)。对等节点们会**交换**一个getblocks消息，其中包含他们本地区块链的顶端区块哈希值(指纹)。如果某个对等节点识别出它接收到的哈希值并不属于顶端区块，而是属于一个非顶端区块的旧区块，那么它就能推断出：其自身的本地区块链比其他对等节点的区块链更长。
 
 拥有更长区块链的对等节点,识别出第	一批可供分享的500个区块，通过使用inv(inventory)消息把这些区块的哈希值传播出去。缺少这些区块的节点便可以	通过各自发送的getdata消息来请求得到全区块信息，用包含在inv消息中的哈希值来确认是否为正确的被请求的区块，	从而读取这些缺失的区块。
-![](https://upload-images.jianshu.io/upload_images/7130568-f4d2ceab6424f67d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-29](images/introduction-to-bitcoin-29.png)
 
 <a id="markdown-74-简单支付验证spv" name="74-简单支付验证spv"></a>
 ## 7.4. 简单支付验证(SPV)
@@ -932,7 +932,7 @@ SPV节点只需下载区块头，而不用下载包含在每个区块中的交�
 如要检查第300000号区块的某个交易, SPV节点会在该交易信息和它所在区块之间用merkle路径建立一条链接。然后SPV节点一直等待，直到序号从300,001到300,006的六个区块堆叠在该交易所在的区块之上，并通过确立交易的深度是在第300,006区块~第300,001区块之下来验证交易的有效性。
 
 SPV节点可以证实某个交易的存在性，但它不能验证某个交易(譬如同一个UTXO的双重支付)不存在，这是因为SPV节点没有一份关于所有交易的记录。这个漏洞会被针对SPV节点的拒绝服务攻击或双重支付型攻击所利用。为了防御这些攻击，SPV节点需要随机连接到多个节点，以增加与至少一个可靠节点相连接的概率。这种随机连接的需求意味着SPV节	点也容易受到网络分区攻击或Sybil攻击。在后者情况中，SPV节点被连接到虚假节点或虚假网络中，没有通向可靠节点或真正的比特币网络的连接。
-![](https://upload-images.jianshu.io/upload_images/7130568-f14adc71d11e7e3d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-30](images/introduction-to-bitcoin-30.png)
 
 
 <a id="markdown-75-bloom-filter" name="75-bloom-filter"></a>
@@ -1054,7 +1054,7 @@ Jing的节点立刻构建一个新的空区块，做为区块277,316的候选区
 <a id="markdown-92-coinbase交易创币交易" name="92-coinbase交易创币交易"></a>
 ## 9.2. coinbase交易(创币交易)
 每个区块中的第一笔交易是笔特殊交易，称为创币交易或者coinbase交易
-![](https://upload-images.jianshu.io/upload_images/7130568-1e819543e2dd13e9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-31](images/introduction-to-bitcoin-31.png)
 
 
 与常规交易不同，创币交易没有输入，不消耗UTXO。它只包含一个被称作coinbase的输入，仅仅用来创建新的比特	币。创币交易有一个输出，支付到这个矿工的比特币地址。
@@ -1066,7 +1066,7 @@ Jing的节点立刻构建一个新的空区块，做为区块277,316的候选区
 
 <a id="markdown-93-构造区块头" name="93-构造区块头"></a>
 ## 9.3. 构造区块头
-![](https://upload-images.jianshu.io/upload_images/7130568-26deeb8c4246f352.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![introduction-to-bitcoin-32](images/introduction-to-bitcoin-32.png)
 
 * merkle root: 将全部的交易组成一个merkle树。创币交易作为区块中的首个交易，后将余下的	418笔交易添至其后，这样区块中的交易一共有419笔。
 

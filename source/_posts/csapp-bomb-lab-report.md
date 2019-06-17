@@ -43,13 +43,13 @@ top:
 ## general
 观察汇编代码，可以看到有 main, phase1--6, 等，重点看这几个函数，从 main 开始，结合 bomb.c, 可以明白程序的控制流，每个阶段用 phase 函数判断输入是否正确，不正确就 boon, 结束程序
 
-![](https://upload-images.jianshu.io/upload_images/7130568-909a5f0bb4560e10.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![csapp-bomb-lab-report-1](images/csapp-bomb-lab-report-1.png)
 
 
 ## phase1
 来到 phase1,
 
-![](https://upload-images.jianshu.io/upload_images/7130568-739b6e0bf4c01c05.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![csapp-bomb-lab-report-2](images/csapp-bomb-lab-report-2.png)
 
 
 第一行准备栈帧，第二行就是将地址存入 $esi, 这是一个字符串的地址，可以猜测下面 string_not_equal 就是比较这个字符串与输入字符串是否相等的函数.（最开始我还去分析了这个函数的汇编代码，确实是那样，先比较长度，然后逐一比较。所以找到这个地址`0x402400`存储的字符串就行了，在 asm 文件中搜索，没有，所以要在程序运行时才可以到达这个虚拟地址，未来 address space 的堆中。这时就要用到强大的 gdb 了，
@@ -63,7 +63,7 @@ gdb
 即得**Border relations with Canada have never been better.**
 
 ## phase2
-![](https://upload-images.jianshu.io/upload_images/7130568-05063a53c4b2a650.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![csapp-bomb-lab-report-3](images/csapp-bomb-lab-report-3.png)
 
 
 所以答案是 `1 2 4 8 16 32`
@@ -246,8 +246,12 @@ int main()
  ```
  解释在上面，反向得到需要的输入的思路是：对 flyers 的每个字符，得到在字符数组中的 index, 也就是输入的字符的后 4 位 bit, 而键盘输入一般是字母，所以很可能有两种可能，字符 byte 的高四位为`0100`或`0110`, 而且可以发现刚好这是大写字母 / 小写字母开始的前一个 ascii, 所以用 python 算一下即得"ionefg"或是"IONEFG"
 
-![](https://upload-images.jianshu.io/upload_images/7130568-fd2125c2596dd14c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
+```python
+li = list('maduiersnfotvbyl)
+s = ''.join([chr(li.index(i)+((1<<6)+(1<<5))) for i in 'flyers'])
+print(s)
+```
 
  ## phase6
  phase6 很难了，这真的要熟练汇编语言，我翻译到前面，知道输入的是六个不相同的数字，而且≤6 ,~~所以可以试全排列了~~, 后面的实在看不下去了，在网上找到这份解析
@@ -432,7 +436,7 @@ $1 = 0x7fffffffe270
 
 ## final
 
-![](https://upload-images.jianshu.io/upload_images/7130568-38519eeed94a52af.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![csapp-bomb-lab-report-5](images/csapp-bomb-lab-report-5.png)
 
 
 啊，终于拆除💣了，
@@ -441,7 +445,7 @@ $1 = 0x7fffffffe270
 
 方法二，gdb 中设置断点'b phase_defused', 然后`jump secret_phase`
 
-![](https://upload-images.jianshu.io/upload_images/7130568-744607a0fb1e4eaf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![csapp-bomb-lab-report-6](images/csapp-bomb-lab-report-6.png)
 
 
 最后得到答案是 22

@@ -12,9 +12,9 @@ top:
 以前做的两张图片, 2333 
 
 <!-- more -->
-![](https://upload-images.jianshu.io/upload_images/7130568-322701b0e6733c34.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![comics-about-staying-up-1](images/comics-about-staying-up-1.png)
 
 
-![](https://upload-images.jianshu.io/upload_images/7130568-fbad059a4476e862.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![comics-about-staying-up-2](images/comics-about-staying-up-2.png)
 
 

@@ -66,7 +66,7 @@ top:
 <a id="markdown-3-算法分析" name="3-算法分析"></a>
 # 3. 算法分析
 衡量算法的优劣
-![](https://upload-images.jianshu.io/upload_images/7130568-d452e7efb6fb3433.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![algorithm-general-1](images/algorithm-general-1.png)
 
 
 * $\omicron,O,\Omega,\Theta$
@@ -131,7 +131,7 @@ $$T(n)=T(2^m)=S(m)=\Theta(m\log m)=\Theta(\log n \log^2 n)$$
 ## 5.2. 递归树
 例如 $T(n) = 3T(\frac{n}{4}) + c n^2$
 不妨假设 n 为4的幂, 则有如下递归树
-![recursive-tree.jpg](https://upload-images.jianshu.io/upload_images/7130568-4a1b9b6ee852b725.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![recursive-tree.jpg](images/recursive-tree.jpg.png)
 
 $$
 T(n) = \sum_{i=0}^{ {\log_4 n}-1}cn^2*(\frac{3}{16})^i + \Theta(n^{\log4 3})
@@ -234,13 +234,13 @@ $$
 答案是 $\Theta(logn)$
 记 长度至少为 k 的正面序列开始与第 i 次抛, 由于独立, 所有 k 次抛掷都是正面的 概率为 
 $P(A_{ik})=\frac{1}{2^k}$,对于 $k=2\lceil lgn\rceil$
-![coin1.jpg](https://upload-images.jianshu.io/upload_images/7130568-780b9795b6d9a2bd.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![coin1.jpg](images/coin1.jpg.png)
 
-![coin2.jpg](https://upload-images.jianshu.io/upload_images/7130568-7d112b304e2d78b6.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![coin2.jpg](images/coin2.jpg.png)
 
-![coin3.jpg](https://upload-images.jianshu.io/upload_images/7130568-f104d530f2a57c99.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![coin3.jpg](images/coin3.jpg.png)
 
-![coin4.jpg](https://upload-images.jianshu.io/upload_images/7130568-be0fd1b57a5ff305.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![coin4.jpg](images/coin4.jpg.png)
 
 <a id="markdown-9-摊还分析" name="9-摊还分析"></a>
 # 9. 摊还分析

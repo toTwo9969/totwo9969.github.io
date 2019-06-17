@@ -56,7 +56,7 @@ description: "死锁的定义, 建模(资源分配图, 以及死锁的处理( �
 
 圆形表示进程, 方形表示资源,  进程 -> 资源 表示请求,   进程 <- 资源, 表示占有
 
-![资源分配图](https://upload-images.jianshu.io/upload_images/7130568-b562b5cc4d2f9ee5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![资源分配图](images/资源分配图.png)
 
 
 <a id="markdown-处理死锁" name="处理死锁"></a>
@@ -70,9 +70,9 @@ description: "死锁的定义, 建模(资源分配图, 以及死锁的处理( �
 <a id="markdown-死锁检测" name="死锁检测"></a>
 ### 死锁检测
 	
-![数据结构](https://upload-images.jianshu.io/upload_images/7130568-e6173f74ab245c7c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![数据结构](images/数据结构.png)
 
-![死锁检测算法](https://upload-images.jianshu.io/upload_images/7130568-f59934872b5946f8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![死锁检测算法](images/死锁检测算法.png)
 
 <a id="markdown-死锁恢复" name="死锁恢复"></a>
 ### 死锁恢复
@@ -91,7 +91,7 @@ description: "死锁的定义, 建模(资源分配图, 以及死锁的处理( �
 <a id="markdown-资源轨迹图" name="资源轨迹图"></a>
 ### 资源轨迹图
 
-![资源轨迹图](https://upload-images.jianshu.io/upload_images/7130568-5230cc928d411915.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![资源轨迹图](images/资源轨迹图.png)
 
 <a id="markdown-安全区域与不安全区域" name="安全区域与不安全区域"></a>
 ### 安全区域与不安全区域
@@ -102,10 +102,10 @@ description: "死锁的定义, 建模(资源分配图, 以及死锁的处理( �
 Dijkstra提出,  banker's algorithm
 基本思路就是 每次满足一个进程的资源  请求前, 检测是否会造成死锁, 如果造成,就不满足其请求,否则满足.(死锁检测算法可以利用[上文](#死锁检测)中的)
 
-![](https://upload-images.jianshu.io/upload_images/7130568-bb6a8bd61823f8f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![deadlock-1](images/deadlock-1.png)
 
 
-![银行家算法](https://upload-images.jianshu.io/upload_images/7130568-d08905186ef3dc01.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![银行家算法](images/银行家算法.png)
 
 `缺点`: 很多进程在运行前是不知道其需要资源的最大值,而且进程数不断变化,原本的资源也可能突然间不可用(如磁带机可能会坏掉), 所以缺乏实用价值  , 极少有系统使用
 <a id="markdown-死锁预防" name="死锁预防"></a>
@@ -136,5 +136,5 @@ Dijkstra提出,  banker's algorithm
 <a id="markdown-破坏环路等待条件" name="破坏环路等待条件"></a>
 ### 破坏环路等待条件
 给资源编号, 进程只能按编号的顺序(升序)请求. 这样资源分配图不会出现环,.
-![](https://upload-images.jianshu.io/upload_images/7130568-bb7eb107efa2d53a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![deadlock-2](images/deadlock-2.png)
 

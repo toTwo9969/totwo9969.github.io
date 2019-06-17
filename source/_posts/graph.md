@@ -76,7 +76,7 @@ description: "算法导论上常用的图算法, 代码, 原理等"
 ## 1.2. 图的表示
 * 邻接矩阵
 * 邻接链表
-![](https://upload-images.jianshu.io/upload_images/7130568-57ce6db904992656.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![graph-1](images/graph-1.png)
 
 <a id="markdown-13-树" name="13-树"></a>
 ## 1.3. 树
@@ -133,7 +133,7 @@ begin, end 分别是结点的发现时间与完成时间
 ### 2.2.1. DFS 的性质
 * 其生成的前驱子图$G_{pre}$ 形成一个由多棵树构成的森林, 这是因为其与 dfsVisit 的递归调用树相对应
 * 括号化结构
-![](https://upload-images.jianshu.io/upload_images/7130568-ba62e68e5b883b6c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![graph-2](images/graph-2.png)
 * 括号化定理:
     考察两个结点的发现时间与结束时间的区间 [u,begin,u.end] 与 [v.begin,v.end]
     * 如果两者没有交集, 则两个结点在两个不同的子树上(递归树)
@@ -256,7 +256,7 @@ def relax(u,v,w):
 该性质的成立与任何其他的松弛操作无关，即使这些松弛操作是与对p上的边所进行的松弛操作穿插进行的。
 
 证明
-![](https://upload-images.jianshu.io/upload_images/7130568-424a6929bd389825.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![graph-3](images/graph-3.png)
 
 <a id="markdown-45-有向无环图的单源最短路问题" name="45-有向无环图的单源最短路问题"></a>
 ## 4.5. 有向无环图的单源最短路问题
@@ -284,7 +284,7 @@ def bellman-ford(G,s):
 ```
 第一个 for 循环就是进行松弛操作, 最后结果已经存储在 结点的distance 和 pre 属性中了, 第二个 for 循环利用三角不等式检查有不有负值圈.
 
-下面是证明该算法的正确性![](https://upload-images.jianshu.io/upload_images/7130568-f84e00ac35aadc81.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+下面是证明该算法的正确性![graph-4](images/graph-4.png)
 
 <a id="markdown-47-dijkstra-算法" name="47-dijkstra-算法"></a>
 ## 4.7. Dijkstra 算法
@@ -397,7 +397,7 @@ return d,pre
 2. 用 Bellman-Ford 算法检查是否有负值圈, 如果没有, 同时求出 $\delta(s,v) 记为 h(v)$
 3. 求新的非负值权, w'(u,v) = w(u,v)+h(u)-h(v)
 4. 对所有结点在 新的权矩阵w'上 用 Dijkstra 算法
-![image.png](https://upload-images.jianshu.io/upload_images/7130568-6c2146ad64d692f3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![graph-5](images/graph-5.png)
 
 ```python
 JOHNSON (G, u) 
@@ -440,7 +440,7 @@ $$
 ## 6.1. 最大流最小截定理
 <<图论>> 王树禾[^2]
 * 对于任一截$(S,\overline S)$, 有 $F =  \sum_{e\in (S,\overline S)} f(e)- \sum_{e\in(\overline S,S)}f(e),$
-![prove](https://upload-images.jianshu.io/upload_images/7130568-19bf6cc3c7d6ce06.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![prove](images/prove.png)
 * $F\leqslant C(S)$
 证明: 由上面定理
  $$F =  \sum_{e\in (S,\overline S)} f(e)- \sum_{e\in(\overline S,S)}f(e),$$
@@ -450,7 +450,7 @@ $$F\leqslant \sum_{e\in (S,\overline S)} f(e) \leqslant \sum_{e\in (S,\overline 
 <a id="markdown-62-多个源汇" name="62-多个源汇"></a>
 ## 6.2. 多个源,汇
 可以新增一个总的源,一个总的汇,
-![](https://upload-images.jianshu.io/upload_images/7130568-3e9e87fdf9655883.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![graph-6](images/graph-6.png)
 
 <a id="markdown-63-ford-fulkerson-方法" name="63-ford-fulkerson-方法"></a>
 ## 6.3. Ford-Fulkerson 方法
@@ -465,14 +465,14 @@ def ford-fulkerson(G,s,t):
 ```
 <a id="markdown-631-残存网络" name="631-残存网络"></a>
 ### 6.3.1. 残存网络
-![](https://upload-images.jianshu.io/upload_images/7130568-c74a571b9121dbbf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![graph-7](images/graph-7.png)
 
 <a id="markdown-632-增广路径" name="632-增广路径"></a>
 ### 6.3.2. 增广路径
-![](https://upload-images.jianshu.io/upload_images/7130568-b9e841cfa4d04b57.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![graph-8](images/graph-8.png)
 <a id="markdown-633-割" name="633-割"></a>
 ### 6.3.3. 割
-![](https://upload-images.jianshu.io/upload_images/7130568-74b065e86eb285b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![graph-9](images/graph-9.png)
 <a id="markdown-64-基本的-ford-fulkerson算法" name="64-基本的-ford-fulkerson算法"></a>
 ## 6.4. 基本的 Ford-Fulkerson算法
 ```python

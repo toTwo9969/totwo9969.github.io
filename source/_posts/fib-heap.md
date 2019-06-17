@@ -25,7 +25,7 @@ description: "介绍 fibnacci heap 的原理"
 
 <!-- /TOC -->
 
-![](https://upload-images.jianshu.io/upload_images/7130568-22531846a72b0d83.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![fib-heap-1](images/fib-heap-1.png)
 
 <a id="markdown-1-结构" name="1-结构"></a>
 # 1. 结构
@@ -34,7 +34,7 @@ description: "介绍 fibnacci heap 的原理"
 结点有degree 属性, 记录孩子的个数, mark 属性用来标记(为了满足势函数, 达到摊还需求的)
 
 还有一个最小值指针 H.min 指向最小根结点
-![](https://upload-images.jianshu.io/upload_images/7130568-d4e8a85754fdbc14.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![fib-heap-2](images/fib-heap-2.png)
 
 <a id="markdown-2-势函数" name="2-势函数"></a>
 # 2. 势函数
@@ -154,7 +154,7 @@ def cascading-cut(H,y):
             cut(H,y,z)
             cascading-cut(H,z)
 ```
-![](https://upload-images.jianshu.io/upload_images/7130568-0a29221f8a1fbfbb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![fib-heap-3](images/fib-heap-3.png)
 
 <a id="markdown-47-删除结点" name="47-删除结点"></a>
 ## 4.7. 删除结点
@@ -167,4 +167,4 @@ extract-min(H)
 # 5. 最大度数的证明
 这也是`斐波那契`这个名字的由来,
 $D(n)\leqslant \lfloor lgn \rfloor$
-![](https://upload-images.jianshu.io/upload_images/7130568-c9e0cd3be4e98c4b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![fib-heap-4](images/fib-heap-4.png)

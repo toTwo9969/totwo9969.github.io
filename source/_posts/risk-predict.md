@@ -38,9 +38,7 @@ keywords: 机器学习,人工智能,实验楼
 <a id="markdown-介绍" name="介绍"></a>
 ## 介绍
 
-题目提供一个来自某银行的真实数据集，数据集前 10 行预览如下：
-
-![](http://upload-images.jianshu.io/upload_images/7130568-1620a00dc4997329.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+题目提供一个来自某银行的真实数据集
 
 其中：
 
@@ -78,9 +76,7 @@ wget http://labfile.oss.aliyuncs.com/courses/1109/credit_risk_test.csv
 
 2.  需要将 `credit_risk_pred.csv` 放置于 `/home/shiyanlou/Code` 路径下方。
 
-**`credit_risk_pred.csv` 数据文件仅存在 RISK 列，示例如下：**
-
-![ ](http://upload-images.jianshu.io/upload_images/7130568-31806aeb15e230b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+**`credit_risk_pred.csv` 数据文件仅存在 RISK 列,值只有 "HIGH","LOW"
 
 <a id="markdown-提示" name="提示"></a>
 ## 提示
@@ -103,7 +99,7 @@ wget http://labfile.oss.aliyuncs.com/courses/1109/credit_risk_test.csv
 ## 模型选择
 首先要选出合适的模型, 最开始随便试了 `SGDClassifier`,`LogisticRegression`等模型, 都没有达到0.8的准确度
 然后上网查找,根据这张图选择了 svm 支持向量机模型
-![model](http://upload-images.jianshu.io/upload_images/7130568-45e992be74e9205e?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![model](images/model.png)
 ```python
 from sklearn.svm import SVC as MODEL
 ```

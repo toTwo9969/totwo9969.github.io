@@ -54,7 +54,7 @@ description: "B 树的原理与实现,b+ 树介绍"
 $h\leq \left\lfloor \log _{d}\left({\frac {n+1}{2}}\right)\right\rfloor .$
 
 如下是 度为2的 B 树, 每个结点可能有2,3或4 个孩子, 所以也叫 2,3,4树, 等价于[红黑树](/red-black-tree.html#more)
-![](https://upload-images.jianshu.io/upload_images/7130568-30342360fb9674b4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![b-tree-1](images/b-tree-1.png)
 
 <a id="markdown-3-查找操作" name="3-查找操作"></a>
 # 3. 查找操作
@@ -209,11 +209,11 @@ rebalance 就是从叶子结点自底向上到根结点, 只要遇到关键字�
 <a id="markdown-52-第二种方法" name="52-第二种方法"></a>
 ## 5.2. 第二种方法
 这是算法导论[^2]上的
-![](https://upload-images.jianshu.io/upload_images/7130568-119c3bc27eee8ee6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-![](https://upload-images.jianshu.io/upload_images/7130568-567cc0ffd8a4da80.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![b-tree-2](images/b-tree-2.png)
+![b-tree-3](images/b-tree-3.png)
 
 例如
-![](https://upload-images.jianshu.io/upload_images/7130568-1f3e6003a5ccf800.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![b-tree-4](images/b-tree-4.png)
 
 
 ```python
@@ -364,14 +364,14 @@ B-TREE-SHIFT-TO-LEFT-CHILD(x,i,y,z)
 
 
 由于叶子结点间有指向下一个叶子的指针, 便于遍历, 以及区间查找, 所以数据库的以及操作系统文件系统的实现常用 B+树,
-![](https://upload-images.jianshu.io/upload_images/7130568-6a129fb2d32bda7d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![b-tree-5](images/b-tree-5.png)
 
 
 <a id="markdown-7-b树" name="7-b树"></a>
 # 7. B*树
 B*-tree [^5] 是 B+-tree 的变体,在 B+ 树的基础上 (所有的叶子结点中包含了全部关键字的信息,及指向含有这些关键字记录的指针),B * 树中非根和非叶子结点再增加指向兄弟的指针；B* 树定义了非叶子结点关键字个数至少为 (2/3)*M,即块的最低使用率为 2/3（代替 B+ 树的 1/2）
 
-![](https://upload-images.jianshu.io/upload_images/7130568-517a256d15adb70d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![b-tree-6](images/b-tree-6.png)
 
 <a id="markdown-8-代码实现与测试" name="8-代码实现与测试"></a>
 # 8. 代码实现与测试
@@ -404,7 +404,7 @@ if __name__ =='__main__':
         bt.delete(i)
         print(bt)
 ```
-![bTree](https://upload-images.jianshu.io/upload_images/7130568-5dd763f4b28d853c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![bTree](images/bTree.png)
 
 <a id="markdown-82-python-实现" name="82-python-实现"></a>
 ## 8.2. python 实现
