@@ -47,7 +47,7 @@ GitHub 页面不能 渲染 mathjax 公式，有的文章中含有 mathjax 公式
 - 2018-05-16: 『小仓鼠漫画』熬夜的危害与防护--[GitHub 网页](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/_posts/comics-about-staying-up.md),[博客网页](https://mbinary.github.io/comics-about-staying-up.html)
 - 2018-04-29: 『CTF』网络信息安全攻防实验室之基础关 writeup--[GitHub 网页](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/_posts/ctf-basic.md),[博客网页](https://mbinary.github.io/ctf-basic.html)
 - 2018-04-05: 『WEB』用 python 发送 csdn 博客--[GitHub 网页](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/_posts/send-blog-automatically.md),[博客网页](https://mbinary.github.io/send-blog-automatically.html)
-- 2018-03-31: 用机械键盘的室友--[GitHub 网页](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/_posts/the-roommate-that-uses-mechanical-keyboar.md),[博客网页](https://mbinary.github.io/the-roommate-that-uses-mechanical-keyboar.html)
+- 2018-03-31: 用机械键盘的室友--[GitHub 网页](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/_posts/roommate.md),[博客网页](https://mbinary.github.io/roommate.html)
 - 2018-03-26: CSAPP-BOMB-LAB--[GitHub 网页](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/_posts/csapp-bomb-lab-report.md),[博客网页](https://mbinary.github.io/csapp-bomb-lab-report.html)
 - 2018-03-23: 学习与遗忘--[GitHub 网页](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/_posts/learning-and-forgetting.md),[博客网页](https://mbinary.github.io/learning-and-forgetting.html)
 - 2018-02-21: 2017 年，20 岁，大二寒假总结与感悟--[GitHub 网页](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/_posts/20-years-old-summary.md),[博客网页](https://mbinary.github.io/20-years-old-summary.html)

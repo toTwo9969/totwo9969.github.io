@@ -88,7 +88,7 @@ $$
 ## 2.3. 链接法
 通过链接法来解决碰撞
 
-![hashTable-1](images/hashTable-1.png)
+![hashTable-1](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/hashTable-1.png)
 
 
 
@@ -154,7 +154,7 @@ $$
  有
  $$ E(\text{探查数})=\frac{1}{p}\leqslant \frac{1}{1-\alpha}$$
 
-![hashTable-2](images/hashTable-2.png)
+![hashTable-2](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/hashTable-2.png)
 
 <a id="markdown-2411-插入探查数的期望" name="2411-插入探查数的期望"></a>
 #### 2.4.1.1. 插入探查数的期望

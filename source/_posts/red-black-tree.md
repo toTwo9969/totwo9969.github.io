@@ -56,10 +56,10 @@ description: "红黑树的原理与实现, 包括插入, 删除, 以及数据结
 * 从每个结点出发,通过子孙到达叶子结点的各条路径上 黑结点数相等
 
 如,叶子结点 是 nil, 即不存储任何东西, 为了编程方便,相对的,存有数据的结点称为内结点
-![red-black-tree-1](images/red-black-tree-1.png)
+![red-black-tree-1](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/red-black-tree-1.png)
 
 为了节省空间, 可以如下实现, 只需要一个 nil 结点
-![nil leaf](images/nil leaf.png)
+![nil leaf](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/nil leaf.png)
 
 <a id="markdown-13-黑高度" name="13-黑高度"></a>
 ## 1.3. 黑高度
@@ -86,7 +86,7 @@ $$n \geqslant 2^{h_b(x)} -1 \geqslant 2^{\frac{h}{2}} -1$$
 
 下面是对结点 x 进行 左旋与右旋.
 注意进行左旋时, 右孩子不是 nil(要用来作为旋转后 x 的双亲), 同理 右旋的结点的左孩子不是nil
-![左旋与右旋](images/左旋与右旋.png)
+![左旋与右旋](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/左旋与右旋.png)
 总结起来就是: 父亲旋转,顺时针就是右旋,逆时针就是左旋, 旋转的结果是儿子成为原来父亲的新父亲, 即旋转的结点下降一层, 它的一个儿子上升一层.
 
 <a id="markdown-3-插入" name="3-插入"></a>
@@ -166,14 +166,14 @@ RB-INSERT(T, z)
 
 有如下三种情况
 
-![red-black-tree-2](images/red-black-tree-2.png)
+![red-black-tree-2](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/red-black-tree-2.png)
 
 每种情况的解决方案如下
 
 <a id="markdown-3221-case1--x-的叔叔是红色的" name="3221-case1--x-的叔叔是红色的"></a>
 #### 3.2.2.1. case1:  x 的叔叔是红色的
 这里只需改变颜色, 将 p(x)变为 黑, p(p(x))变为红, u(x) 变为黑色 (x为右孩子同样)
-![red-black-tree-3](images/red-black-tree-3.png)
+![red-black-tree-3](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/red-black-tree-3.png)
 
 
 <a id="markdown-3222-case2-x-的叔叔是黑色-xpx-ppx方向为-left-right-或者-right-left" name="3222-case2-x-的叔叔是黑色-xpx-ppx方向为-left-right-或者-right-left"></a>
@@ -183,7 +183,7 @@ RB-INSERT(T, z)
 #### 3.2.2.3. case3: x 的叔叔是黑色, x,p(x), p(p(x)),方向为 left-left 或者 right-right
 即 x,p(x), p(p(x)) 成直线状
 
-![red-black-tree-4](images/red-black-tree-4.png)
+![red-black-tree-4](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/red-black-tree-4.png)
 
 
 当 x 为右孩子时, 通过旋转变成p(x) 的双亲, 然后相当于 新插入 p(x)作为左孩子, 再进行转换.
@@ -194,7 +194,7 @@ RB-INSERT(T, z)
 ### 3.2.3. 总体解决方案
 我最开始也没有弄清楚, 有点绕晕的感觉, 后来仔细读了书上伪代码, 然后才发现就是一个状态机, 画出来就一目了然了.
 
-![red-black-tree-5](images/red-black-tree-5.png)
+![red-black-tree-5](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/red-black-tree-5.png)
 
 
 
@@ -279,7 +279,7 @@ color[root[T]] ← BLACK
 算法导论上的算法
 
 写的很简练👍
-![rb-delete](images/rb-delete.png)
+![rb-delete](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/rb-delete.png)
 
 <a id="markdown-41-二叉查找树删除结点" name="41-二叉查找树删除结点"></a>
 ## 4.1. 二叉查找树删除结点
@@ -296,14 +296,14 @@ color[root[T]] ← BLACK
 这样就化为 删除的结点最多一个孩子的情况.
 
 
-![red-black-tree-6](images/red-black-tree-6.png)
+![red-black-tree-6](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/red-black-tree-6.png)
 
 
 <a id="markdown-42-调整颜色与旋转" name="42-调整颜色与旋转"></a>
 ## 4.2. 调整颜色与旋转
  可以发现只有当 y 是黑色,才进行颜色调整以及旋转(维持红黑性质), 因为如果删除的是红色, 不会影响黑高度, 所有红黑性质都不会破坏
 伪代码如下, (我的python代码见文末)
-![red-black-tree-7](images/red-black-tree-7.png)
+![red-black-tree-7](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/red-black-tree-7.png)
 
 如果被删除的结点 y 是黑色的, 有三种破坏红黑性质的情况
 1. y是根, 则 y 的一个红色孩子成为新根
@@ -323,11 +323,11 @@ color[root[T]] ← BLACK
 w 表示 x 的相抵. w 不能为 nil(因为 x 是双重黑色)
 
 算法中的四种情况如图所示
-![red-black-tree-8](images/red-black-tree-8.png)
+![red-black-tree-8](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/red-black-tree-8.png)
 
 即
 * x 的兄弟 w 是红色的
-![red-black-tree-9](images/red-black-tree-9.png)
+![red-black-tree-9](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/red-black-tree-9.png)
 * x 的兄弟 w 是黑色的, w的两个孩子都是黑色的
 
 * x 的兄弟 w 是黑色的, w 的左孩子是红,右孩子是黑
@@ -338,7 +338,7 @@ w 表示 x 的相抵. w 不能为 nil(因为 x 是双重黑色)
 同插入一样, 为了便于理解, 可以作出状态机.
 而且这些情形都是归纳化简了的, 你也可以枚举列出基本的全部情形.
 
-![red-black-tree-10](images/red-black-tree-10.png)
+![red-black-tree-10](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/red-black-tree-10.png)
 
 
 <a id="markdown-5-数据结构的扩张" name="5-数据结构的扩张"></a>
@@ -375,7 +375,7 @@ def find(root,i):
 我用了 setChild, getChild 来简化代码量, 其他的基本上是按照算法导论上的伪代码提到的case 来实现的. 然后display 只是测试的时候,为了方便调试而层序遍历打印出来
 
 效果如下
-![red-black-tree-11](images/red-black-tree-11.png)
+![red-black-tree-11](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/red-black-tree-11.png)
 
 ```python
 ''' mbinary

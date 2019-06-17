@@ -17,6 +17,8 @@ DIR = args.dir
 
 PT = re.compile(r'\!\[(.*?)\]\((.*?)\)')
 
+PRE = 'https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images'
+
 if not os.path.exists(PATH):
     os.mkdir(PATH)
 
@@ -50,7 +52,7 @@ def subFunc(match, filename='image'):
     if filename.startswith('decrypt'):
         s = 'd'+s
     if filename.startswith('multi'):
-        print(filename,s)
+        print(filename, s)
         s = 'm'+s
     new_path = os.path.join(PATH, s+'.png')
     if (not os.path.exists(new_path)) and url.startswith('http'):
@@ -59,12 +61,31 @@ def subFunc(match, filename='image'):
     return f'![{s}]({new_path})'
 
 
-def changeImageUrl(file_path):
+def getImageUrl(file_path):
     s = ''
     try:
         with open(file_path) as fp:
             s = fp.read()
-        s = re.sub(PT, partial(subFunc, filename=os.path.basename(file_path)), s)
+        s = re.sub(PT, partial(
+            subFunc, filename=os.path.basename(file_path)), s)
+        with open(file_path, 'w') as fp:
+            fp.write(s)
+    except Exception as e:
+        print(e)
+        print(file_path)
+
+
+def changeImageUrl(file_path, pre=''):
+    def subf(match, pre=PRE):
+        name = match.group(1)
+        url = match.group(2)
+        filename = os.path.basename(url)
+        return f'![{name}]({os.path.join(pre,filename)})'
+    s = ''
+    try:
+        with open(file_path) as fp:
+            s = fp.read()
+        s = re.sub(PT, subf, s)
         with open(file_path, 'w') as fp:
             fp.write(s)
     except Exception as e:

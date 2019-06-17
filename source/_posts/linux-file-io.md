@@ -22,12 +22,12 @@ categories:
     *  ssize_t write(int fd, void *buf,size_t nbytes);*io效率**: buf设置为4096及更大效率较高
 
 # 进程文件结构
-    ![linux-file-io-1](images/linux-file-io-1.png)
+    ![linux-file-io-1](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/linux-file-io-1.png)
 
-    ![linux-file-io-2](images/linux-file-io-2.png)
+    ![linux-file-io-2](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/linux-file-io-2.png)
 
 ## 文件共享
-    ![linux-file-io-3](images/linux-file-io-3.png)
+    ![linux-file-io-3](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/linux-file-io-3.png)
 # 原子操作
     一般有多个函数的操作,, 不是原子操作, 多进程运行时可能出错,比如
     ```
@@ -45,7 +45,7 @@ categories:
     // close fd2 and open fd,  note it's  an atomic op
     //if  fd2==fd : return fd2
     ```
-    ![linux-file-io-4](images/linux-file-io-4.png)
+    ![linux-file-io-4](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/linux-file-io-4.png)
 
 
     参考资料: UNIX环境高级编程 W.Richard Stevens, Stephen A. Rago

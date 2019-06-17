@@ -66,7 +66,7 @@ top:
 
 重叠寻道(overlapped seek): 控制器同时操控多个驱动器进行寻道.
 
-![IO-device-1](images/IO-device-1.png)
+![IO-device-1](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/IO-device-1.png)
 大多数磁盘都有一个虚拟的几何规格呈现给 OS, 控制器可以将虚拟的几何规格映射到实际的物理位置
 
 <a id="markdown-raid" name="raid"></a>
@@ -78,7 +78,7 @@ RAID 背后的思想是将一个装满了的磁盘盒子安装到计算机上, �
 
 对 RAID 的并行操作, 目前有0级到7级 RAID. 层级这个名称或许用词不当, 这里没有分层结构,只是不同的组织形式而已
 
-![IO-device-2](images/IO-device-2.png)
+![IO-device-2](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/IO-device-2.png)
 * 0
 
   * 组成: 将 RAID 模拟的虚拟单个磁盘划分成 Stripe , 每个 stripe 带有 K个扇区, `0`~ `k-1 `扇区为 条带0, `k`~`2k-1`为条带1...  注意还未引入冗余, 实际上不是正真的 RAID
@@ -102,7 +102,7 @@ RAID 背后的思想是将一个装满了的磁盘盒子安装到计算机上, �
 <a id="markdown-cd-rom" name="cd-rom"></a>
 ### CD-ROM
 
-![IO-device-3](images/IO-device-3.png)
+![IO-device-3](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/IO-device-3.png)
 
 <a id="markdown-磁盘格式化" name="磁盘格式化"></a>
 ## 磁盘格式化
@@ -120,7 +120,7 @@ RAID 背后的思想是将一个装满了的磁盘盒子安装到计算机上, �
 * SSF(Shortest Seek First) 最短寻道优先: 很可能在中间往返, 而不能处理靠边的请求, 响应时间很长
 * 电梯算法(elevator algorithm): 电梯也是用的这种算法. 保存向一个方向移动直到向那个方向再没有服务请求到来.
 
-![电梯算法](images/电梯算法.png)
+![电梯算法](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/电梯算法.png)
  
 
 由于寻道和旋转延迟太影响性能了, 所以一次只读一两个扇区效率低下,. 许多磁盘控制器常读出多个扇区并进行高速缓存(独立于操作系统的 高速缓存).
@@ -128,7 +128,7 @@ RAID 背后的思想是将一个装满了的磁盘盒子安装到计算机上, �
 <a id="markdown-错误处理" name="错误处理"></a>
 ## 错误处理
 制造时的瑕疵可能出现坏扇区, 厂商需要设置控制器来处理坏区, 有如下方法, 控制器需要维护一个映射表来替换坏区
-![IO-device-4](images/IO-device-4.png)
+![IO-device-4](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/IO-device-4.png)
 
 也可以由操作系统软件来处理, 首先要获得坏区列表,然后建立重映射表.
 
@@ -136,7 +136,7 @@ RAID 背后的思想是将一个装满了的磁盘盒子安装到计算机上, �
 操作系统要隐藏坏块, 使对备份应用程序不可见.
 
 **AV盘🙈😮**
-![IO-device-5](images/IO-device-5.png)
+![IO-device-5](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/IO-device-5.png)
 
 <a id="markdown-稳定存储器" name="稳定存储器"></a>
 ## 稳定存储器
@@ -156,7 +156,7 @@ RAID 背后的思想是将一个装满了的磁盘盒子安装到计算机上, �
 <a id="markdown-原理" name="原理"></a>
 ### 原理
 使用一对完全相同的磁盘,对应的块一同工作形成一个无差错的块. 定义如下三种操作
-![IO-device-6](images/IO-device-6.png)
+![IO-device-6](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/IO-device-6.png)
 
 <a id="markdown-时钟" name="时钟"></a>
 # 时钟
@@ -166,7 +166,7 @@ RAID 背后的思想是将一个装满了的磁盘盒子安装到计算机上, �
 <a id="markdown-构成" name="构成"></a>
 ### 构成
 晶体震荡器, 计数器, 存储寄存器
-![IO-device-7](images/IO-device-7.png)
+![IO-device-7](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/IO-device-7.png)
 
 <a id="markdown-模式" name="模式"></a>
 ### 模式
@@ -184,7 +184,7 @@ RAID 背后的思想是将一个装满了的磁盘盒子安装到计算机上, �
 * 维护日时间
 
 因为 32 位的寄存器以滴答计数最多计数 2 年
-![IO-device-8](images/IO-device-8.png)
+![IO-device-8](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/IO-device-8.png)
 
 * 防止进程超时运行
 
@@ -236,7 +236,7 @@ I/O 端口中段数字是键标号, 称为 扫描码(scan code),而不是 ASCII 
 
 <a id="markdown-规范模式下的特殊字符" name="规范模式下的特殊字符"></a>
 ### 规范模式下的特殊字符
-![IO-device-9](images/IO-device-9.png)
+![IO-device-9](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/IO-device-9.png)
 
 <a id="markdown-鼠标" name="鼠标"></a>
 ## 鼠标
@@ -263,13 +263,13 @@ I/O 端口中段数字是键标号, 称为 扫描码(scan code),而不是 ASCII 
 当 X 在一台机器上运行时, 采集键盘与鼠标输入并且输出到屏幕上的软件称为 `X server`
 X server 常位于用户计算机的内部, 而 X 客户可能在远程计算服务器上.
 
-![Client and Server](images/Client and Server.png)
+![Client and Server](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/Client and Server.png)
 
 注意 X 只是一个窗口系统, 不是一个完全的 GUI. 要获得完全的 GUI, 需要在器上运行其他软件层.
 
 <a id="markdown-瘦客户机thin-client" name="瘦客户机thin-client"></a>
 # 瘦客户机(thin client)
-![IO-device-10](images/IO-device-10.png)
+![IO-device-10](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/IO-device-10.png)
 
 <a id="markdown-电源管理" name="电源管理"></a>
 # 电源管理
@@ -291,7 +291,7 @@ X server 常位于用户计算机的内部, 而 X 客户可能在远程计算服
 ### 显示器
 一段时间后可以关闭屏幕(是睡眠,可以立即唤醒))
 改进: 将屏幕分成多个区域, 可以关闭当前窗口(或者用户自己定义)未覆盖的区域. 窗口管理器还可以使窗口与区域对齐, 进一步地, 部分照亮关闭的区域
-![IO-device-11](images/IO-device-11.png)
+![IO-device-11](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/IO-device-11.png)
 <a id="markdown-硬盘" name="硬盘"></a>
 ### 硬盘
 即时不存在存取操作,硬盘也消耗大量的能量以保持高速旋转.(不然加速需要很长时间 呢(●ˇ∀ˇ●)). 但是注意 停止硬盘是休眠不是睡眠.

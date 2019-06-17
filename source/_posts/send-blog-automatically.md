@@ -26,13 +26,13 @@ description:
 寻找 post, 提交内容的网址，我最开始一直以为是`https://mp.csdn.net/mdeditor/`, 返回的页面是成功的
 但是刷新博客页面，并没有发表文章， 后来用 fiddler 抓包才找到正确的网址
 
-![post](images/post.png)
+![post](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/post.png)
 
 
 ## 元数据
 然后构造发表的文章的元数据，在 fiddler 中可以发现
 
-![form](images/form.png)
+![form](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/form.png)
 就是这样的一个字典，
 
 ```python

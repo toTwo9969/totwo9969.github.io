@@ -62,7 +62,7 @@ h是树高, 但是由于插入,删除而导致树不平衡, 即可能 $h\geqslan
 下面可以证明,随机构造,即输入序列有 $n!$中, 每种概率相同的情况下, 期望的树高 $h=O(logn)$
 
 (直接搬运算法导论上面的啦>_<)
-![tree-1](images/tree-1.png)
+![tree-1](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/tree-1.png)
 
 <a id="markdown-22-平均结点深度" name="22-平均结点深度"></a>
 ## 2.2. 平均结点深度
@@ -72,7 +72,7 @@ h是树高, 但是由于插入,删除而导致树不平衡, 即可能 $h\geqslan
 类似 RANDOMIZED-QUICKSORT 的证明过程, 因为快排 递归的过程就是一个递归 二叉树. 
 随机选择枢纽元就相当于这里的某个子树的根结点 在所有结点的大小随机排名, 如 i. 然后根结点将剩下的结点划分为左子树(i-1)个结点, 右子树(n-i)个结点.
 
-![tree-2](images/tree-2.png)
+![tree-2](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/tree-2.png)
 <a id="markdown-23-不同的二叉树数目catalan-num" name="23-不同的二叉树数目catalan-num"></a>
 ## 2.3. 不同的二叉树数目(Catalan num)
 给定$\{1,2,\ldots,n\}$,组成二叉查找树的数目.
@@ -150,11 +150,11 @@ $$
 >推论: n个字符,进栈出栈(出栈可以在栈不为空的时候随时进行), 则出栈序列有 c(n)种
 
 这种先入后出的情形都是这样
-![tree-3](images/tree-3.png)
+![tree-3](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/tree-3.png)
 
 <a id="markdown-3-基数树radixtree" name="3-基数树radixtree"></a>
 # 3. 基数树(radixTree)
-![tree-4](images/tree-4.png)
+![tree-4](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/tree-4.png)
 <a id="markdown-4-字典树trie" name="4-字典树trie"></a>
 # 4. 字典树(trie)
 又叫`前缀树`(preifx tree).适用于储存有公共前缀的字符串集合. 如果直接储存, 而很多字符串有公共前缀, 会浪费掉存储空间.
@@ -164,7 +164,7 @@ $$
 <a id="markdown-41-ac-自动机" name="41-ac-自动机"></a>
 ## 4.1. AC 自动机
 Aho-Corasick automation,是在字典树上添加匹配失败边(失配指针), 实现字符串搜索匹配的算法.
-![tree-5](images/tree-5.png)
+![tree-5](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/tree-5.png)
 
 图中蓝色结点 表示存在字符串, 灰色表示不存在.
 黑色边是父亲到子结点的边, 蓝色边就是`失配指针`.
@@ -189,9 +189,9 @@ Aho-Corasick automation,是在字典树上添加匹配失败边(失配指针), �
 ## 5.1. AVL Tree
 `平衡因子`: 右子树高度 - 左子树高度
 定义: 每个结点的平衡因子属于{0,-1,1}
-![AVL_Tree_Example.gif](images/AVL_Tree_Example.gif.png)
+![AVL_Tree_Example.gif](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/AVL_Tree_Example.gif.png)
 
-![from wiki](images/from wiki.png)
+![from wiki](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/from wiki.png)
 
 <a id="markdown-52-splaytree" name="52-splaytree"></a>
 ## 5.2. splayTree
@@ -200,13 +200,13 @@ Aho-Corasick automation,是在字典树上添加匹配失败边(失配指针), �
 有三种旋转,下面都是将访问过的 x 旋转到 根部
 <a id="markdown-521-zig-step" name="521-zig-step"></a>
 ### 5.2.1. Zig-step 
-![zig](images/zig.png)
+![zig](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/zig.png)
 <a id="markdown-522-zig-zig-step" name="522-zig-zig-step"></a>
 ### 5.2.2. Zig-zig step
-![zig-zig](images/zig-zig.png)
+![zig-zig](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/zig-zig.png)
 <a id="markdown-523-zig-zag-step" name="523-zig-zag-step"></a>
 ### 5.2.3. Zig-zag step
-![zig-zag](images/zig-zag.png)
+![zig-zag](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/zig-zag.png)
 <a id="markdown-53-read-black-tree" name="53-read-black-tree"></a>
 ## 5.3. read-black Tree
 同样是平衡的二叉树, 以后单独写一篇关于红黑树的.
@@ -219,7 +219,7 @@ Aho-Corasick automation,是在字典树上添加匹配失败边(失配指针), �
 
 但是如果不能一次得到全部的数据,也就是可能插入新的数据的时候,该怎么办呢? 可以证明,满足下面的条件构造的结构相当于同时得到全部数据, 也就是随机化的二叉查找树.
 
-![treap](images/treap.png)
+![treap](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/treap.png)
 
 这种结构叫 `treap`, 不仅有要排序的关键字 key, 还有随机生成的,各不相等的关键字`priority`,代表插入的顺序.
 

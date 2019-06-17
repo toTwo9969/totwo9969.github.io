@@ -37,7 +37,7 @@ description: "七大排序算法"
 <!-- /TOC -->
 
 
-![sort-1](images/sort-1.png)
+![sort-1](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/sort-1.png)
 
 排序的本质就是减少逆序数, 根据是否进行比较,可以分为如下两类.
 * 比较排序
@@ -334,7 +334,7 @@ QUICKSORT(A,a,b)
 ## 3.6. 测试
 这是上面三个版本的简单测试结果,
 前面测试的是各函数用的时间, 后面打印出来的是体现正确性,用的另外的序列了
-![test.jpg](images/test.jpg.png)
+![test.jpg](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/test.jpg.png)
 
 
 
@@ -408,7 +408,7 @@ if __name__ == '__main__':
     timer([quickSort,radixSort],1000000000000,10000)
     timer([quickSort,radixSort],10000,100000)
 ```
-![radixSort vs quickSort](images/radixSort vs quickSort.png)
+![radixSort vs quickSort](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/radixSort vs quickSort.png)
 
 <a id="markdown-6-桶排序bucketsort" name="6-桶排序bucketsort"></a>
 # 6. 桶排序(bucketSort)
