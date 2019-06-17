@@ -36,7 +36,7 @@ description:
 
 <a id="markdown-多处理机简介" name="多处理机简介"></a>
 # 多处理机简介
-![multiprocessor-1](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/multiprocessor-1.png)
+![multiprocessor-1](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/multiprocessor-1.png)
 
 * 共享存储器多处理机
 
@@ -60,21 +60,21 @@ description:
 读出每个存储器字的速度一样快
 <a id="markdown-基于总线的uma多处理机体系结构" name="基于总线的uma多处理机体系结构"></a>
 ### 基于总线的UMA多处理机体系结构
-![bus](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/bus.png)
+![bus](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/bus.png)
 <a id="markdown-基于交叉开关的uma多处理机" name="基于交叉开关的uma多处理机"></a>
 ### 基于交叉开关的UMA多处理机
-![multiprocessor-2](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/multiprocessor-2.png)
+![multiprocessor-2](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/multiprocessor-2.png)
 <a id="markdown-基于多级交换的uma多处理机" name="基于多级交换的uma多处理机"></a>
 ### 基于多级交换的UMA多处理机
-![开关](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/开关.png)
+![开关](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/开关.png)
 
-![原理](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/原理.png)
+![原理](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/原理.png)
 此开关检查module域来决定连入哪个存储器, 即连接x还是y
 
 例如 `Omega网络`
-![multiprocessor-3](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/multiprocessor-3.png)
+![multiprocessor-3](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/multiprocessor-3.png)
 n个cpu/存储器, 有 log<sub>2</sub>n级, 每级只需n/2个开关, 
-![multiprocessor-4](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/multiprocessor-4.png)
+![multiprocessor-4](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/multiprocessor-4.png)
 
 
 比较: 
@@ -112,7 +112,7 @@ Omega网络|n/2*log<sub>2</sub>n|阻塞
 ## 每个 CPU 都有自己的操作系统
 优点: 共享操作系统代码
 
-![multiprocessor-5](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/multiprocessor-5.png)
+![multiprocessor-5](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/multiprocessor-5.png)
 
 **注意**
 * 在一个进程进行系统调用时,是在本机的 CPU 上被捕获并处理的,并使用操作系统表中的数据结构
@@ -122,13 +122,13 @@ Omega网络|n/2*log<sub>2</sub>n|阻塞
 
 <a id="markdown-主从多处理机" name="主从多处理机"></a>
 ## 主从多处理机
-![主从多处理机](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/主从多处理机.png)
+![主从多处理机](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/主从多处理机.png)
 
 **问题**
 如果有很多 CPU , 主 CPU 会成为瓶颈, 速度慢
 <a id="markdown-对称多处理机symmetric-multiprocessor-smp" name="对称多处理机symmetric-multiprocessor-smp"></a>
 ## 对称多处理机(Symmetric MultiProcessor, SMP)
-![multiprocessor-6](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/multiprocessor-6.png)
+![multiprocessor-6](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/multiprocessor-6.png)
 
 消除了主从处理机的不对称性, 在存储器中有操作系统的一个副本, 但任何 CPU 都可以运行它. 
 
@@ -144,7 +144,7 @@ Omega网络|n/2*log<sub>2</sub>n|阻塞
 <a id="markdown-分时" name="分时"></a>
 ## 分时
 
-![单一数据结构调度](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/单一数据结构调度.png)
+![单一数据结构调度](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/单一数据结构调度.png)
 
 先讨论调度独立线程的情况, 如果有 CPU 空闲则选择优先级队列中的最优先线程到此 CPU
 
@@ -158,7 +158,7 @@ Omega网络|n/2*log<sub>2</sub>n|阻塞
 <a id="markdown-空间共享" name="空间共享"></a>
 ## 空间共享
 
-![multiprocessor-7](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/multiprocessor-7.png)
+![multiprocessor-7](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/multiprocessor-7.png)
 
 当线程之间以某种方式彼此相关时, 可以使用此方法. 假设一组相关的线程是一次性创建的,  创建时, 检查是否有足够的空闲 CPU, 有 则 各自获得专用的 CPU, 否则等待,
 
@@ -166,7 +166,7 @@ Omega网络|n/2*log<sub>2</sub>n|阻塞
 缺点: 当CPU被阻塞或根本无事可做时时间被浪费了
 <a id="markdown-群调度-gang-scheduling" name="群调度-gang-scheduling"></a>
 ## 群调度( Gang Scheduling)
-![multiprocessor-8](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/multiprocessor-8.png)
+![multiprocessor-8](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/multiprocessor-8.png)
 
 <a id="markdown-基本思想" name="基本思想"></a>
 ### 基本思想
@@ -178,7 +178,7 @@ Omega网络|n/2*log<sub>2</sub>n|阻塞
 * 群中的所有成员共同开始和结束其时间片
 
 
-![示例](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/示例.png)
+![示例](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/示例.png)
 
 
 <a id="markdown-参考资料" name="参考资料"></a>

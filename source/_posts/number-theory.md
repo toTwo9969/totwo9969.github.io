@@ -119,7 +119,7 @@ Every odd composite *n* has many witnesses *a*, however, no simple way of gen
 
 For testing large numbers, it is common to choose random bases *a*, as, a priori, we don't know the distribution of witnesses and liars among the numbers 1, 2, ..., *n* − 1\. In particular, Arnault <sup>[[4]](https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test#cite_note-Arnault397Digit-4)</sup> gave a 397-digit composite number for which all bases *a*less than 307 are strong liars. As expected this number was reported to be prime by the [Maple](https://en.wikipedia.org/wiki/Maple_(software) "Maple (software)") `isprime()` function, which implemented the Miller–Rabin test by checking the specific bases 2,3,5,7, and 11\. However, selection of a few specific small bases can guarantee identification of composites for *n* less than some maximum determined by said bases. This maximum is generally quite large compared to the bases. As random bases lack such determinism for small *n*, specific bases are better in some circumstances.
 
-![number-theory-1](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/number-theory-1.png)
+![number-theory-1](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/number-theory-1.png)
 
 python implementation
 ```python
@@ -190,13 +190,13 @@ The sequence is related to another sequence$\{x_k\ mod \ p\}$ . Since $p$ is n
 
 Because the number of possible values for these sequences are finite, both the$\{x_n\}$ sequence, which is mod $n$ , and $\{x_n\ mod\ p\}$ sequence will eventually repeat, even though we do not know the latter. Assume that the sequences behave like random numbers. Due to the [birthday paradox](https://en.wikipedia.org/wiki/Birthday_paradox "Birthday paradox"), the number of$x_k$before a repetition occurs is expected to be $O(\sqrt{N})$ , where $N$  is the number of possible values. So the sequence  $\{x_n\ mod\ p\}$  will likely repeat much earlier than the sequence $x_k$. Once a sequence has a repeated value, the sequence will cycle, because each value depends only on the one before it. This structure of eventual cycling gives rise to the name "Rho algorithm", owing to similarity to the shape of the Greek character ρ when the values  $x_i\ mod \ p$  are represented as nodes in a [directed graph](https://en.wikipedia.org/wiki/Directed_graph "Directed graph").
 
-![number-theory-2](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/number-theory-2.png)
+![number-theory-2](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/number-theory-2.png)
 This is detected by the [Floyd's cycle-finding algorithm](https://en.wikipedia.org/wiki/Floyd%27s_cycle-finding_algorithm "Floyd's cycle-finding algorithm"): two nodes$i,j$ are kept. In each step, one moves to the next node in the sequence and the other moves to the one after the next node. After that, it is checked whether $\text{gcd}(x_i-x_j,n)\neq 1$.
 If it is not 1, then this implies that there ris a repetition in the $\{x_k\ mod\ p\}$ swquence
 
 This works because if the $x_i\ mod\ p$is the same as$x_j\ mod\ p$, the difference between$x_i,x_j$ is necessarily a multiple of $p$. Although this always happens eventually, the resulting GCD is a divisor of $n$ other than 1\. This may be$n$ itself, since the two sequences might repeat at the same time. In this (uncommon) case the algorithm fails, and can be repeated with a different parameter.
 
-![number-theory-3](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/number-theory-3.png)
+![number-theory-3](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/number-theory-3.png)
 
 python implementation
 ```python
@@ -281,7 +281,7 @@ def sigma(n):
 The following codes can solve a linear, group modulo equation. More details and explanations will be supplied if I am not too busy.
 
 Note that I use `--` to represent $\equiv$ in the python codes.
-![number-theory-4](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/number-theory-4.png)
+![number-theory-4](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/number-theory-4.png)
 
 
 ```python

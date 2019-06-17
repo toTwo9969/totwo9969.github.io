@@ -43,13 +43,13 @@ top:
 ## general
 观察汇编代码，可以看到有 main, phase1--6, 等，重点看这几个函数，从 main 开始，结合 bomb.c, 可以明白程序的控制流，每个阶段用 phase 函数判断输入是否正确，不正确就 boon, 结束程序
 
-![csapp-bomb-lab-report-1](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/csapp-bomb-lab-report-1.png)
+![csapp-bomb-lab-report-1](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/csapp-bomb-lab-report-1.png)
 
 
 ## phase1
 来到 phase1,
 
-![csapp-bomb-lab-report-2](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/csapp-bomb-lab-report-2.png)
+![csapp-bomb-lab-report-2](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/csapp-bomb-lab-report-2.png)
 
 
 第一行准备栈帧，第二行就是将地址存入 $esi, 这是一个字符串的地址，可以猜测下面 string_not_equal 就是比较这个字符串与输入字符串是否相等的函数.（最开始我还去分析了这个函数的汇编代码，确实是那样，先比较长度，然后逐一比较。所以找到这个地址`0x402400`存储的字符串就行了，在 asm 文件中搜索，没有，所以要在程序运行时才可以到达这个虚拟地址，未来 address space 的堆中。这时就要用到强大的 gdb 了，
@@ -63,7 +63,7 @@ gdb
 即得**Border relations with Canada have never been better.**
 
 ## phase2
-![csapp-bomb-lab-report-3](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/csapp-bomb-lab-report-3.png)
+![csapp-bomb-lab-report-3](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/csapp-bomb-lab-report-3.png)
 
 
 所以答案是 `1 2 4 8 16 32`
@@ -436,7 +436,7 @@ $1 = 0x7fffffffe270
 
 ## final
 
-![csapp-bomb-lab-report-5](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/csapp-bomb-lab-report-5.png)
+![csapp-bomb-lab-report-5](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/csapp-bomb-lab-report-5.png)
 
 
 啊，终于拆除💣了，
@@ -445,7 +445,7 @@ $1 = 0x7fffffffe270
 
 方法二，gdb 中设置断点'b phase_defused', 然后`jump secret_phase`
 
-![csapp-bomb-lab-report-6](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/csapp-bomb-lab-report-6.png)
+![csapp-bomb-lab-report-6](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/csapp-bomb-lab-report-6.png)
 
 
 最后得到答案是 22

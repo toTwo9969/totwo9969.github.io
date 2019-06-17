@@ -81,13 +81,13 @@ description:
 商业活动参与者首先要寻找一个多方均信任的第三方来记账, 确保交易的准确.
 
 可以很容易设计出一个简单粗暴的分布式记账结构，如下图。多方均允许对账本进行任意读写，一旦发生新的交易即追加到账本上。这种情况下，如果参与多方均诚实可靠，则该方案可以正常工作；但是一旦有参与方恶意篡改已发生过的记录，则无法确保账本记录的正确性。
-![introduction-to-blockchain-1](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/introduction-to-blockchain-1.png)
+![introduction-to-blockchain-1](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/introduction-to-blockchain-1.png)
 
 为防止恶意篡改, 可以引入验证机制. 使用`数字摘要技术(digital digest)`. 每当有新交易记录被追加到账本上, 记录前面交易历史的 hash 值, 此后每个时刻, 参与者都可以重新计算 hash, 看是否与记录的 hash 匹配. 不匹配说明修改过, 也可以容易地定位修改的交易记录了
 
 
 不必要每次都计算前面所有历史的 hash, 可以计算 上次的 hash 加上当前交易 的 内容的 hash 
-![introduction-to-blockchain-2](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/introduction-to-blockchain-2.png)
+![introduction-to-blockchain-2](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/introduction-to-blockchain-2.png)
 
 这正是一个区块链结构.
 
@@ -136,7 +136,7 @@ description:
 # 5. 区块链的演化
 比特币区块链支持简单的脚本计算, 仅限于数字画笔相关的处理. 还可以将区块链上执行的处理过程进一步泛化,即提供 智能合约 Smart Contract. 由此提供除货币交易功能外更灵活的合约共功能,执行更为复杂的操作.
 
-![introduction-to-blockchain-3](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/introduction-to-blockchain-3.png)
+![introduction-to-blockchain-3](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/introduction-to-blockchain-3.png)
 
 <a id="markdown-6-关键问题与挑战" name="6-关键问题与挑战"></a>
 # 6. 关键问题与挑战
@@ -285,7 +285,7 @@ Durability：状态的改变是持久的，不会失效。
 是一种信息摘要, 可以用于检验内容的完全性, 一致性等. 流行的有  md5, sha-1, sha-2(Secure Hash Algorithm), sha-1已被证明不具备"强抗碰撞性"
 <a id="markdown-92-加解密算法" name="92-加解密算法"></a>
 ## 9.2. 加解密算法
-![introduction-to-blockchain-4](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/introduction-to-blockchain-4.png)
+![introduction-to-blockchain-4](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/introduction-to-blockchain-4.png)
 
 组件包括: 加解密算法,加密密钥,解密密钥.
 根据加解密的密钥是否相同,可以分成对称加密与非对称加密(asymmetrix cryptography).
@@ -337,7 +337,7 @@ A	先对文件进行摘要，然后用自己的私钥进行加密，将文件和
 
 <a id="markdown-95-merkle-树" name="95-merkle-树"></a>
 ## 9.5. Merkle 树
-![merkle](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/merkle.png)
+![merkle](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/merkle.png)
 <a id="markdown-951-定义" name="951-定义"></a>
 ### 9.5.1. 定义
 默克尔树（又叫哈希树）是一种二叉树，由一个根节点、一组中间节点和一组叶节点组成。最下面的叶节点包含存储数据或其哈希值，每个中间节点是它的两个孩子节点内容的哈希值，根节点也是由它的两个子节点内容的哈希值组成。
@@ -361,7 +361,7 @@ A	先对文件进行摘要，然后用自己的私钥进行加密，将文件和
 
 <a id="markdown-101-从实体货币到数字货币" name="101-从实体货币到数字货币"></a>
 ## 10.1. 从实体货币到数字货币
-![introduction-to-blockchain-5](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/introduction-to-blockchain-5.png)
+![introduction-to-blockchain-5](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/introduction-to-blockchain-5.png)
 
 <a id="markdown-102-去中心化实现数字货币的难题" name="102-去中心化实现数字货币的难题"></a>
 ## 10.2. 去中心化实现数字货币的难题
@@ -419,7 +419,7 @@ A	先对文件进行摘要，然后用自己的私钥进行加密，将文件和
 <a id="markdown-105-侧链" name="105-侧链"></a>
 ## 10.5. 侧链
 以比特币区块链作为主链（Parent	chain），其他区块链作为侧链，二者通过双向挂钩（Two-way	peg），可实现比特币从主链转移到侧链进行流通。
-![introduction-to-blockchain-6](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/introduction-to-blockchain-6.png)
+![introduction-to-blockchain-6](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/introduction-to-blockchain-6.png)
 
 侧链可以是一个独立的区块链，有自己按需定制的账本、共识机制、交易类型、脚本和合约的支持等。侧链不能发行比特币，但可以通过支持与比特币区块链挂钩来引入和流通一定数量的比特币。当比特币在侧链流通时，主链上对应的比特币会被锁定，直到比特币从侧链回到主链。可以看到，侧链机制可将一些定制化或高频的交易放到比特币主链之外进行，实现了比特币区块链的扩展。侧链的核心原理在于能够冻结一条链上的资产，然后在另一条链上产生，可以通过多种方式来实现, 如 SPV
 <a id="markdown-11-以太坊" name="11-以太坊"></a>
@@ -465,7 +465,7 @@ Gas	可以跟以太币进行兑换。需要注意的是，以太币的价格是�
 以太坊虚拟机是一个隔离的轻量级虚拟机环境，运行在其中的智能合约代码无法访问本地网络、文件系统或其它进程。
 对同一个智能合约来说，往往需要在多个以太坊虚拟机中同时运行多份，以确保整个区块链数据的一致性和高度的容错性。另一方面，这也限制了整个网络的容量。
 * 开发语言: Solidity, vyper...  智能合约编写完毕后，用编译器编译为以太坊虚拟机专用的二进制格式（EVM	bytecode），由客户端上传到区块链当中，之后在矿工的以太坊虚拟机中执行。
-* 交易模型: 以太坊的账户模型与比特币的 UXTO 模型对比![introduction-to-blockchain-7](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/introduction-to-blockchain-7.png)
+* 交易模型: 以太坊的账户模型与比特币的 UXTO 模型对比![introduction-to-blockchain-7](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/introduction-to-blockchain-7.png)
 * 共识: 基于成熟的	PoW	共识的变种算法	Ethash	协议
 * 客户端和开发库
 

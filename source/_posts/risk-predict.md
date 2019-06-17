@@ -99,7 +99,7 @@ wget http://labfile.oss.aliyuncs.com/courses/1109/credit_risk_test.csv
 ## 模型选择
 首先要选出合适的模型, 最开始随便试了 `SGDClassifier`,`LogisticRegression`等模型, 都没有达到0.8的准确度
 然后上网查找,根据这张图选择了 svm 支持向量机模型
-![model](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/model.png)
+![model](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/model.png)
 ```python
 from sklearn.svm import SVC as MODEL
 ```

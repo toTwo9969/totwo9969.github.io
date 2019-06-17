@@ -50,7 +50,7 @@
 
 ## 爱情
 围观的吃瓜群众可以散开了，这里没戏 QwQ
-![20-years-old-summary-1](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/20-years-old-summary-1.png)
+![20-years-old-summary-1](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/20-years-old-summary-1.png)
 //to do
 
 

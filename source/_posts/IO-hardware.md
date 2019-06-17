@@ -69,7 +69,7 @@ I/O 设备一般由两部分组成: 机械部分和电子部分.
 
 * 方法二: 内存映射 I/O. 将所有控制寄存器映射到内存空间, 都被分配唯一的地址, 且这些内存地址不会再分配. 
 
-![IO-hardware-1](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/IO-hardware-1.png)
+![IO-hardware-1](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/IO-hardware-1.png)
 
 <a id="markdown-032-工作原理" name="032-工作原理"></a>
 ### 0.3.2. 工作原理
@@ -96,11 +96,11 @@ CPU 读入一个字时, 不论是从内存还是 I/O 端口, 都将目的地址�
 独立于 CPU 访问系统总线
 
 
-![IO-hardware-2](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/IO-hardware-2.png)
+![IO-hardware-2](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/IO-hardware-2.png)
 
 <a id="markdown-041-工作原理" name="041-工作原理"></a>
 ### 0.4.1. 工作原理
-![IO-hardware-3](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/IO-hardware-3.png)
+![IO-hardware-3](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/IO-hardware-3.png)
 
 也就是不用浪费 CPU 处理缓冲区到内存的时间, 相当于另有一个" CPU " 专门处理 磁盘 到 内存 的 I/O
 
@@ -127,7 +127,7 @@ CPU 读入一个字时, 不论是从内存还是 I/O 端口, 都将目的地址�
 <a id="markdown-05-中断" name="05-中断"></a>
 ## 0.5. 中断
 当一个 I/O 设备完成它的工作后,它就产生一个中断, 通过在分配给它的一条总线信号线上置起信号.
-![中断](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/中断.png)
+![中断](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/中断.png)
 
 如果有多个中断请求, 按优先级, 如果还没有被处理, 设备一直发出中断知道得到 CPU 服务
 
@@ -159,9 +159,9 @@ CPU 读入一个字时, 不论是从内存还是 I/O 端口, 都将目的地址�
 在超标量机器上, 指令可能分解成微操作, 为操作可能乱序执行
 * 精确中断(precise interrupt):将机器留在一个明确状态
 
-![IO-hardware-4](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/IO-hardware-4.png)
+![IO-hardware-4](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/IO-hardware-4.png)
 
-![IO-hardware-5](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/IO-hardware-5.png)
+![IO-hardware-5](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/IO-hardware-5.png)
 
 * 不精确中断(imprecise interrupt)
 

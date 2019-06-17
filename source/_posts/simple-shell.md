@@ -59,7 +59,7 @@ top:
 <a id="markdown-1-测试结果" name="1-测试结果"></a>
 # 1. 测试结果
 先上结果 (。・∀・)ノ
-![result](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/result.png)
+![result](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/result.png)
 
 <a id="markdown-2-大致框架" name="2-大致框架"></a>
 # 2. 大致框架

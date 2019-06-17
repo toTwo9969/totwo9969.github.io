@@ -56,7 +56,7 @@ with open(newFile,'wb') as out:
 
 还有另一种方法，mp3等文件格式有一些metadata (元素据)，mp3文件的 id3 tag里面就包含标题，歌手。这是[wiki的介绍](https://en.wikipedia.org/wiki/MP3)
 
-![mp3](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/mp3.png)
+![mp3](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/mp3.png)
 
 然后找python模块，网上说eyeD3比较好用，但是我安装好后提示libmagic找不到，搜索问题未能解决（如果你有解决办法，请告诉我，十分感谢）， 然后用的mutagen模块，这个模块能操作很多格式的文件.
 
@@ -67,7 +67,7 @@ with open(newFile,'wb') as out:
 ## lyric文件
 这是歌词文件内容
 
-![file](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/file.png)
+![file](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/file.png)
 
 从这个文件中读取。 解析这个文件，由于没有统一的键,所以可以用正则表达式`r'(lyric|lrc|klyric|kalaokLyric|tlyric)\s*[\'\"]:\s*[\'\"]\s*\[')
 `来检查是否有歌词内容
@@ -102,7 +102,7 @@ def noLrc(self,s):
 * 展示
 
 
-![display](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/display.gif)
+![display](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/display.gif)
 
 
 <a id="markdown-完整代码" name="完整代码"></a>
@@ -122,13 +122,11 @@ def noLrc(self,s):
 <a id="markdown-and-finally" name="and-finally"></a>
 # And finally
 ```
-####### ######    ###           #     #    #    ######  #     #   ###   #     #
-#       #     #    #            #  #  #   # #   #     # ##    #    #    ##    #
-#       #     #    #            #  #  #  #   #  #     # # #   #    #    # #   #
-#####   ######     #            #  #  # #     # ######  #  #  #    #    #  #  #
-#       #     #    #            #  #  # ####### #   #   #   # #    #    #   # #
-#       #     #    #            #  #  # #     # #    #  #    ##    #    #    ##
-#       ######    ###            ## ##  #     # #     # #     #   ###   #     #
+ mmmmmm mmmmm  mmmmm        m     m   mm   mmmmm  mm   m mmmmm  mm   m   mmm
+ #      #    #   #          #  #  #   ##   #   "# #"m  #   #    #"m  # m"   "
+ #mmmmm #mmmm"   #          " #"# #  #  #  #mmmm" # #m #   #    # #m # #   mm
+ #      #    #   #           ## ##"  #mm#  #   "m #  # #   #    #  # # #    #
+ #      #mmmm" mm#mm         #   #  #    # #    " #   ## mm#mm  #   ##  "mmm"
 
 
 < 请尊重版权，此文章以及代码仅供学习交流之用 >

@@ -66,7 +66,7 @@ top:
 <a id="markdown-3-算法分析" name="3-算法分析"></a>
 # 3. 算法分析
 衡量算法的优劣
-![algorithm-general-1](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/algorithm-general-1.png)
+![algorithm-general-1](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/algorithm-general-1.png)
 
 
 * $\omicron,O,\Omega,\Theta$
@@ -131,7 +131,7 @@ $$T(n)=T(2^m)=S(m)=\Theta(m\log m)=\Theta(\log n \log^2 n)$$
 ## 5.2. 递归树
 例如 $T(n) = 3T(\frac{n}{4}) + c n^2$
 不妨假设 n 为4的幂, 则有如下递归树
-![recursive-tree.jpg](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/recursive-tree.jpg.png)
+![recursive-tree.jpg](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/recursive-tree.jpg.png)
 
 $$
 T(n) = \sum_{i=0}^{ {\log_4 n}-1}cn^2*(\frac{3}{16})^i + \Theta(n^{\log4 3})
@@ -234,13 +234,13 @@ $$
 答案是 $\Theta(logn)$
 记 长度至少为 k 的正面序列开始与第 i 次抛, 由于独立, 所有 k 次抛掷都是正面的 概率为 
 $P(A_{ik})=\frac{1}{2^k}$,对于 $k=2\lceil lgn\rceil$
-![coin1.jpg](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/coin1.jpg.png)
+![coin1.jpg](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/coin1.jpg.png)
 
-![coin2.jpg](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/coin2.jpg.png)
+![coin2.jpg](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/coin2.jpg.png)
 
-![coin3.jpg](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/coin3.jpg.png)
+![coin3.jpg](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/coin3.jpg.png)
 
-![coin4.jpg](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/coin4.jpg.png)
+![coin4.jpg](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/coin4.jpg.png)
 
 <a id="markdown-9-摊还分析" name="9-摊还分析"></a>
 # 9. 摊还分析

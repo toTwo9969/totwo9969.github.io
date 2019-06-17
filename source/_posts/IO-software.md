@@ -50,18 +50,18 @@ CPU 要不断地查询设备, 这成为 `polling` 或 `busy waiting`
 
 <a id="markdown-io软件层次" name="io软件层次"></a>
 # IO软件层次
-![IO-software-1](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/IO-software-1.png)
+![IO-software-1](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/IO-software-1.png)
 
 <a id="markdown-中断处理程序" name="中断处理程序"></a>
 ## 中断处理程序
-![中断发生时软件需要做的](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/中断发生时软件需要做的.png)
+![中断发生时软件需要做的](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/中断发生时软件需要做的.png)
 <a id="markdown-设备驱动程序" name="设备驱动程序"></a>
 ## 设备驱动程序
 
 
 每个连接到计算机上的 I/O 设备都需要某些设备特定的代码来对其进行控制 , 注意 设备控制器是硬件上的, 驱动程序是软件上的. 
 
-![IO-software-2](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/IO-software-2.png)
+![IO-software-2](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/IO-software-2.png)
 
 <a id="markdown-位置" name="位置"></a>
 ### 位置
@@ -77,11 +77,11 @@ CPU 要不断地查询设备, 这成为 `polling` 或 `busy waiting`
 <a id="markdown-运行" name="运行"></a>
 ### 运行
 驱动程序在执行期间动态地装在到系统
-![IO-software-3](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/IO-software-3.png)
+![IO-software-3](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/IO-software-3.png)
 
-![IO-software-4](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/IO-software-4.png)
+![IO-software-4](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/IO-software-4.png)
 
-![IO-software-5](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/IO-software-5.png)
+![IO-software-5](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/IO-software-5.png)
 
 
 <a id="markdown-与设备无关的io软件" name="与设备无关的io软件"></a>
@@ -89,7 +89,7 @@ CPU 要不断地查询设备, 这成为 `polling` 或 `busy waiting`
 **功能**
 * 缓冲
 
-![IO-software-6](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/IO-software-6.png)
+![IO-software-6](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/IO-software-6.png)
 * 错误报告
 * 分配与释放专用设备
 * 提供与设备无关的块大小

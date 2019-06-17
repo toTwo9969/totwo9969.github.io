@@ -11,7 +11,7 @@ top: true
 目录
 <!-- more -->
 # 2018-8-23 To be or not to be[豆瓣9.2](https://movie.douban.com/subject/1303418/)
-![video-1](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/video-1.png)
+![video-1](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/video-1.png)
 
 
 
@@ -47,13 +47,13 @@ B: 他想从我们这里得到什么?
 
 # 2018-7-19 一人之下[豆瓣8.6](https://movie.douban.com/subject/26815153/)
 
-![video-2](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/video-2.png)
+![video-2](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/video-2.png)
 
 这部动漫首先吸引我的就是它夹杂着四川话的配音了, 因为我也出四川人, 所以有种亲切感. 然后就是武侠,魔法(动漫中称为 练 炁, 查了一下: 同"气",指构成人体及维持生命活动的最基本能量和生理机能。)这种题材, 夸张的刻画与无厘头, 也有搞笑, 一小点黄暴的地方. 当看到徐四教冯宝宝的那些名词后,真的忍俊不禁, 比如阿威十八式.
 塑造的人物都个性鲜明, 比如纯真,呆萌的冯宝宝, 机智流氓的张楚岚...
 
 # 2018-7-9 我不是药神[豆瓣9.0](https://movie.douban.com/subject/26752088/)
-![video-3](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/video-3.png)
+![video-3](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/video-3.png)
 
 > * 生命就是金钱
 > * 世界上只有一种病,那就是穷病
@@ -71,7 +71,7 @@ B: 他想从我们这里得到什么?
 
 
 # 2018-7-4 灵能百分百[豆瓣9.3](https://movie.douban.com/subject/26677934/)
-![video-4](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/video-4.png)
+![video-4](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/video-4.png)
 
 灵幻除了会除灵外,什么都会. 确实是茂夫的人生导师.
 当你承受不住的时候, 你不想迫于压力去做的时候, 就不要去做.
@@ -87,7 +87,7 @@ B: 他想从我们这里得到什么?
 而龙套完全不一样，他只有 14 岁，正是一个懵懂少年感情最丰富细腻的大好中二时光。他会疑惑自己现在做的事情有没有意义，自 己真正想要做的事是什么，思考灵和人类的存在意义孰轻孰重。他看似没有感情，实则是为了防止超能力失控而一直在抑制自己的感 情。他同样有碾压级的实力，但反派的队伍里强者一样很多，龙套会在战斗的过程中不断受伤，甚至被扰乱心智、堕入恶灵布置的幻 象陷阱里…… 大 BOSS 最上启示营造的假想世界，展示了龙套日常生活的另一种可能性——这里的龙套没有超能力，没有人生导师灵幻，没有可以交流的朋友，没有肉体改造部热血仗义的兄弟们，优秀的弟弟是陌生人，等待着龙套的只是日复一日的霸凌…… 是的，现实世界对龙套太过温暖善良了，只要稍有偏差，他就有可能颠覆三观，瞬间成为最强反派。这是龙套相对于琦玉的脆弱之处，也是他得以 在故事中被世界的温暖所引导，逐渐学会自己思考、战斗、一步步成长的诱因。感情上的变化与成长——这是《灵能》始终在说，而《 一拳》不曾提起的话题。
 
 # 2018-6-30 凸变英雄 BABA- [豆瓣8.7](https://movie.douban.com/subject/26888884/)
-![video-5](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/video-5.png)
+![video-5](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/video-5.png)
 
 >我的父亲是英雄
 
@@ -103,7 +103,7 @@ BABA 就说明主题是 父亲, LEAF 就是主角花语叶
 
 # 2018-6-30 凸变英雄 LEAF -[豆瓣 8.9](https://movie.douban.com/subject/27020958/?from=subject-page )
 
-![video-6](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/video-6.png)
+![video-6](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/video-6.png)
 
 >你就是照亮这个世界唯一的光
 
@@ -119,7 +119,7 @@ BABA 就说明主题是 父亲, LEAF 就是主角花语叶
 
 # 2018-6-29 一拳超人-[豆瓣 9.3](https://movie.douban.com/subject/26339248/ )
 
-![video-7](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/video-7.png)
+![video-7](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/video-7.png)
 
 >*  我变秃了, 也变强了
 >* 地球就由我来守护
@@ -135,7 +135,7 @@ BABA 就说明主题是 父亲, LEAF 就是主角花语叶
 
 # 2018-2-13 萤火虫之墓 -[豆瓣 8.7](https://movie.douban.com/subject/1293318/ )
 
-![video-8](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/video-8.png)
+![video-8](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/video-8.png)
 
 
 >如果你能看到我的世界里那些渐渐消逝的美好，你就能体会到现在所拥有的幸福。
@@ -149,7 +149,7 @@ BABA 就说明主题是 父亲, LEAF 就是主角花语叶
 
 # 2018-2-8 穿越时空的少女 -[豆瓣 8.6](https://movie.douban.com/subject/1937946/ )
 
-![video-9](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/video-9.png)
+![video-9](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/video-9.png)
 
 
 > Time waits for no one!
@@ -158,7 +158,7 @@ BABA 就说明主题是 父亲, LEAF 就是主角花语叶
 每个人都有一段青涩的校园青春呐。不过这部影片表现得一点也不造作，很自然，穿越的部分逻辑上自洽。女主为了挽回过失而一次 次穿越到过去，却没想到可能会造成更大的错误。所有我们做事前应该考虑一下后果是什么，该怎样为自己的选择与行为负责。
 # 2018-2-5 夏日大作战  -[豆瓣 8.5](https://book.douban.com/subject/5275430/ )
 
-![video-10](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/video-10.png)
+![video-10](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/video-10.png)
 
 >不要灰心！不要泄气，让我看看你的骨气！这个是战斗，我也会做点什么的！重要的是要像以前一样，人与人之间相互关照和交流。但是生命仅有一次不是吗？成千上万的人处于困境之中啊，现在不加油，什么时候加油？不要放弃啊，永不言弃才是最重要的！这个 是只有你才能做到的啊！你的话一定可以做到的！能行的！
 
@@ -168,7 +168,7 @@ BABA 就说明主题是 父亲, LEAF 就是主角花语叶
 
 # 2018-2-2 瑞克与莫蒂  -[豆瓣 9.6](https://movie.douban.com/subject/11537954/ )
 
-![video-11](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/video-11.png)
+![video-11](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/video-11.png)
 
 >1. 人们所谓的爱情，只不过是为了促使人类繁衍后代的化学反应，爱情来的猛烈，莫蒂，但是它会悄悄地溜走，把你留在一场失败 的婚姻中。
 >2. NOBODY　EXISTS　ON　PURPOSE．
@@ -195,7 +195,7 @@ BABA 就说明主题是 父亲, LEAF 就是主角花语叶
 # 2018-1-26 我是江小白  -[豆瓣 8.3](https://movie.douban.com/subject/27038993/ )
 
 
-![video-12](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/video-12.png)
+![video-12](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/video-12.png)
 
 
 >世间有很多事情，人们无法从它寂静的表象，猜测到暗涌，就像一个人和另一个人的相遇。

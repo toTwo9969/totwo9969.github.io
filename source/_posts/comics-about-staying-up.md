@@ -12,9 +12,9 @@ top:
 以前做的两张图片, 2333 
 
 <!-- more -->
-![comics-about-staying-up-1](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/comics-about-staying-up-1.png)
+![comics-about-staying-up-1](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/comics-about-staying-up-1.png)
 
 
-![comics-about-staying-up-2](https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images/comics-about-staying-up-2.png)
+![comics-about-staying-up-2](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/comics-about-staying-up-2.png)
 
 

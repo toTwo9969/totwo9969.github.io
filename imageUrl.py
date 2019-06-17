@@ -17,7 +17,8 @@ DIR = args.dir
 
 PT = re.compile(r'\!\[(.*?)\]\((.*?)\)')
 
-PRE = 'https://github.com/mbinary/mbinary.github.io/tree/hexo/source/images'
+
+PRE = 'https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images'
 
 if not os.path.exists(PATH):
     os.mkdir(PATH)
