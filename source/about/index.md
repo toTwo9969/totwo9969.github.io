@@ -5,10 +5,25 @@ fancybox: false
 
 # ME
 
-## <i class="fa fa-id-card"></i>我的属性
+```
+ ------------------
+< Hi, I am mbinary >
+ ------------------
+   \\
+    \\
+        .--.
+       |o_o |
+       |:_/ |
+      //   \\ \\
+     (|     | )
+    /'\\_   _/`\\
+    \\___)=(___/
+```
 
-* Heqin Zhu
-* Personality: [INTJ](https://zh.wikipedia.org/wiki/INTJ)
+## <i class="fa fa-id-card"></i> :smiley:
+
+
+* MBTI: [INTJ](https://zh.wikipedia.org/wiki/INTJ)
 * gmail: [zhuheqin1](mailto:&#122;huheqin1@gmail.com)
 * QQ: [414313516](http://wpa.qq.com/msgrd?v=3&uin=414313516&site=qq&menu=yes)
 
@@ -16,19 +31,28 @@ fancybox: false
 ## <i class="fa fa-battery"></i>喜欢的运动
   * 健身
   * 跑步
-  * 中国象棋，国际象棋
-  * 篮球，羽毛球等
+  * 棋类
+  * 球类
   
 ## <i class="fa fa-film"></i>喜欢的动漫
-  * 宫崎骏
-  * 魁拔
-  * 星游记
-  * 数码宝贝
-  * 降世神通
-  * 怪诞小镇
-  * 瑞克与莫蒂
-  * 复仇者联盟
-  * 七龙珠系列（目前正在追龙珠超）> (已完结(っ °Д °;)っ)
+  * 宫崎骏     （各种经典：天空之城，起风了，哈尔。。。）
+  * 魁拔       （你的对手是，。。。）
+  * 星游记     （相信奇迹的人，本身就和奇迹一样了不起）
+  * 数码宝贝   （我就是被选召的孩子）
+  * 降世神通   （外国人制作的以中国五行为题材）
+  * 怪诞小镇   （奇妙冒险）
+  * 瑞克与莫蒂 （奇妙冒险++）
+  * 复仇者联盟 （妮妮）
+  * 七龙珠系列 （目前正在追龙珠超）> (已完结(っ °Д °;)っ)
+  * 一人之下   （不摇碧莲）
+  * 鸦         （向龙之子致敬）
+  * 夏令营岛   （萌）
+  * 死亡笔记   （神）
+  * 多罗罗     （欧尼酱）
+  * 一拳超人   （兴趣使然）
+  * 进击的巨人 （人们回想起被巨人支配的恐惧）
+  * JOJO       （砸瓦鲁多）
+  * ...
   
 ## <i class="fa fa-puzzle-piece"></i>喜欢的技术
 linux, common lisp, 区块链, 互联网, 深度学习  
