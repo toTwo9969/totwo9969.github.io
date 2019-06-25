@@ -101,9 +101,9 @@ valine:
     app_key: X5cHcMU1ATb8q0prtPGEqIPX
     notify: false
     verify: false
-    placeholder: 留下你的小脚印^_^ (支持 markdown, 上面三项 昵称,邮件(可用于回复),网址都是可选填的)
+    placeholder: 请陈独秀同志发言^_^ 
     #guest_info: nick,mail,link
-    pageSize: 10
+    pageSize: 20 
     visitor: true
     avatar: monsterid
 
@@ -285,7 +285,7 @@ baidu_tongji:
 # 不蒜子网站计数设置
 # http://ibruce.info/2015/04/04/busuanzi/
 visit_counter:
-  on: true
+  on: false
   site_visit: true
   page_visit: true
 
