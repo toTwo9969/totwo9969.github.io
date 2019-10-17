@@ -15,7 +15,7 @@ description: 记录一下看过的书籍，并推荐给大家，更新顺序是�
 ## -----2019------
 
 ## 未来世界的幸存者
-![books-1](source/images/books-1.png)
+![books-1](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/books-1.png)
 
 [戳我在线阅读](https://survivor.ruanyifeng.com/)
 
@@ -45,7 +45,7 @@ description: 记录一下看过的书籍，并推荐给大家，更新顺序是�
 
 ## -----2018------
 ## 意志力：关于自控、专注和效率的心理学
-![books-2](source/images/books-2.png)
+![books-2](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/books-2.png)
 
 
 这本书通过一些生动有趣的例子, 以及相应的学术研究, 说明了 **意志力就像一种能量, 是会消耗掉的(叫做`自我损耗`). 如同肌肉使用久了, 会疲劳. 而"补充" 意志力的一种方法就是补充糖分.**  书中建议, 我们不要挑战自己的意志力, 即远离诱惑, 而不是抵 制诱惑. 另外, 形成一些习惯也能加强意志力.
@@ -75,7 +75,7 @@ description: 记录一下看过的书籍，并推荐给大家，更新顺序是�
 
 ## 对伪心理说不
 <a id="psychology"></a>
-![books-3](source/images/books-3.png)
+![books-3](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/books-3.png)
 
 
 书中, 作者首先举例说明心理学的研究范围,人们的刻板印象等等. 然后就论述心理学是一门科学, 通过科学的特性,以及定义出的可 操作性定义 来辩证.
@@ -116,7 +116,7 @@ description: 记录一下看过的书籍，并推荐给大家，更新顺序是�
 ## 别做正常的傻瓜
 <a id="normal-fool"></a>
 
-![books-4](source/images/books-4.png)
+![books-4](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/books-4.png)
 
 
 这本书中讲到我们在生活中的各种抉择,看似正常, 可是却不理性,分析后就发现我们做的选择竟然会自相矛盾, 这是因为心理学的作 用.
@@ -169,7 +169,7 @@ description: 记录一下看过的书籍，并推荐给大家，更新顺序是�
 ## 批判性思维
 <a id="critical-thinking"></a>
 
-![books-5](source/images/books-5.png)
+![books-5](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/books-5.png)
 
 
 本书从基础的断言，论题，论证(前提, 推理, 结论) 说起，讲了怎么演绎推理（这学期正好在上数理逻辑）, 非演绎推理(类比, 归纳, 特殊)，怎样识别推理中的谬误（很多类），虽然有 些看起来很简单，但平时易走进思维误区，被修辞手法迷惑，误导。本书也谈及了道德中的推理，法律上的推理，美学上的推理，含 有主观成分，有时也很难抉择。
@@ -219,7 +219,7 @@ eg 他经常说谎，所以他这句话是假的
 
 ## 富爸爸，穷爸爸
 <a id="rich-and-poor"></a>
-![books-6](source/images/books-6.png)
+![books-6](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/books-6.png)
 
 关于投资理财的书。对比了两个爸爸，一个代表富人，一个代表穷人（实为中产阶级，但是没有财商），的观念，思考习惯，金融行 为等，来强调培养财商，掌握金钱运作规律的重要性，以脱离“老鼠赛跑”的陷阱，实现财务自由。
 
@@ -240,7 +240,7 @@ eg 他经常说谎，所以他这句话是假的
 
 ## 腾讯传
 <a id="tencent"></a>
-![books-7](source/images/books-7.png)
+![books-7](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/books-7.png)
 
 
 腾讯公司的发展历史，是中国互联网的发展历史的一个体现。
@@ -271,7 +271,7 @@ eg 他经常说谎，所以他这句话是假的
 ## 黑客与画家
 <a id="hacker-and-painter"></a>
 
-![books-8](source/images/books-8.png)
+![books-8](https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/books-8.png)
 
 
 作者当过画家，后来又是程序员。作者格雷汉姆比较了画家与黑客的共同点，都是创造性的工作，还介绍了一些黑客的特点。并推崇 lisp。这里是详细的[读书笔记](./hacker-and-painter.html)
