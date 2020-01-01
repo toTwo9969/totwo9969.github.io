@@ -9,7 +9,30 @@ description:
     WSL(Windows Subsystem for Linux)真香，然而还是存在一些瑕疵。比如 WSL不是使用的系统剪切板,与系统剪切板通信，进行复制粘贴，是一个很棘手的问题。本文谈谈解决这个问题的一些方法。
 ---
 
-WSL(Windows Subsystem for Linux)真香，然而还是存在一些瑕疵。比如 WSL不是使用的系统剪切板,与系统剪切板通信，进行复制粘贴，是一个很棘手的问题。本文谈谈解决这个问题的一些方法。
+
+<!-- vim-markdown-toc GFM -->
+
+* [前言](#前言)
+* [说明](#说明)
+* [复制](#复制)
+    * [寄存器](#寄存器)
+    * [新建文件](#新建文件)
+    * [write命令](#write命令)
+* [粘贴](#粘贴)
+    * [pastetoggle](#pastetoggle)
+    * [windows paste 程序](#windows-paste-程序)
+* [参考](#参考)
+
+<!-- vim-markdown-toc -->
+## 前言
+WSL 使用的不是系统剪切板,与系统剪切板通信，进行复制粘贴，是一个很棘手的问题。
+
+问题:
+- `vim --version | grep clipboard` 没有 加号（系统）寄存器， 重新编译 vim（开启 featured)太麻烦
+- 用 ctrl+shift+c/v 进行复制粘贴,然而在粘贴 python 代码以及 vim 安装 indentpython 插件时，粘贴得到的代码缩进会出现错误。
+
+我尝试了很多种方法，从操作的**舒适程度**，以及实现效果来得到最终最优的解决方法： 通过运行 windows 的 `paste.exe`, `clip.exe`程序进行复制粘贴
+
 
 ## 说明
 环境如下
@@ -23,17 +46,6 @@ WSL(Windows Subsystem for Linux)真香，然而还是存在一些瑕疵。比如
 - `<f1>` 可以从 1到12， 代表`F1`
 - `^J` 代表换行的控制字符，而不是`^`,`J`的连接，在 linux 上 换行为 `^@`, 
 在 VIM 输入控制字符，比如`^M`，需要按下`<c-r><c-m>`
-
-## 前言
-在网上看到最新的 Windows 版本支持用 ctrl+shift+c/v 进行复制粘贴， 或者有的可以在 shell 窗口\>属性\>选项中开启这个功能。
-我这个不行。
-
-而且 `vim --version | grep clipboard` 没有 加号（系统）寄存器， 再加之懒得重新编译 vim（开启 featured) . 所以我只有另寻解决办法. 
-
-在命令行下，已经有很好的解决方法： 可以右击进行复制（先选中）和粘贴
-另外 也可以使用 ctrl+c 复制(有两个功能，分别是中断和复制）
-
-vim 下就比较麻烦了。我尝试了很多种方法，从操作的**舒适程度**，以及实现效果来选择出最终最优的解决方法： 通过运行 windows 的 `paste.exe`, `clip.exe`程序进行复制粘贴
 
 ## 复制
 从 VIM 中 复制文本到 Windoes 剪切板。
