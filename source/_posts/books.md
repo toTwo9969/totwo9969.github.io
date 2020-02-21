@@ -10,7 +10,7 @@ description: 记录一下看过的书籍，并推荐给大家，更新顺序是�
 ---
 
 
-我将所有书籍的电子版放在百度云了,可以[点这里](https://pan.baidu.com/s/1ySrI1UwuqmX8z0ZG5sPwdA)
+我将所有书籍的电子版放在[百度云](https://pan.baidu.com/s/1ySrI1UwuqmX8z0ZG5sPwdA)
 
 ## -----2019------
 
