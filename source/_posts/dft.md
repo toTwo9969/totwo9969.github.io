@@ -135,10 +135,13 @@ c)奇分量函数在变换中引入系数-j;
 d)偶分量函数在变换中不引入系数. 
 
 ### 旋转性
-if $$
+若有 
+$$
 f(r,\theta)<=>F(\omega,\phi) 
 $$
-then $$f(r,\theta+t)<=>F(\omega,\phi+t)
+则 
+$$
+f(r,\theta+t)<=>F(\omega,\phi+t)
 $$
 ### 加法定理
 1.
@@ -357,7 +360,7 @@ if __name__ == '__main__':
 ```
 
 ## 参考
-- [万寿红老师课件]()
+- [万寿红老师课件](http://202.38.64.11/~wansh/image.htm)
 - [一小时学会快速傅里叶变换 Fast Fourier Transform](https://zhuanlan.zhihu.com/p/31584464)
 - [快速傅里叶变换（FFT）算法【详解】](https://www.cnblogs.com/ECJTUACM-873284962/p/6919424.html)
 
