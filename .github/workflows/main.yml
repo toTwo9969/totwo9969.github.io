@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v1
         with:
-          python-version: 3.5
+          python-version: 3.6
       - name: gen readme
         run: python3 genIndex.py
       - name: gen update time
