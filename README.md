@@ -1,9 +1,5 @@
 <!--  style=flat/plastic/social,  label force to change the title -->
-
-<a href="https://mbinary.xyz">
-    <img align="center" src="https://raw.githubusercontent.com/mbinary-toys/resource/master/images/logo.png">
-</a>
-
+# mbinary's blog
 
 [![Followers](https://img.shields.io/github/followers/mbinary.svg?label=Follow)](https://github.com/mbinary)
 [![Size](https://img.shields.io/github/repo-size/mbinary/mbinary.github.io.svg)](.)
