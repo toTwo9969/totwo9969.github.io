@@ -3,6 +3,20 @@ on:
   push:
     branches: [ hexo ]
 jobs:
+  genInfo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v1
+        with:
+          python-version: 3.5
+      - name: gen readme
+        run: python3 genIndex.py
+      - name: gen update time
+        run: |
+          export TZ='Asia/Shanghai'
+          #sed -i "s/UpdateTime/`date +%Y-%m-%d,%H:%m` (UTC+8)/g" ./themes/yelee/layout/_partial/footer.ejs
+          sed -i "s/UpdateTime/`date -R`/g" ./themes/yelee/layout/_partial/footer.ejs   
   build:
     runs-on: ubuntu-latest
     strategy:
@@ -10,11 +24,12 @@ jobs:
         node-version: [10.x]
     steps:
       - uses: actions/checkout@v2
-      - name: 设置 Node.js ${{ matrix.node-version }}
+          
+      - name: setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: 配置 Git 环境
+      - name: setup Git
         env:
           ACCESS_TOKEN: ${{secrets.ACCESS_TOKEN}}
         run: |
@@ -24,16 +39,11 @@ jobs:
           sed -i "s/gh_token/${ACCESS_TOKEN}/g" ./_config.yml
           git config --global user.name "mbinary"
           git config --global user.email "zhuheqin1@gmail.com"
-      - name: Setup update time
-        run: |
-          export TZ='Asia/Shanghai'
-          #sed -i "s/UpdateTime/`date +%Y-%m-%d,%H:%m` (UTC+8)/g" ./themes/yelee/layout/_partial/footer.ejs
-          sed -i "s/UpdateTime/`date -R`/g" ./themes/yelee/layout/_partial/footer.ejs
-      - name: 安装 Hexo CI
+      - name: install hexo
         run: |
           npm i -g hexo-cli
           npm i
-      - name: 安装插件
+      - name: instal hexo pulgins
         run: |
           npm install hexo-deployer-git --save
           npm install hexo-filter-github-emojis --save
@@ -53,7 +63,7 @@ jobs:
           npm install hexo-renderer-mathjax --save
           npm install hexo-renderer-stylus --save
           npm install hexo-wordcount --save
-      - name: 部署博客
+      - name: deploy
         run: |
           #rm -rf .deploy_git
           #rm ~/.ssh/id_rsa
