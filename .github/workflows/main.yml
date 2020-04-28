@@ -3,8 +3,11 @@ on:
   push:
     branches: [ hexo ]
 jobs:
-  genInfo:
+  build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v1
@@ -17,13 +20,6 @@ jobs:
           export TZ='Asia/Shanghai'
           #sed -i "s/UpdateTime/`date +%Y-%m-%d,%H:%m` (UTC+8)/g" ./themes/yelee/layout/_partial/footer.ejs
           sed -i "s/UpdateTime/`date -R`/g" ./themes/yelee/layout/_partial/footer.ejs   
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [10.x]
-    steps:
-      - uses: actions/checkout@v2
           
       - name: setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
