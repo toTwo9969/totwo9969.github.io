@@ -96,9 +96,6 @@ theme: yelee
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
     - type: git
-      repo: https://mbinary:co_token@git.coding.net/mbinary/mbinary.git # coding
-      branch: master
-    - type: git
       repo: https://gh_token@github.com/mbinary/mbinary.github.io.git,master #github
       branch: master
 live2d:
