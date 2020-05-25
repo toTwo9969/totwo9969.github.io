@@ -18,8 +18,8 @@ jobs:
       - name: gen update time
         run: |
           export TZ='Asia/Shanghai'
-          sed -i "s/UpdateTime/`date +%Y-%m-%d %H:%m` UTC+8/g" ./themes/yelee/layout/_partial/footer.ejs
-          sed -i "s/UpdateTime/`date +%Y-%m-%d %H:%m` UTC+8/g" ./_config.yml
+          sed -i "s/UpdateTime/`date '+%Y-%m-%d %H:%m'` UTC+8/g" ./themes/yelee/layout/_partial/footer.ejs
+          sed -i "s/UpdateTime/`date '+%Y-%m-%d %H:%m'` UTC+8/g" ./_config.yml
           #sed -i "s/UpdateTime/`date -R`/g" ./themes/yelee/layout/_partial/footer.ejs   
           
       - name: setup Node.js ${{ matrix.node-version }}
