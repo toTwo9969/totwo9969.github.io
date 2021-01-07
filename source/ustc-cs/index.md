@@ -1,5 +1,5 @@
 # USTC-CS
 
-[项目新地址](https://ustc-resource.github.io/USTC-Course/)
+[GitHub 地址](https://github.com/USTC-Resource/USTC-Course)
 
 
