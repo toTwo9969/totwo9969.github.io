@@ -29,7 +29,6 @@ fancybox: false
   -->
 * MBTI: [INTJ](https://zh.wikipedia.org/wiki/INTJ)
 * GMAIL: [zhuheqin1](mailto:&#122;huheqin1@gmail.com)
-* QQ: [414313516](http://wpa.qq.com/msgrd?v=3&uin=414313516&site=qq&menu=yes)
 
 ---
 ## <i class="fa fa-battery"></i>喜欢的运动
