@@ -22,16 +22,12 @@ fancybox: false
 
 ## <i class="fa fa-id-card"></i> :smiley:
 
-
-  <!--
-  <a href="http://wpa.qq.com/msgrd?v=3&uin=414313516&site=qq&menu=yes">加QQ吗QAQ
-  <br><img border="0" src="http://wpa.qq.com/pa?p=2:511566576:53" alt="点击这里给我发消息" title="点击这里给我发消息"></a> 
-  -->
 * MBTI: [INTJ](https://zh.wikipedia.org/wiki/INTJ)
 * GMAIL: [zhuheqin1](mailto:&#122;huheqin1@gmail.com)
 
 ---
 ## <i class="fa fa-battery"></i>喜欢的运动
+  * 游泳
   * 健身
   * 跑步
   * 棋类
