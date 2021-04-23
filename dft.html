@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="mbinary">
+
+
+
+<meta name="description" content="图像处理中, 为了方便处理，便于抽取特征，数据压缩等目的，常常要将图形进行变换,这篇文章介绍一下傅里叶变换">
+<meta name="keywords" content="FFT, 傅里叶变换, 图像处理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="傅里叶变换">
+<meta property="og:url" content="https://mbinary.xyz/dft.html">
+<meta property="og:site_name" content="mbinary&#39;s blog">
+<meta property="og:description" content="图像处理中, 为了方便处理，便于抽取特征，数据压缩等目的，常常要将图形进行变换,这篇文章介绍一下傅里叶变换">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-04-23T08:02:23.258Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="傅里叶变换">
+<meta name="twitter:description" content="图像处理中, 为了方便处理，便于抽取特征，数据压缩等目的，常常要将图形进行变换,这篇文章介绍一下傅里叶变换">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="mbinary&#39;s blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/yinyang.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>傅里叶变换 | mbinary&#39;s blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+
+
+
+</head></html>
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">mbinary</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">淡泊明志, 宁静致远</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="Let me search for you>_<" class="search form-control" autocomplete="off" autocorrect="off" searchonload="false">
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class="no-result">No results found <i class="fa fa-spinner fa-pulse"></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/archives/">归档</a></li>
+                        
+                            <li><a href="/tags/">标签</a></li>
+                        
+                            <li><a href="/leetcode/">编程</a></li>
+                        
+                            <li><a href="/about/">关于</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:zhuheqin1@gmail.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/mbinary" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/B树/">B树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LRU/">LRU</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/">api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/common-lisp/">common lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/人际交往/">人际交往</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分享/">分享</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动态规划/">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/区块链/">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/图/">图</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/图像处理/">图像处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/娱乐/">娱乐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串匹配/">字符串匹配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/室友/">室友</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/影视/">影视</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/总结/">总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/惰性学习/">惰性学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序/">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/散列表/">散列表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数字货币/">数字货币</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/斐波那契堆/">斐波那契堆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机械键盘/">机械键盘</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树/">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/比特币/">比特币</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编/">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/红黑树/">红黑树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机组成原理/">计算机组成原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逆向/">逆向</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/选择/">选择</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/黑客/">黑客</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://mbinary.xyz/links/">交换友链说明</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.4spaces.org">4spaces</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">mbinary</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">mbinary</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">淡泊明志, 宁静致远</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">归档</a></li>
+                
+                    <li><a href="/tags/">标签</a></li>
+                
+                    <li><a href="/leetcode/">编程</a></li>
+                
+                    <li><a href="/about/">关于</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:zhuheqin1@gmail.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/mbinary" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
+</nav>
+      <div class="body-wrap"><article id="post-dft" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/dft.html" class="article-date">
+      <time datetime="2019-06-10T23:46:00.000Z" itemprop="datePublished">2019-06-10</time>
+</a>
+
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      傅里叶变换
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/数学/">数学</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/图像处理/">图像处理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数学/">数学</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <!-- TOC -->
+<ul>
+<li><a href="#定义">定义</a><ul>
+<li><a href="#连续">连续</a></li>
+<li><a href="#离散">离散</a></li>
+</ul>
+</li>
+<li><a href="#性质">性质</a><ul>
+<li><a href="#分离性">分离性</a></li>
+<li><a href="#位移定理">位移定理</a></li>
+<li><a href="#周期性">周期性</a></li>
+<li><a href="#共轭对称性">共轭对称性</a></li>
+<li><a href="#旋转性">旋转性</a></li>
+<li><a href="#加法定理">加法定理</a></li>
+<li><a href="#平均值">平均值</a></li>
+<li><a href="#相似性定理">相似性定理</a></li>
+<li><a href="#卷积定理">卷积定理</a></li>
+<li><a href="#相关定理">相关定理</a></li>
+<li><a href="#rayleigh-定理">Rayleigh 定理</a></li>
+</ul>
+</li>
+<li><a href="#快速傅里叶变换">快速傅里叶变换</a><ul>
+<li><a href="#复数中的单位根">复数中的单位根</a></li>
+<li><a href="#快速傅里叶变换的计算">快速傅里叶变换的计算</a></li>
+</ul>
+</li>
+<li><a href="#代码">代码</a></li>
+<li><a href="#参考">参考</a></li>
+</ul>
+<!-- /TOC -->
+<p>图像处理中, 为了方便处理，便于抽取特征，数据压缩等目的，常常要将图像进行变换。<br>一般有如下变换方法</p>
+<ol>
+<li>傅立叶变换Fourier Transform </li>
+<li>离散余弦变换Discrete Cosine Transform </li>
+<li>沃尔希-哈德玛变换Walsh-Hadamard Transform </li>
+<li>斜变换Slant Transform </li>
+<li>哈尔变换Haar Transform </li>
+<li>离散K-L变换Discrete Karhunen-Leave Transform </li>
+<li>奇异值分解SVD变换Singular-Value Decomposition </li>
+<li>离散小波变换Discrete Wavelet Transform </li>
+</ol>
+<p>这篇文章介绍一下傅里叶变换</p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><h3 id="连续"><a href="#连续" class="headerlink" title="连续"></a>连续</h3><p>积分形式<br>如果一个函数的绝对值的积分存在，即</p>
+<script type="math/tex; mode=display">
+\int_{-\infty} ^\infty |h(t)|dt<\infty</script><p>并且函数是连续的或者只有有限个不连续点，则对于 x 的任何值， 函数的傅里叶变换存在</p>
+<ul>
+<li>一维傅里叶变换<script type="math/tex; mode=display">
+H(f)=\int_{-\infty} ^\infty h(t)e^{-j2\pi ft}dt</script></li>
+<li>一维傅里叶逆变换<script type="math/tex; mode=display">
+H(f)=\int_{-\infty} ^\infty h(t)e^{j2\pi ft}dt</script>同理多重积分<h3 id="离散"><a href="#离散" class="headerlink" title="离散"></a>离散</h3>实际应用中，多用离散傅里叶变换 DFT.</li>
+<li>一维傅里叶变换<script type="math/tex; mode=display">
+F(u)=\sum_{x=0} ^{N-1} f(x)e^{\frac{-2\pi j}{N} ux}</script></li>
+<li>一维傅里叶逆变换<script type="math/tex; mode=display">
+f(x)=\frac{1}{N}\sum_{u=0} ^{N-1} F(u)e^{\frac{2\pi j}{N} ux}</script>需要注意的是， 逆变换乘以 $\frac{1}{N}$ 是为了<strong>归一化</strong>，这个系数可以随意改变， 即可以正变换乘以 $\frac{1}{N}$, 逆变换就不乘，或者两者都乘以$\frac{1}{\sqrt{N}}$等系数。</li>
+<li>二维傅里叶变换<script type="math/tex; mode=display">
+F(u,v)=\frac{1}{N}\sum_{x=0}^{N-1}\sum_{y=0} ^{N-1} f(x,y)e^{\frac{-2\pi j}{N} (ux+vy)}</script></li>
+<li>二维傅里叶逆变换</li>
+</ul>
+<script type="math/tex; mode=display">
+f(x,y)=\frac{1}{N}\sum_{u=0}^{N-1}\sum_{v=0} ^{N-1} F(u,v)e^{\frac{2\pi j}{N} (ux+vy)}</script><p>幅度</p>
+<script type="math/tex; mode=display">
+|F(u,v)| = \sqrt{real(F)^2+imag(F)^2}</script><p>相位</p>
+<script type="math/tex; mode=display">
+arctan{\frac{imag(F)}{real(F)}}</script><p>对于图像的幅度谱显示，由于 |F(u,v)| 变换范围太大，一般显示 $D= log(|F(u,v)+1)$</p>
+<p>用 <code>&lt;=&gt;</code> 表示傅里叶变换对</p>
+<script type="math/tex; mode=display">
+f(x)<=>F(u)\\
+f(x,y)<=>F(u,v)</script><p>f,g,h 对应的傅里叶变换 F,G,H</p>
+<p>$F^*$ 表示 $F$ 的共轭</p>
+<h2 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h2><h3 id="分离性"><a href="#分离性" class="headerlink" title="分离性"></a>分离性</h3><script type="math/tex; mode=display">
+\begin{aligned}
+&F(x,v)=\sum_{y=0} ^{N-1} f(x,y)e^{\frac{-2\pi j}{N} vy}\\
+&F(u,v)=\frac{1}{N}\sum_{x=0}^{N-1}F(x,v)e^{\frac{-2\pi j}{N}ux}
+\end{aligned}</script><p>进行多维变换时，可以依次对每一维进行变换。 下面在代码中就是这样实现的。</p>
+<h3 id="位移定理"><a href="#位移定理" class="headerlink" title="位移定理"></a>位移定理</h3><script type="math/tex; mode=display">
+f(x,y)e^{\frac{2\pi j}{N}(u_0x+v_0y)} <=>F(u-u_0,v-v_0)</script><script type="math/tex; mode=display">
+f(x-x_0,y-y_0)<=>F(u,v)e^{\frac{-2\pi j}{N}(ux_0+vy_0)}</script><h3 id="周期性"><a href="#周期性" class="headerlink" title="周期性"></a>周期性</h3><script type="math/tex; mode=display">
+F(u,v) = F(u+N,v+N)</script><h3 id="共轭对称性"><a href="#共轭对称性" class="headerlink" title="共轭对称性"></a>共轭对称性</h3><script type="math/tex; mode=display">F(u,v) = F^*(-u,-v)</script><p>a)偶分量函数在变换中产生偶分量函数;<br>b)奇分量函数在变换中产生奇分量函数;<br>c)奇分量函数在变换中引入系数-j;<br>d)偶分量函数在变换中不引入系数. </p>
+<h3 id="旋转性"><a href="#旋转性" class="headerlink" title="旋转性"></a>旋转性</h3><p>若有 </p>
+<script type="math/tex; mode=display">
+f(r,\theta)<=>F(\omega,\phi)</script><p>则 </p>
+<script type="math/tex; mode=display">
+f(r,\theta+t)<=>F(\omega,\phi+t)</script><h3 id="加法定理"><a href="#加法定理" class="headerlink" title="加法定理"></a>加法定理</h3><p>1.</p>
+<script type="math/tex; mode=display">
+Fourier[f+g]=Fourier[f]+Fourier[g]</script><p>2.</p>
+<script type="math/tex; mode=display">
+af(x,y)<=>aF[u,v]</script><h3 id="平均值"><a href="#平均值" class="headerlink" title="平均值"></a>平均值</h3><script type="math/tex; mode=display">
+\frac{1}{N^2}\sum_{x=0}^{N-1}\sum_{y=0} ^{N-1} f(x,y) = \frac{1}{N}F(0,0)</script><h3 id="相似性定理"><a href="#相似性定理" class="headerlink" title="相似性定理"></a>相似性定理</h3><p>尺度变换</p>
+<script type="math/tex; mode=display">
+f(ax,by)<=>\frac{F(\frac{u}{a},\frac{v}{b})}{ab}</script><h3 id="卷积定理"><a href="#卷积定理" class="headerlink" title="卷积定理"></a>卷积定理</h3><p>卷积定义<br>1d</p>
+<script type="math/tex; mode=display">
+f*g = \frac{1}{M}\sum_{m=0}^{M-1}f(m)g(x-m)</script><p>2d</p>
+<script type="math/tex; mode=display">
+f(x,y)*g(x,y) = \frac{1}{MN}\sum_{m=0}^{M-1}\sum_{n=0}^{N-1}f(m,n)g(x-m,y-n)</script><p>卷积定理</p>
+<script type="math/tex; mode=display">
+f(x,y)*g(x,y) <=> F(u,v)G(u,v)</script><script type="math/tex; mode=display">
+f(x,y)g(x,y)<=>F(u,v)*G(u,v)</script><p>离散卷积<br>用</p>
+<script type="math/tex; mode=display">
+\sum_{i=0}^{N-1}x(iT)h[(k-i)T] <=> X(\frac{n}{NT})H(\frac{n}{NT})</script><p>即两个周期为 N 的抽样函数， 他们的卷积的离散傅里叶变换等于他们的离散傅里叶变换的卷积</p>
+<p>卷积的应用：<br>去除噪声， 特征增强<br>两个不同周期的信号卷积需要周期扩展的原因：如果直接进行傅里叶变换和乘积，会产生折叠误差(卷绕)。</p>
+<h3 id="相关定理"><a href="#相关定理" class="headerlink" title="相关定理"></a>相关定理</h3><p>下面用$ \infty$ 表示相关。<br>相关函数描述了两个信号之间的相似性，其相关性大小有相关系数衡量</p>
+<ul>
+<li>相关函数的定义<br>离散<script type="math/tex; mode=display">f(x,y)\quad  \infty \quad g(x,y) =  \frac{1}{MN}\sum_{m=0}^{M-1}\sum_{n=0}^{N-1}f^*(m,n)g(x+m,y+n)</script>连续<script type="math/tex; mode=display">z(t) = \int_{-\infty}^{\infty}x^*(\tau) h(t+\tau)d\tau</script></li>
+<li>定理<script type="math/tex; mode=display">
+f(x,y)\quad  \infty \quad g(x,y)<=>F^*(u,v)G(u,v)</script><h3 id="Rayleigh-定理"><a href="#Rayleigh-定理" class="headerlink" title="Rayleigh 定理"></a>Rayleigh 定理</h3>能量变换<br>对于有限区间非零函数 f(t), 其能量为<script type="math/tex; mode=display">
+E = \int_{-\infty}^{\infty}|f(t)|^2dt</script></li>
+</ul>
+<p>其变换函数与原函数有相同的能量</p>
+<script type="math/tex; mode=display">
+ \int_{-\infty}^{\infty}|f(t)|^2dt =  \int_{-\infty}^{\infty}|F(u)|^2dt</script><h2 id="快速傅里叶变换"><a href="#快速傅里叶变换" class="headerlink" title="快速傅里叶变换"></a>快速傅里叶变换</h2><p>由上面离散傅里叶变换的性质易知，直接计算 1维 dft 的时间复杂度维 $O(N^2)$。</p>
+<p>利用到单位根的对称性，快速傅里叶变换可以达到 $O(nlogn)$的时间复杂度。</p>
+<h3 id="复数中的单位根"><a href="#复数中的单位根" class="headerlink" title="复数中的单位根"></a>复数中的单位根</h3><p>我们知道， 在复平面，复数 $cos\theta +i\ sin\theta$k可以表示成 $e^{i\theta}$， 可以对应一个向量。$\theta$即为幅角。<br> 在<strong>单位圆</strong>中 ，单位圆被分成 $\frac{2\pi}{\theta}$ 份， 由单位圆的对称性 </p>
+<script type="math/tex; mode=display">
+e^{i\theta} = e^{i(\theta+2\pi)}</script><p>现在记 $ n =\frac{ 2\pi }{\theta}$ ， 即被分成 n 份，幅度角为正且最小的向量称为 n 次单位向量， 记为$\omega _n$，<br>其余的 n-1 个向量分别为 $\omega_{n}^{2},\omega_{n}^{3},\ldots,\omega_{n}^{n}$ ，它们可以由复数之间的乘法得来 $w_{n}^{k}=w_{n}^{k-1}\cdot w_{n}^{1}\ (2 \leq k \leq n) $。<br>单位根的性质</p>
+<ol>
+<li>这个可以用 e 表示出来证明<script type="math/tex; mode=display">
+\omega_{2n}^{2k}=\omega_{n}^{k}</script></li>
+<li>可以写成三角函数证明<script type="math/tex; mode=display">
+\omega_{n}^{k+\frac{n}{2}}=-\omega_{n}^{k}</script></li>
+</ol>
+<p>容易看出 $w_{n}^{n}=w_{n}^{0}=1 $。</p>
+<p>对于$ w_{n}^{k}$ , 它事实上就是 $e^{\frac{2\pi i}{n}k}$ 。</p>
+<h3 id="快速傅里叶变换的计算"><a href="#快速傅里叶变换的计算" class="headerlink" title="快速傅里叶变换的计算"></a>快速傅里叶变换的计算</h3><p>下面的推导假设 $n=2^k$，以及代码实现 FFT 部分也是 如此。</p>
+<p>利用上面的对称性，<br>将傅里叶计算进行奇偶分组</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+F(u)&=\sum_{i=0}^{n-1}\omega_n ^{iu} a^i\\
+       &= \sum_{i=0}^{\frac{n}{2}-1}\omega_n ^{2iu} a^{2i}+\sum_{i=0}^{\frac{n}{2}-1}\omega_n ^{(2i+1)u} a^{2i+1}\\
+      &=\sum_{i=0}^{\frac{n}{2}-1}\omega_{\frac{n}{2}} ^{iu} a^{2i}+\omega_n^u\sum_{i=0}^{\frac{n}{2}-1}\omega_{\frac{n}{2}} ^{iu} a^{2i+1}\\
+      & = F_{even}(u)+\omega_n^u F_{odd}(u)
+\end{aligned}</script><p>$F_{even}$表示将 输入的次序中偶数点进行 Fourier 变换， $F_{odd}$ 同理，这样就形成递推公式。<br>现在还没有减少计算量，下面通过将分别计算的 奇项，偶项利用起来，只计算 前 $\frac{n}{2}-1$项，后面的一半可以利用此结果马上算出来。每一次可以减少一半的计算量。</p>
+<p>对于 $\frac{n}{2}\leq i+\frac{n}{2}\leq n-1$</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+F(\omega_{n}^{i+\frac{n}{2}})&=F_{even}(\omega_{n}^{2i+n})+\omega_{n}^{i+\frac{n}{2}}\cdot F_{odd}(\omega_{n}^{2i+n})\\
+ &=F_{even}(\omega_{\frac{n}{2}}^{i+\frac{n}{2}})+\omega_{\frac{n}{2}}^{i+\frac{n}{2}}\cdot F_{odd}(\omega_{\frac{n}{2}}^{i+\frac{n}{2}})\\
+     & =F_{even}(\omega_{\frac{n}{2}}^{i})-\omega_{\frac{n}{2}}^{i}\cdot F_{odd}(\omega_{\frac{n}{2}}^{i})
+\end{aligned}</script><p>现在很清楚了，在每次计算 a[0..n-1] 的傅里叶变换F[0..n-1]，分别计算出奇 odd[0..n/2-1]，偶even[0..n/2-1]（可以递归地进行），<br>那么傅里叶变换为：</p>
+<script type="math/tex; mode=display">
+F[i] = \begin{cases}
+even[i]+ \omega^i \cdot odd[i], \quad i<\frac{n}{2}\\
+even[i]- \omega^i \cdot odd[i], \quad else
+\end{cases}</script><h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>下面是 python 实现<br>一维用 FFT 实现， 不过 只实现了 2 的幂。/ 对于非 2 的幂，用 FFT 实现有点困难，还需要插值，所以我 用$O(n^2)$ 直接实现。</p>
+<p>二维的 DFT利用 分离性，直接调用 一维 FFT。<br><a href="https://github.com/mbinary/algorithm" target="_blank" rel="noopener">GitHub</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_fft</span><span class="params">(a, invert=False)</span>:</span></span><br><span class="line">    N = len(a)</span><br><span class="line">    <span class="keyword">if</span> N == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> [a[<span class="number">0</span>]]</span><br><span class="line">    <span class="keyword">elif</span> N &amp; (N - <span class="number">1</span>) == <span class="number">0</span>:  <span class="comment"># O(nlogn),  2^k</span></span><br><span class="line">        even = _fft(a[::<span class="number">2</span>], invert)</span><br><span class="line">        odd = _fft(a[<span class="number">1</span>::<span class="number">2</span>], invert)</span><br><span class="line">        i = <span class="number">2j</span> <span class="keyword">if</span> invert <span class="keyword">else</span> <span class="number">-2j</span></span><br><span class="line">        factor = np.exp(i * np.pi * np.arange(N // <span class="number">2</span>) / N)</span><br><span class="line">        prod = factor * odd</span><br><span class="line">        <span class="keyword">return</span> np.concatenate([even + prod, even - prod])</span><br><span class="line">    <span class="keyword">else</span>:  <span class="comment"># O(n^2)</span></span><br><span class="line">        w = np.arange(N)</span><br><span class="line">        i = <span class="number">2j</span> <span class="keyword">if</span> invert <span class="keyword">else</span> <span class="number">-2j</span></span><br><span class="line">        m = w.reshape((N, <span class="number">1</span>)) * w</span><br><span class="line">        W = np.exp(m * i * np.pi / N)</span><br><span class="line">        <span class="keyword">return</span> np.concatenate(np.dot(W, a.reshape(</span><br><span class="line">            (N, <span class="number">1</span>))))  <span class="comment"># important, cannot use *</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fft</span><span class="params">(a)</span>:</span></span><br><span class="line">    <span class="string">'''fourier[a]'''</span></span><br><span class="line">    n = len(a)</span><br><span class="line">    <span class="keyword">if</span> n == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">"[Error]: Invalid length: 0"</span>)</span><br><span class="line">    <span class="keyword">return</span> _fft(a)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ifft</span><span class="params">(a)</span>:</span></span><br><span class="line">    <span class="string">'''invert fourier[a]'''</span></span><br><span class="line">    n = len(a)</span><br><span class="line">    <span class="keyword">if</span> n == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">"[Error]: Invalid length: 0"</span>)</span><br><span class="line">    <span class="keyword">return</span> _fft(a, <span class="keyword">True</span>) / n</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fft2</span><span class="params">(arr)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> np.apply_along_axis(fft, <span class="number">0</span>,</span><br><span class="line">                               np.apply_along_axis(fft, <span class="number">1</span>, np.asarray(arr)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ifft2</span><span class="params">(arr)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> np.apply_along_axis(ifft, <span class="number">0</span>,</span><br><span class="line">                               np.apply_along_axis(ifft, <span class="number">1</span>, np.asarray(arr)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">(n=<span class="number">128</span>)</span>:</span></span><br><span class="line">    print(<span class="string">'\nsequence length:'</span>, n)</span><br><span class="line">    print(<span class="string">'fft'</span>)</span><br><span class="line">    li = np.random.random(n)</span><br><span class="line">    print(np.allclose(fft(li), np.fft.fft(li)))</span><br><span class="line"></span><br><span class="line">    print(<span class="string">'ifft'</span>)</span><br><span class="line">    li = np.random.random(n)</span><br><span class="line">    print(np.allclose(ifft(li), np.fft.ifft(li)))</span><br><span class="line"></span><br><span class="line">    print(<span class="string">'fft2'</span>)</span><br><span class="line">    li = np.random.random(n * n).reshape((n, n))</span><br><span class="line">    print(np.allclose(fft2(li), np.fft.fft2(li)))</span><br><span class="line"></span><br><span class="line">    print(<span class="string">'ifft2'</span>)</span><br><span class="line">    li = np.random.random(n * n).reshape((n, n))</span><br><span class="line">    print(np.allclose(ifft2(li), np.fft.ifft2(li)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">3</span>):</span><br><span class="line">        test(i * <span class="number">16</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://202.38.64.11/~wansh/image.htm" target="_blank" rel="noopener">万寿红老师课件</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/31584464" target="_blank" rel="noopener">一小时学会快速傅里叶变换 Fast Fourier Transform</a></li>
+<li><a href="https://www.cnblogs.com/ECJTUACM-873284962/p/6919424.html" target="_blank" rel="noopener">快速傅里叶变换（FFT）算法【详解】</a></li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/dft.html">傅里叶变换</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">mbinary</a></p>
+        <p><span>发布时间:</span>2019-06-10, 23:46:00</p>
+        <p><span>最后更新:</span>2021-04-23, 08:02:23</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/dft.html" title="傅里叶变换">https://mbinary.xyz/dft.html</a>
+            <span class="copy-path" data-clipboard-text="原文: https://mbinary.xyz/dft.html　　作者: mbinary" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/poems.html">
+                    生活也要有诗和远方呀
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/wsl-vim-clipboard.html">
+                    WSL 中的 VIM 与 Windwos 剪切板通信
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#定义"><span class="toc-number">1.</span> <span class="toc-text">定义</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#连续"><span class="toc-number">1.1.</span> <span class="toc-text">连续</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#离散"><span class="toc-number">1.2.</span> <span class="toc-text">离散</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#性质"><span class="toc-number">2.</span> <span class="toc-text">性质</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#分离性"><span class="toc-number">2.1.</span> <span class="toc-text">分离性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#位移定理"><span class="toc-number">2.2.</span> <span class="toc-text">位移定理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#周期性"><span class="toc-number">2.3.</span> <span class="toc-text">周期性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#共轭对称性"><span class="toc-number">2.4.</span> <span class="toc-text">共轭对称性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#旋转性"><span class="toc-number">2.5.</span> <span class="toc-text">旋转性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#加法定理"><span class="toc-number">2.6.</span> <span class="toc-text">加法定理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#平均值"><span class="toc-number">2.7.</span> <span class="toc-text">平均值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#相似性定理"><span class="toc-number">2.8.</span> <span class="toc-text">相似性定理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#卷积定理"><span class="toc-number">2.9.</span> <span class="toc-text">卷积定理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#相关定理"><span class="toc-number">2.10.</span> <span class="toc-text">相关定理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Rayleigh-定理"><span class="toc-number">2.11.</span> <span class="toc-text">Rayleigh 定理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#快速傅里叶变换"><span class="toc-number">3.</span> <span class="toc-text">快速傅里叶变换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#复数中的单位根"><span class="toc-number">3.1.</span> <span class="toc-text">复数中的单位根</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#快速傅里叶变换的计算"><span class="toc-number">3.2.</span> <span class="toc-text">快速傅里叶变换的计算</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码"><span class="toc-number">4.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">5.</span> <span class="toc-text">参考</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-6 i,
+        .toc-level-6 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"傅里叶变换　| mbinary's blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+
+<!--<script src="//cdn.jsdelivr.net/npm/leancloud-storage@latest/dist/av-min.js"></script>
+<script src='//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js'></script>-->
+
+<div id="vcomments"></div>
+<script>
+    var notify = false == true ? true : false;
+    var verify = false == true ? true : false;
+    var visitor = true == true ? true : false;
+new Valine({
+    el: '#vcomments',
+    notify: notify,
+    verify: verify,
+    appId: 'ArpEYbLUBmpXK3f245hKNu4A-gzGzoHsz',
+    appKey: 'X5cHcMU1ATb8q0prtPGEqIPX',
+    lang: 'en',
+    placeholder: '请陈独秀同志发言^_^',
+    avatar: 'monsterid',
+    pageSize: 20,
+    visitor: visitor
+    });
+</script>
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/poems.html" title="上一篇: 生活也要有诗和远方呀">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/wsl-vim-clipboard.html" title="下一篇: WSL 中的 VIM 与 Windwos 剪切板通信">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/poems.html">生活也要有诗和远方呀</a></li><li class="post-list-item"><a class="post-list-link" href="/dft.html">傅里叶变换</a></li><li class="post-list-item"><a class="post-list-link" href="/wsl-vim-clipboard.html">WSL 中的 VIM 与 Windwos 剪切板通信</a></li><li class="post-list-item"><a class="post-list-link" href="/number-theory.html">Number-Theory</a></li><li class="post-list-item"><a class="post-list-link" href="/string-matching.html">String-Mathching-Algorithm</a></li><li class="post-list-item"><a class="post-list-link" href="/graph.html">图算法</a></li><li class="post-list-item"><a class="post-list-link" href="/fib-heap.html">『数据结构』Fibonacci-heap</a></li><li class="post-list-item"><a class="post-list-link" href="/b-tree.html">『数据结构』B树(B-Tree)及其变体 B+树,B*树</a></li><li class="post-list-item"><a class="post-list-link" href="/introduction-to-bitcoin.html">『比特币』概述</a></li><li class="post-list-item"><a class="post-list-link" href="/introduction-to-blockchain.html">『区块链』简介</a></li><li class="post-list-item"><a class="post-list-link" href="/algorithm-general.html">『算法』概述</a></li><li class="post-list-item"><a class="post-list-link" href="/red-black-tree.html">『数据结构』红黑树(red-black tree)</a></li><li class="post-list-item"><a class="post-list-link" href="/tree.html">『数据结构』树</a></li><li class="post-list-item"><a class="post-list-link" href="/hashTable.html">『数据结构』散列表</a></li><li class="post-list-item"><a class="post-list-link" href="/sort.html">『算法』排序</a></li><li class="post-list-item"><a class="post-list-link" href="/bus.html">『计算机组成原理』总线</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-device.html">『现代操作系统』IO设备</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-software.html">『现代操作系统』IO软件原理</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-hardware.html">『现代操作系统』IO硬件原理</a></li><li class="post-list-item"><a class="post-list-link" href="/os-general.html">『现代操作系统』操作系统引论</a></li><li class="post-list-item"><a class="post-list-link" href="/linux-file-io.html">『Unix环境高级编程』linux 文件 I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/multiprocessor.html">『现代操作系统』多处理机</a></li><li class="post-list-item"><a class="post-list-link" href="/simple-shell.html">『linux』c 语言实现一个简易的 shell</a></li><li class="post-list-item"><a class="post-list-link" href="/deadlock.html">『现代操作系统』死锁</a></li><li class="post-list-item"><a class="post-list-link" href="/comics-about-staying-up.html">『小仓鼠漫画』熬夜的危害与防护</a></li><li class="post-list-item"><a class="post-list-link" href="/ctf-basic.html">『CTF』网络信息安全攻防实验室之基础关 writeup</a></li><li class="post-list-item"><a class="post-list-link" href="/roommate.html">用机械键盘的室友</a></li><li class="post-list-item"><a class="post-list-link" href="/csapp-bomb-lab-report.html">CSAPP-BOMB-LAB</a></li><li class="post-list-item"><a class="post-list-link" href="/learning-and-forgetting.html">学习与遗忘</a></li><li class="post-list-item"><a class="post-list-link" href="/20-years-old-summary.html">2017 年，20 岁，大二寒假总结与感悟</a></li><li class="post-list-item"><a class="post-list-link" href="/decrypt-netease-music.html">『WEB』从网易云音乐缓存文件得到MP3</a></li><li class="post-list-item"><a class="post-list-link" href="/all-one-data-structure.html">『数据结构』inc,dec,getMin,getMax 均为 O(1) 并用于实现 LRU</a></li><li class="post-list-item"><a class="post-list-link" href="/video.html">影视作品观后感</a></li><li class="post-list-item"><a class="post-list-link" href="/books.html">书籍总结与推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/hacker-and-painter.html">『读书笔记』黑客与画家</a></li><li class="post-list-item"><a class="post-list-link" href="/from-chem-to-cs.html">从化院到计院</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017-2021 mbinary
+                <br>
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+            <div class="footer-right">             
+                <span>Site Updated: 2021-04-23 16:04 UTC+8</span>
+                <br>
+                <a href="https://github.com/mbinary"><img src="https://img.shields.io/github/followers/mbinary.svg?label=Followers&style=social"> </a>
+                <a href="https://github.com/mbinary/mbinary.github.io/"><img src="https://img.shields.io/github/stars/mbinary/mbinary.github.io.svg?label=Stars&style=social"> </a>
+            </div>
+        </div>
+        
+    </div>
+</footer>
+
+    </div>
+    
+    <script src="/js/GithubRepoWidget.js"></script>
+
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+             github: ".github-widget a", 
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

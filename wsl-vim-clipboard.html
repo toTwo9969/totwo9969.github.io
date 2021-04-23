@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="mbinary">
+
+
+
+<meta name="description" content="WSL(Windows Subsystem for Linux)真香，然而还是存在一些瑕疵。比如 WSL不是使用的系统剪切板,与系统剪切板通信，进行复制粘贴，是一个很棘手的问题。本文谈谈解决这个问题的一些方法。">
+<meta name="keywords" content="操作系统,vim">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WSL 中的 VIM 与 Windwos 剪切板通信">
+<meta property="og:url" content="https://mbinary.xyz/wsl-vim-clipboard.html">
+<meta property="og:site_name" content="mbinary&#39;s blog">
+<meta property="og:description" content="WSL(Windows Subsystem for Linux)真香，然而还是存在一些瑕疵。比如 WSL不是使用的系统剪切板,与系统剪切板通信，进行复制粘贴，是一个很棘手的问题。本文谈谈解决这个问题的一些方法。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-04-23T08:02:23.262Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WSL 中的 VIM 与 Windwos 剪切板通信">
+<meta name="twitter:description" content="WSL(Windows Subsystem for Linux)真香，然而还是存在一些瑕疵。比如 WSL不是使用的系统剪切板,与系统剪切板通信，进行复制粘贴，是一个很棘手的问题。本文谈谈解决这个问题的一些方法。">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="mbinary&#39;s blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/yinyang.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>WSL 中的 VIM 与 Windwos 剪切板通信 | mbinary&#39;s blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+
+
+
+</head></html>
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">mbinary</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">淡泊明志, 宁静致远</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="Let me search for you>_<" class="search form-control" autocomplete="off" autocorrect="off" searchonload="false">
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class="no-result">No results found <i class="fa fa-spinner fa-pulse"></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/archives/">归档</a></li>
+                        
+                            <li><a href="/tags/">标签</a></li>
+                        
+                            <li><a href="/leetcode/">编程</a></li>
+                        
+                            <li><a href="/about/">关于</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:zhuheqin1@gmail.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/mbinary" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/B树/">B树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LRU/">LRU</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/">api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/common-lisp/">common lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/人际交往/">人际交往</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分享/">分享</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动态规划/">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/区块链/">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/图/">图</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/图像处理/">图像处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/娱乐/">娱乐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串匹配/">字符串匹配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/室友/">室友</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/影视/">影视</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/总结/">总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/惰性学习/">惰性学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序/">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/散列表/">散列表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数字货币/">数字货币</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/斐波那契堆/">斐波那契堆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机械键盘/">机械键盘</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树/">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/比特币/">比特币</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编/">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/红黑树/">红黑树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机组成原理/">计算机组成原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逆向/">逆向</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/选择/">选择</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/黑客/">黑客</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://mbinary.xyz/links/">交换友链说明</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.4spaces.org">4spaces</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">mbinary</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">mbinary</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">淡泊明志, 宁静致远</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">归档</a></li>
+                
+                    <li><a href="/tags/">标签</a></li>
+                
+                    <li><a href="/leetcode/">编程</a></li>
+                
+                    <li><a href="/about/">关于</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:zhuheqin1@gmail.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/mbinary" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
+</nav>
+      <div class="body-wrap"><article id="post-wsl-vim-clipboard" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/wsl-vim-clipboard.html" class="article-date">
+      <time datetime="2019-05-28T13:52:00.000Z" itemprop="datePublished">2019-05-28</time>
+</a>
+
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      WSL 中的 VIM 与 Windwos 剪切板通信
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/linux/">linux</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/">vim</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/操作系统/">操作系统</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <!-- vim-markdown-toc GFM -->
+<ul>
+<li><a href="#前言">前言</a></li>
+<li><a href="#说明">说明</a></li>
+<li><a href="#复制">复制</a><ul>
+<li><a href="#寄存器">寄存器</a></li>
+<li><a href="#新建文件">新建文件</a></li>
+<li><a href="#write命令">write命令</a></li>
+</ul>
+</li>
+<li><a href="#粘贴">粘贴</a><ul>
+<li><a href="#pastetoggle">pastetoggle</a></li>
+<li><a href="#windows-paste-程序">windows paste 程序</a></li>
+</ul>
+</li>
+<li><a href="#参考">参考</a></li>
+</ul>
+<!-- vim-markdown-toc -->
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>WSL 使用的不是系统剪切板,与系统剪切板通信，进行复制粘贴，是一个很棘手的问题。</p>
+<p>问题:</p>
+<ul>
+<li><code>vim --version | grep clipboard</code> 没有 加号（系统）寄存器， 重新编译 vim（开启 featured)太麻烦</li>
+<li>用 ctrl+shift+c/v 进行复制粘贴,然而在粘贴 python 代码以及 vim 安装 indentpython 插件时，粘贴得到的代码缩进会出现错误。</li>
+</ul>
+<p>我尝试了很多种方法，从操作的<strong>舒适程度</strong>，以及实现效果来得到最终最优的解决方法： 通过运行 windows 的 <code>paste.exe</code>, <code>clip.exe</code>程序进行复制粘贴</p>
+<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>环境如下</p>
+<ul>
+<li>Windows 10: 1709</li>
+<li>WSL: Ubuntu 1904</li>
+</ul>
+<blockquote>
+<p>说明</p>
+<ul>
+<li><code>&lt;c-r&gt;</code> 代表组合键 <code>ctrl</code>+<code>r</code> </li>
+<li><code>&lt;cr&gt;</code> 代表回车键</li>
+<li><code>&lt;f1&gt;</code> 可以从 1到12， 代表<code>F1</code></li>
+<li><code>^J</code> 代表换行的控制字符，而不是<code>^</code>,<code>J</code>的连接，在 linux 上 换行为 <code>^@</code>,<br>在 VIM 输入控制字符，比如<code>^M</code>，需要按下<code>&lt;c-r&gt;&lt;c-m&gt;</code></li>
+</ul>
+</blockquote>
+<h2 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h2><p>从 VIM 中 复制文本到 Windoes 剪切板。</p>
+<h3 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h3><p>通过 VIM 寄存器实现： 将 visual 模式下选中的文本复制到 vim 寄存器，然后将寄存器内容通过 shell 处理进入到剪切板。</p>
+<p>首先选中（在 visual 模式下），用<code>&quot;ay</code>将内容保存到 <code>a</code>寄存器，然后在命令行模式下 <code>!echo &lt;c-r&gt;a \| /mnt/c/Windows/System32/clip.exe</code>(执行 shell 命令。  a 寄存器的内容直接 作为参数文本传递（命令行模式下, <c-r>再接寄存器名字，可以将寄存器内容拷贝过来)</c-r></p>
+<p>然而拷贝的文本很可能不能直接在shell 下作为参数，有特殊字符，比如<code>&quot;</code>,<code>$</code>等等。<br>所以要进行转义，用 vim 的 <code>escape</code>函数 （我试了<code>shellescape</code>, 效果不怎么好）</p>
+<p>把上面的操作映射到按键下， 我映射的是 <code>;y</code>, 就得到如下的 vim 键盘映射<br>在 visual 模式下选中，依次按下 <code>;y</code>即可复制</p>
+<p><code>vmap ;y  &quot;ay: let @a=&quot;&#39;&quot;.escape(@a,&quot;\\&#39;\&quot;&quot;).&quot;&#39;&quot; &lt;cr&gt;:!echo &lt;c-r&gt;a \|&quot;/mnt/c/Windows/System32/clip.exe&quot;&lt;cr&gt;</code></p>
+<p>然而在复制多行时,寄存器中会包含换行控制字符<code>^J</code>或<code>^@</code>,<code>^M</code>，这在传递到shell 中时执行会截断这个参数（在参数还没有输入完全按下 enter 回车),所以有时不会成功。<br>而且有些字符 escape 也很难转换为 shell 的原文本参数</p>
+<p>所以，这个方法行不通</p>
+<h3 id="新建文件"><a href="#新建文件" class="headerlink" title="新建文件"></a>新建文件</h3><p>由于寄存器难以传到 shell 作为参数， 我就想到可以把寄存器的内容复制到一个新的 文件 buffer 中， 然后将文件内容拷贝到剪切板，然后删除文件。<br>如下，每个 <code>&lt;cr&gt;</code> 分隔开 两条 命令，</p>
+<p>在 visual 模式下选中，依次按下 <code>;y</code>即可复制</p>
+<p><code>vmap ;y &quot;ay: vs vim-copy&lt;cr&gt;&quot;aP:wq&lt;cr&gt;:call system(&quot;/mnt/c/Windows/System32/clip.exe &lt; vim-copy &amp;&amp; rm vim-copy&quot;)&lt;cr&gt;&lt;cr&gt;</code></p>
+<p>各部分解释如下</p>
+<ul>
+<li><code>&quot;ay</code>: 复制选中区域到 <code>a</code>寄存器</li>
+<li><code>vs vim-copy</code>: 新建文件 <code>vim-copy</code>到新窗口</li>
+<li><code>&quot;aP:wq</code>: 拷贝 <code>a</code> 内容到 文件并保存退出</li>
+<li><code>call system(&quot;...&quot;)</code>: 执行 shell 命令， shell 命令的内容就是复制 文件内容到剪切板，再删除文件</li>
+</ul>
+<p>这个办法可以很好地复制， 唯一的缺点就是打开新buffer 窗口，再关闭，屏幕画面变化大，看着不舒服<span class="github-emoji" title="astonished" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f632.png?v8">&#x1f632;</span></p>
+<h3 id="write命令"><a href="#write命令" class="headerlink" title="write命令"></a>write命令</h3><p>write 命令缩写为 w， 直接使用就是 保存缓冲区</p>
+<p>他后面可以接shell 命令与 shell 交互</p>
+<p>如<br><code>:w !echo</code></p>
+<p>这是对于整个文件，也可以选择一部分，<br>而进入 visual 模式下选中，再按下<code>:</code>， 则进入命令行且将选择的位置也输入进命令行<br>这是可以 直接 传递给 <code>clip.exe</code> 程序。 执行后，选中的部分备剪切掉了，可以按 <code>u</code>恢复</p>
+<p>在 visual 模式下选中，依次按下 <code>;y</code>即可复制<br><code>vmap ;y : !/mnt/c/Windows/System32/clip.exe&lt;cr&gt;u&#39;&#39;</code><br>这也是最优的方法了，如果你有更好的方法，欢迎赐教。</p>
+<h2 id="粘贴"><a href="#粘贴" class="headerlink" title="粘贴"></a>粘贴</h2><p>从 Windows 剪切板 粘贴到 VIM</p>
+<h3 id="pastetoggle"><a href="#pastetoggle" class="headerlink" title="pastetoggle"></a>pastetoggle</h3><p>如果 VIM 没有设置<code>set mouse=a</code>, 那么可以直接右击粘贴，设置了之后要按住 <code>shift</code>再右击粘贴</p>
+<p>然而这样存在问题，就是 vim 设置了autoindent,它会错误的将粘贴进的文本进行缩进， 而不是粘贴原文。</p>
+<p>这个办法可以 <code>set paste</code>， <code>set nopaste</code>解决，设置了<code>paste</code> 后，就可以原文粘贴，</p>
+<p>而这样输入命令切换很麻烦， 可以<code>set pastetoggle=&lt;f12&gt;</code>，或者其他按键，这样按一次就可以切换 paste 状态。</p>
+<p>这样比平常的 paste 动作 要多一个<code>pastetoggle</code> 操作，所以不好</p>
+<h3 id="windows-paste-程序"><a href="#windows-paste-程序" class="headerlink" title="windows paste 程序"></a>windows paste 程序</h3><p>在 了解到上面 复制时使用的 <code>clip.exe</code>程序，我就在想是不是 windows 有也专门<code>paste</code>的程序 （这个程序是和 cmd 交互的，加之， wsl 也可以执行 <code>exe</code>程序)</p>
+<p>很遗憾，windows 没有</p>
+<p>但是令人高兴的是，一个网站上有，<a href="https://www.c3scripts.com/tutorials/msdos/paste.zip" target="_blank" rel="noopener">点击这里下载</a>, 然后解压放到 <code>C:Windows/System32</code>目录下<br>使用 vim 的 read 命令进行与 shell 的交互， 即将 shell命令执行的输出 读到当前 buffer</p>
+<p>映射如下</p>
+<p>在任何模式下按下 <code>;p</code> 即可粘贴<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">map ;p <span class="symbol">:read</span> !<span class="regexp">/mnt/c</span><span class="regexp">/Windows/</span>System32/paste.exe &lt;cr&gt;</span><br><span class="line">map! ;p &lt;esc&gt;<span class="symbol">:read</span> !<span class="regexp">/mnt/c</span><span class="regexp">/Windows/</span>System32/paste.exe &lt;cr&gt;</span><br></pre></td></tr></table></figure></p>
+<p>这个是在新行开始粘贴, 如果在行内粘贴，粘贴的内容在一行内，可以按下<code>i&lt;bs&gt;&lt;esc&gt;l</code>执行退格操作（同样可以映射一下）</p>
+<p>综上所述，最终解决方案为:<br><a href="https://www.c3scripts.com/tutorials/msdos/paste.zip" target="_blank" rel="noopener">点击这里下载</a>, 然后解压放到 <code>C:Windows\System32</code>目录下</p>
+<p>再在 <code>.vimrc</code>文件中增加如下映射<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vmap ;y : !/mnt/c/Windows/System32/clip.exe&lt;cr&gt;<span class="string">u''</span></span><br><span class="line">map ;p :read !/mnt/c/Windows/System32/paste.exe &lt;cr&gt;</span><br><span class="line">map! ;p &lt;esc&gt;:read !/mnt/c/Windows/System32/paste.exe &lt;cr&gt;</span><br></pre></td></tr></table></figure></p>
+<p>WSL 真香，强烈推荐入坑 <span class="github-emoji" title="grimacing" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f62c.png?v8">&#x1f62c;</span><br>还想起一个 瑕疵， WSL 不支持32 位的程序， 不过可以安装  qemu 等解决。</p>
+<p>另外 windows terminal 在今年 6月中旬也会来到，值得期待。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://www.c3scripts.com/tutorials/msdos/paste.html" target="_blank" rel="noopener">MS-DOS-Tutorial</a></li>
+<li><a href="http://vimcdoc.sourceforge.net/doc/eval.html#functions" target="_blank" rel="noopener">vim-doc-zh-CN</a></li>
+<li><a href="https://www.cnblogs.com/mydomain/archive/2011/10/15/2213017.html" target="_blank" rel="noopener">shell转义，单引号，双引号，反撇号</a></li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/wsl-vim-clipboard.html">WSL 中的 VIM 与 Windwos 剪切板通信</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">mbinary</a></p>
+        <p><span>发布时间:</span>2019-05-28, 13:52:00</p>
+        <p><span>最后更新:</span>2021-04-23, 08:02:23</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/wsl-vim-clipboard.html" title="WSL 中的 VIM 与 Windwos 剪切板通信">https://mbinary.xyz/wsl-vim-clipboard.html</a>
+            <span class="copy-path" data-clipboard-text="原文: https://mbinary.xyz/wsl-vim-clipboard.html　　作者: mbinary" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/dft.html">
+                    傅里叶变换
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/number-theory.html">
+                    Number-Theory
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#说明"><span class="toc-number">2.</span> <span class="toc-text">说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#复制"><span class="toc-number">3.</span> <span class="toc-text">复制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#寄存器"><span class="toc-number">3.1.</span> <span class="toc-text">寄存器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新建文件"><span class="toc-number">3.2.</span> <span class="toc-text">新建文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#write命令"><span class="toc-number">3.3.</span> <span class="toc-text">write命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#粘贴"><span class="toc-number">4.</span> <span class="toc-text">粘贴</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#pastetoggle"><span class="toc-number">4.1.</span> <span class="toc-text">pastetoggle</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#windows-paste-程序"><span class="toc-number">4.2.</span> <span class="toc-text">windows paste 程序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">5.</span> <span class="toc-text">参考</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-6 i,
+        .toc-level-6 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"WSL 中的 VIM 与 Windwos 剪切板通信　| mbinary's blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+
+<!--<script src="//cdn.jsdelivr.net/npm/leancloud-storage@latest/dist/av-min.js"></script>
+<script src='//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js'></script>-->
+
+<div id="vcomments"></div>
+<script>
+    var notify = false == true ? true : false;
+    var verify = false == true ? true : false;
+    var visitor = true == true ? true : false;
+new Valine({
+    el: '#vcomments',
+    notify: notify,
+    verify: verify,
+    appId: 'ArpEYbLUBmpXK3f245hKNu4A-gzGzoHsz',
+    appKey: 'X5cHcMU1ATb8q0prtPGEqIPX',
+    lang: 'en',
+    placeholder: '请陈独秀同志发言^_^',
+    avatar: 'monsterid',
+    pageSize: 20,
+    visitor: visitor
+    });
+</script>
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/dft.html" title="上一篇: 傅里叶变换">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/number-theory.html" title="下一篇: Number-Theory">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/poems.html">生活也要有诗和远方呀</a></li><li class="post-list-item"><a class="post-list-link" href="/dft.html">傅里叶变换</a></li><li class="post-list-item"><a class="post-list-link" href="/wsl-vim-clipboard.html">WSL 中的 VIM 与 Windwos 剪切板通信</a></li><li class="post-list-item"><a class="post-list-link" href="/number-theory.html">Number-Theory</a></li><li class="post-list-item"><a class="post-list-link" href="/string-matching.html">String-Mathching-Algorithm</a></li><li class="post-list-item"><a class="post-list-link" href="/graph.html">图算法</a></li><li class="post-list-item"><a class="post-list-link" href="/fib-heap.html">『数据结构』Fibonacci-heap</a></li><li class="post-list-item"><a class="post-list-link" href="/b-tree.html">『数据结构』B树(B-Tree)及其变体 B+树,B*树</a></li><li class="post-list-item"><a class="post-list-link" href="/introduction-to-bitcoin.html">『比特币』概述</a></li><li class="post-list-item"><a class="post-list-link" href="/introduction-to-blockchain.html">『区块链』简介</a></li><li class="post-list-item"><a class="post-list-link" href="/algorithm-general.html">『算法』概述</a></li><li class="post-list-item"><a class="post-list-link" href="/red-black-tree.html">『数据结构』红黑树(red-black tree)</a></li><li class="post-list-item"><a class="post-list-link" href="/tree.html">『数据结构』树</a></li><li class="post-list-item"><a class="post-list-link" href="/hashTable.html">『数据结构』散列表</a></li><li class="post-list-item"><a class="post-list-link" href="/sort.html">『算法』排序</a></li><li class="post-list-item"><a class="post-list-link" href="/bus.html">『计算机组成原理』总线</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-device.html">『现代操作系统』IO设备</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-software.html">『现代操作系统』IO软件原理</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-hardware.html">『现代操作系统』IO硬件原理</a></li><li class="post-list-item"><a class="post-list-link" href="/os-general.html">『现代操作系统』操作系统引论</a></li><li class="post-list-item"><a class="post-list-link" href="/linux-file-io.html">『Unix环境高级编程』linux 文件 I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/multiprocessor.html">『现代操作系统』多处理机</a></li><li class="post-list-item"><a class="post-list-link" href="/simple-shell.html">『linux』c 语言实现一个简易的 shell</a></li><li class="post-list-item"><a class="post-list-link" href="/deadlock.html">『现代操作系统』死锁</a></li><li class="post-list-item"><a class="post-list-link" href="/comics-about-staying-up.html">『小仓鼠漫画』熬夜的危害与防护</a></li><li class="post-list-item"><a class="post-list-link" href="/ctf-basic.html">『CTF』网络信息安全攻防实验室之基础关 writeup</a></li><li class="post-list-item"><a class="post-list-link" href="/roommate.html">用机械键盘的室友</a></li><li class="post-list-item"><a class="post-list-link" href="/csapp-bomb-lab-report.html">CSAPP-BOMB-LAB</a></li><li class="post-list-item"><a class="post-list-link" href="/learning-and-forgetting.html">学习与遗忘</a></li><li class="post-list-item"><a class="post-list-link" href="/20-years-old-summary.html">2017 年，20 岁，大二寒假总结与感悟</a></li><li class="post-list-item"><a class="post-list-link" href="/decrypt-netease-music.html">『WEB』从网易云音乐缓存文件得到MP3</a></li><li class="post-list-item"><a class="post-list-link" href="/all-one-data-structure.html">『数据结构』inc,dec,getMin,getMax 均为 O(1) 并用于实现 LRU</a></li><li class="post-list-item"><a class="post-list-link" href="/video.html">影视作品观后感</a></li><li class="post-list-item"><a class="post-list-link" href="/books.html">书籍总结与推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/hacker-and-painter.html">『读书笔记』黑客与画家</a></li><li class="post-list-item"><a class="post-list-link" href="/from-chem-to-cs.html">从化院到计院</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017-2021 mbinary
+                <br>
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+            <div class="footer-right">             
+                <span>Site Updated: 2021-04-23 16:04 UTC+8</span>
+                <br>
+                <a href="https://github.com/mbinary"><img src="https://img.shields.io/github/followers/mbinary.svg?label=Followers&style=social"> </a>
+                <a href="https://github.com/mbinary/mbinary.github.io/"><img src="https://img.shields.io/github/stars/mbinary/mbinary.github.io.svg?label=Stars&style=social"> </a>
+            </div>
+        </div>
+        
+    </div>
+</footer>
+
+    </div>
+    
+    <script src="/js/GithubRepoWidget.js"></script>
+
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+             github: ".github-widget a", 
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

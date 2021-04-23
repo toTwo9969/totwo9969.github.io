@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="mbinary">
+
+
+
+<meta name="description" content="多处理机简介 多处理机硬件 UMA(Uniform Memory Access) 基于总线的UMA多处理机体系结构 基于交叉开关的UMA多处理机 基于多级交换的UMA多处理机   NUMA(nonuniform memory access) 多核芯片">
+<meta name="keywords" content="操作系统,读书笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="『现代操作系统』多处理机">
+<meta property="og:url" content="https://mbinary.xyz/multiprocessor.html">
+<meta property="og:site_name" content="mbinary&#39;s blog">
+<meta property="og:description" content="多处理机简介 多处理机硬件 UMA(Uniform Memory Access) 基于总线的UMA多处理机体系结构 基于交叉开关的UMA多处理机 基于多级交换的UMA多处理机   NUMA(nonuniform memory access) 多核芯片">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/multiprocessor-1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/bus.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/multiprocessor-2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/开关.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/原理.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/multiprocessor-3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/multiprocessor-4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/multiprocessor-5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/主从多处理机.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/multiprocessor-6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/单一数据结构调度.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/multiprocessor-7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/multiprocessor-8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/示例.png">
+<meta property="og:updated_time" content="2021-04-23T08:02:23.262Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="『现代操作系统』多处理机">
+<meta name="twitter:description" content="多处理机简介 多处理机硬件 UMA(Uniform Memory Access) 基于总线的UMA多处理机体系结构 基于交叉开关的UMA多处理机 基于多级交换的UMA多处理机   NUMA(nonuniform memory access) 多核芯片">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/multiprocessor-1.png">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="mbinary&#39;s blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/yinyang.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>『现代操作系统』多处理机 | mbinary&#39;s blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+
+
+
+</head></html>
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">mbinary</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">淡泊明志, 宁静致远</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="Let me search for you>_<" class="search form-control" autocomplete="off" autocorrect="off" searchonload="false">
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class="no-result">No results found <i class="fa fa-spinner fa-pulse"></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/archives/">归档</a></li>
+                        
+                            <li><a href="/tags/">标签</a></li>
+                        
+                            <li><a href="/leetcode/">编程</a></li>
+                        
+                            <li><a href="/about/">关于</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:zhuheqin1@gmail.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/mbinary" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/B树/">B树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LRU/">LRU</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/">api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/common-lisp/">common lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/人际交往/">人际交往</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分享/">分享</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动态规划/">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/区块链/">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/图/">图</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/图像处理/">图像处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/娱乐/">娱乐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串匹配/">字符串匹配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/室友/">室友</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/影视/">影视</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/总结/">总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/惰性学习/">惰性学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序/">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/散列表/">散列表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数字货币/">数字货币</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/斐波那契堆/">斐波那契堆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机械键盘/">机械键盘</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树/">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/比特币/">比特币</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编/">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/红黑树/">红黑树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机组成原理/">计算机组成原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逆向/">逆向</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/选择/">选择</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/黑客/">黑客</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://mbinary.xyz/links/">交换友链说明</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.4spaces.org">4spaces</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">mbinary</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">mbinary</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">淡泊明志, 宁静致远</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">归档</a></li>
+                
+                    <li><a href="/tags/">标签</a></li>
+                
+                    <li><a href="/leetcode/">编程</a></li>
+                
+                    <li><a href="/about/">关于</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:zhuheqin1@gmail.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/mbinary" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
+</nav>
+      <div class="body-wrap"><article id="post-multiprocessor" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/multiprocessor.html" class="article-date">
+      <time datetime="2018-06-09T10:33:25.000Z" itemprop="datePublished">2018-06-09</time>
+</a>
+
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      『现代操作系统』多处理机
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/操作系统/">操作系统</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/读书笔记/">读书笔记</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <!-- TOC -->
+<ul>
+<li><a href="#多处理机简介">多处理机简介</a></li>
+<li><a href="#多处理机硬件">多处理机硬件</a><ul>
+<li><a href="#umauniform-memory-access">UMA(Uniform Memory Access)</a><ul>
+<li><a href="#基于总线的uma多处理机体系结构">基于总线的UMA多处理机体系结构</a></li>
+<li><a href="#基于交叉开关的uma多处理机">基于交叉开关的UMA多处理机</a></li>
+<li><a href="#基于多级交换的uma多处理机">基于多级交换的UMA多处理机</a></li>
+</ul>
+</li>
+<li><a href="#numanonuniform-memory-access">NUMA(nonuniform memory access)</a></li>
+<li><a href="#多核芯片">多核芯片</a><a id="more"></a></li>
+</ul>
+</li>
+<li><a href="#多处理机操作系统类型">多处理机操作系统类型</a><ul>
+<li><a href="#每个-cpu-都有自己的操作系统">每个 CPU 都有自己的操作系统</a></li>
+<li><a href="#主从多处理机">主从多处理机</a></li>
+<li><a href="#对称多处理机symmetric-multiprocessor-smp">对称多处理机(Symmetric MultiProcessor, SMP)</a></li>
+</ul>
+</li>
+<li><a href="#多处理机调度">多处理机调度</a><ul>
+<li><a href="#分时">分时</a></li>
+<li><a href="#空间共享">空间共享</a></li>
+<li><a href="#群调度-gang-scheduling">群调度( Gang Scheduling)</a><ul>
+<li><a href="#基本思想">基本思想</a></li>
+<li><a href="#调度方法">调度方法</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#参考资料">参考资料</a></li>
+</ul>
+<!-- /TOC -->
+<p><a id="markdown-多处理机简介" name="多处理机简介"></a></p>
+<h1 id="多处理机简介"><a href="#多处理机简介" class="headerlink" title="多处理机简介"></a>多处理机简介</h1><p><img src="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/multiprocessor-1.png" alt="multiprocessor-1"></p>
+<ul>
+<li>共享存储器多处理机</li>
+</ul>
+<p>每个cpu都可同样访问</p>
+<ul>
+<li>消息传递多计算机</li>
+</ul>
+<p>通过某种高速互联网络连接在一起, 每个存储器局部对应一个cpu, 且只能被该cpu访问,这些cpu 通过互联网络发送多字消息通信<br>易于构建, 编程难</p>
+<ul>
+<li>广域分布式系统</li>
+</ul>
+<p>通过广域网连接,如Internet, </p>
+<p> 多处理机是共享存储器多处理机的简称,多个cpu共享一个公用的RAM.<br><a id="markdown-多处理机硬件" name="多处理机硬件"></a></p>
+<h1 id="多处理机硬件"><a href="#多处理机硬件" class="headerlink" title="多处理机硬件"></a>多处理机硬件</h1><p>所以多处理机都具有每个cpu可访问全部存储器的性质,而有些多处理机有一些特性,<br><a id="markdown-umauniform-memory-access" name="umauniform-memory-access"></a></p>
+<h2 id="UMA-Uniform-Memory-Access"><a href="#UMA-Uniform-Memory-Access" class="headerlink" title="UMA(Uniform Memory Access)"></a>UMA(Uniform Memory Access)</h2><p>读出每个存储器字的速度一样快<br><a id="markdown-基于总线的uma多处理机体系结构" name="基于总线的uma多处理机体系结构"></a></p>
+<h3 id="基于总线的UMA多处理机体系结构"><a href="#基于总线的UMA多处理机体系结构" class="headerlink" title="基于总线的UMA多处理机体系结构"></a>基于总线的UMA多处理机体系结构</h3><p><img src="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/bus.png" alt="bus"><br><a id="markdown-基于交叉开关的uma多处理机" name="基于交叉开关的uma多处理机"></a></p>
+<h3 id="基于交叉开关的UMA多处理机"><a href="#基于交叉开关的UMA多处理机" class="headerlink" title="基于交叉开关的UMA多处理机"></a>基于交叉开关的UMA多处理机</h3><p><img src="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/multiprocessor-2.png" alt="multiprocessor-2"><br><a id="markdown-基于多级交换的uma多处理机" name="基于多级交换的uma多处理机"></a></p>
+<h3 id="基于多级交换的UMA多处理机"><a href="#基于多级交换的UMA多处理机" class="headerlink" title="基于多级交换的UMA多处理机"></a>基于多级交换的UMA多处理机</h3><p><img src="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/开关.png" alt="开关"></p>
+<p><img src="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/原理.png" alt="原理"><br>此开关检查module域来决定连入哪个存储器, 即连接x还是y</p>
+<p>例如 <code>Omega网络</code><br><img src="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/multiprocessor-3.png" alt="multiprocessor-3"><br>n个cpu/存储器, 有 log<sub>2</sub>n级, 每级只需n/2个开关,<br><img src="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/multiprocessor-4.png" alt="multiprocessor-4"></p>
+<p>比较: </p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">网络</th>
+<th style="text-align:center">开关数</th>
+<th style="text-align:center">是否阻塞</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">交叉开关</td>
+<td style="text-align:center">n<sup>2</sup></td>
+<td style="text-align:center">不阻塞</td>
+</tr>
+<tr>
+<td style="text-align:center">Omega网络</td>
+<td style="text-align:center">n/2*log<sub>2</sub>n</td>
+<td style="text-align:center">阻塞</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><a id="markdown-numanonuniform-memory-access" name="numanonuniform-memory-access"></a></p>
+<h2 id="NUMA-nonuniform-memory-access"><a href="#NUMA-nonuniform-memory-access" class="headerlink" title="NUMA(nonuniform memory access)"></a>NUMA(nonuniform memory access)</h2><p>特性:</p>
+<ul>
+<li>具有对所有cpu都可见的单个地址空间</li>
+<li>通过 LOAD 和 STORE 指令来访问运程存储器</li>
+<li>访问远程存储器慢于访问本地存储器</li>
+</ul>
+<p><strong>基于文件的多处理机</strong><br>基本思想: 维护一个数据库来记录告诉缓存行的位置及其状态. 当一个高速缓存行被引用时,就查询数据库找出高速缓存行的位置以及它的dirty记录,(是否被修改过),<br><a id="markdown-多核芯片" name="多核芯片"></a></p>
+<h2 id="多核芯片"><a href="#多核芯片" class="headerlink" title="多核芯片"></a>多核芯片</h2><p>每个核就是一个完整的 CPU , 可以共享内存, 但是 cache 不一定共享. 时常被成为 <strong>片级多处理机</strong><code>(Chip-level MultiProcessors, CMP)</code>. </p>
+<p>与基于总线的多处理机和使用交换网络的多处理机的差别不大:</p>
+<ul>
+<li>基于总线的 每个CPU 都有自己的cache</li>
+<li>CMP容错性低: 连接紧密, 一个共享模块的失效可能导致其他 CPU 出错</li>
+</ul>
+<p><strong>片上系统</strong> (system on a chip)<br>芯片包含多个核,但是同时还包含若干个专业核, 比如视频与音频解码器, 加密芯片,网络接口等</p>
+<p><a id="markdown-多处理机操作系统类型" name="多处理机操作系统类型"></a></p>
+<h1 id="多处理机操作系统类型"><a href="#多处理机操作系统类型" class="headerlink" title="多处理机操作系统类型"></a>多处理机操作系统类型</h1><p><a id="markdown-每个-cpu-都有自己的操作系统" name="每个-cpu-都有自己的操作系统"></a></p>
+<h2 id="每个-CPU-都有自己的操作系统"><a href="#每个-CPU-都有自己的操作系统" class="headerlink" title="每个 CPU 都有自己的操作系统"></a>每个 CPU 都有自己的操作系统</h2><p>优点: 共享操作系统代码</p>
+<p><img src="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/multiprocessor-5.png" alt="multiprocessor-5"></p>
+<p><strong>注意</strong></p>
+<ul>
+<li>在一个进程进行系统调用时,是在本机的 CPU 上被捕获并处理的,并使用操作系统表中的数据结构</li>
+<li>因为每个操作系统都有自己的表,那么也有自己的进程集合, 通过自身调度这些进程,而没有进程共享. 如果一个用户登陆到 CPU1 , 那么他的进程全在 CPU1 上, 也就是可能导致其他CPU 空载</li>
+<li>没有页面共享: 可能出现 CPU2 不断进行页面替换而 CPU1 却有多余的页面</li>
+<li>cache 不一致</li>
+</ul>
+<p><a id="markdown-主从多处理机" name="主从多处理机"></a></p>
+<h2 id="主从多处理机"><a href="#主从多处理机" class="headerlink" title="主从多处理机"></a>主从多处理机</h2><p><img src="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/主从多处理机.png" alt="主从多处理机"></p>
+<p><strong>问题</strong><br>如果有很多 CPU , 主 CPU 会成为瓶颈, 速度慢<br><a id="markdown-对称多处理机symmetric-multiprocessor-smp" name="对称多处理机symmetric-multiprocessor-smp"></a></p>
+<h2 id="对称多处理机-Symmetric-MultiProcessor-SMP"><a href="#对称多处理机-Symmetric-MultiProcessor-SMP" class="headerlink" title="对称多处理机(Symmetric MultiProcessor, SMP)"></a>对称多处理机(Symmetric MultiProcessor, SMP)</h2><p><img src="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/multiprocessor-6.png" alt="multiprocessor-6"></p>
+<p>消除了主从处理机的不对称性, 在存储器中有操作系统的一个副本, 但任何 CPU 都可以运行它. </p>
+<p>这个模型动态平衡进程和存储器, 因为它只有一套操作系统数据表.<br>它存在的问题: 当两个或多个 CPU 同时运行操作系统代码时, 如请求同一个空闲存储器页面,这时应该使用互斥信号量(锁),使整个系统成为一大临界区. 这样在任一时刻只有一个 CPU 可运行操作系统</p>
+<p><a id="markdown-多处理机调度" name="多处理机调度"></a></p>
+<h1 id="多处理机调度"><a href="#多处理机调度" class="headerlink" title="多处理机调度"></a>多处理机调度</h1><p>调度对象: 单进程还是多进程, 线程是内核进程还是用户线程.  </p>
+<ul>
+<li>用户线程: 对内核不可见,那么调度单个进程,.</li>
+<li>内核线程: 调度单元是线程,</li>
+</ul>
+<p><a id="markdown-分时" name="分时"></a></p>
+<h2 id="分时"><a href="#分时" class="headerlink" title="分时"></a>分时</h2><p><img src="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/单一数据结构调度.png" alt="单一数据结构调度"></p>
+<p>先讨论调度独立线程的情况, 如果有 CPU 空闲则选择优先级队列中的最优先线程到此 CPU</p>
+<p>缺点:</p>
+<ul>
+<li>随着 CPU 数量增加引起对调度数据结构的潜在竞争</li>
+<li>当线程在 I/O 阻塞时引起上下文切换的开销(overhead)</li>
+</ul>
+<p>亲和调度: 基本思想, 尽量使一个线程在它前一次运行过的 CPU 上运行, </p>
+<p><a id="markdown-空间共享" name="空间共享"></a></p>
+<h2 id="空间共享"><a href="#空间共享" class="headerlink" title="空间共享"></a>空间共享</h2><p><img src="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/multiprocessor-7.png" alt="multiprocessor-7"></p>
+<p>当线程之间以某种方式彼此相关时, 可以使用此方法. 假设一组相关的线程是一次性创建的,  创建时, 检查是否有足够的空闲 CPU, 有 则 各自获得专用的 CPU, 否则等待,</p>
+<p>优点: 消除了多道程序设计, 从而消除上下文切换开销<br>缺点: 当CPU被阻塞或根本无事可做时时间被浪费了<br><a id="markdown-群调度-gang-scheduling" name="群调度-gang-scheduling"></a></p>
+<h2 id="群调度-Gang-Scheduling"><a href="#群调度-Gang-Scheduling" class="headerlink" title="群调度( Gang Scheduling)"></a>群调度( Gang Scheduling)</h2><p><img src="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/multiprocessor-8.png" alt="multiprocessor-8"></p>
+<p><a id="markdown-基本思想" name="基本思想"></a></p>
+<h3 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h3><p>让一个进程的所有线程一起运行, 这样互相通信更方便,在一个时间片内可以发送和接收大量的消息.<br><a id="markdown-调度方法" name="调度方法"></a></p>
+<h3 id="调度方法"><a href="#调度方法" class="headerlink" title="调度方法"></a>调度方法</h3><ul>
+<li>把一组相关线程作为一个单位,即一个群, 一起调度</li>
+<li>一个群中的所有成员在不同的分时 CPU 上同时运行</li>
+<li>群中的所有成员共同开始和结束其时间片</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/示例.png" alt="示例"></p>
+<p><a id="markdown-参考资料" name="参考资料"></a></p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ol>
+<li>现代操作系统</li>
+<li><a href="https://lasr.cs.ucla.edu/classes/111_fall16/readings/multiprocessor.html" target="_blank" rel="noopener">Multi-Processor Systems | UCLA</a></li>
+</ol>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/multiprocessor.html">『现代操作系统』多处理机</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">mbinary</a></p>
+        <p><span>发布时间:</span>2018-06-09, 10:33:25</p>
+        <p><span>最后更新:</span>2021-04-23, 08:02:23</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/multiprocessor.html" title="『现代操作系统』多处理机">https://mbinary.xyz/multiprocessor.html</a>
+            <span class="copy-path" data-clipboard-text="原文: https://mbinary.xyz/multiprocessor.html　　作者: mbinary" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/linux-file-io.html">
+                    『Unix环境高级编程』linux 文件 I/O
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/simple-shell.html">
+                    『linux』c 语言实现一个简易的 shell
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#多处理机简介"><span class="toc-number">1.</span> <span class="toc-text">多处理机简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#多处理机硬件"><span class="toc-number">2.</span> <span class="toc-text">多处理机硬件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#UMA-Uniform-Memory-Access"><span class="toc-number">2.1.</span> <span class="toc-text">UMA(Uniform Memory Access)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基于总线的UMA多处理机体系结构"><span class="toc-number">2.1.1.</span> <span class="toc-text">基于总线的UMA多处理机体系结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基于交叉开关的UMA多处理机"><span class="toc-number">2.1.2.</span> <span class="toc-text">基于交叉开关的UMA多处理机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基于多级交换的UMA多处理机"><span class="toc-number">2.1.3.</span> <span class="toc-text">基于多级交换的UMA多处理机</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NUMA-nonuniform-memory-access"><span class="toc-number">2.2.</span> <span class="toc-text">NUMA(nonuniform memory access)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多核芯片"><span class="toc-number">2.3.</span> <span class="toc-text">多核芯片</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#多处理机操作系统类型"><span class="toc-number">3.</span> <span class="toc-text">多处理机操作系统类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#每个-CPU-都有自己的操作系统"><span class="toc-number">3.1.</span> <span class="toc-text">每个 CPU 都有自己的操作系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主从多处理机"><span class="toc-number">3.2.</span> <span class="toc-text">主从多处理机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对称多处理机-Symmetric-MultiProcessor-SMP"><span class="toc-number">3.3.</span> <span class="toc-text">对称多处理机(Symmetric MultiProcessor, SMP)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#多处理机调度"><span class="toc-number">4.</span> <span class="toc-text">多处理机调度</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#分时"><span class="toc-number">4.1.</span> <span class="toc-text">分时</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#空间共享"><span class="toc-number">4.2.</span> <span class="toc-text">空间共享</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#群调度-Gang-Scheduling"><span class="toc-number">4.3.</span> <span class="toc-text">群调度( Gang Scheduling)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本思想"><span class="toc-number">4.3.1.</span> <span class="toc-text">基本思想</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#调度方法"><span class="toc-number">4.3.2.</span> <span class="toc-text">调度方法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-6 i,
+        .toc-level-6 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"『现代操作系统』多处理机　| mbinary's blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+
+<!--<script src="//cdn.jsdelivr.net/npm/leancloud-storage@latest/dist/av-min.js"></script>
+<script src='//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js'></script>-->
+
+<div id="vcomments"></div>
+<script>
+    var notify = false == true ? true : false;
+    var verify = false == true ? true : false;
+    var visitor = true == true ? true : false;
+new Valine({
+    el: '#vcomments',
+    notify: notify,
+    verify: verify,
+    appId: 'ArpEYbLUBmpXK3f245hKNu4A-gzGzoHsz',
+    appKey: 'X5cHcMU1ATb8q0prtPGEqIPX',
+    lang: 'en',
+    placeholder: '请陈独秀同志发言^_^',
+    avatar: 'monsterid',
+    pageSize: 20,
+    visitor: visitor
+    });
+</script>
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/linux-file-io.html" title="上一篇: 『Unix环境高级编程』linux 文件 I/O">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/simple-shell.html" title="下一篇: 『linux』c 语言实现一个简易的 shell">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/poems.html">生活也要有诗和远方呀</a></li><li class="post-list-item"><a class="post-list-link" href="/dft.html">傅里叶变换</a></li><li class="post-list-item"><a class="post-list-link" href="/wsl-vim-clipboard.html">WSL 中的 VIM 与 Windwos 剪切板通信</a></li><li class="post-list-item"><a class="post-list-link" href="/number-theory.html">Number-Theory</a></li><li class="post-list-item"><a class="post-list-link" href="/string-matching.html">String-Mathching-Algorithm</a></li><li class="post-list-item"><a class="post-list-link" href="/graph.html">图算法</a></li><li class="post-list-item"><a class="post-list-link" href="/fib-heap.html">『数据结构』Fibonacci-heap</a></li><li class="post-list-item"><a class="post-list-link" href="/b-tree.html">『数据结构』B树(B-Tree)及其变体 B+树,B*树</a></li><li class="post-list-item"><a class="post-list-link" href="/introduction-to-bitcoin.html">『比特币』概述</a></li><li class="post-list-item"><a class="post-list-link" href="/introduction-to-blockchain.html">『区块链』简介</a></li><li class="post-list-item"><a class="post-list-link" href="/algorithm-general.html">『算法』概述</a></li><li class="post-list-item"><a class="post-list-link" href="/red-black-tree.html">『数据结构』红黑树(red-black tree)</a></li><li class="post-list-item"><a class="post-list-link" href="/tree.html">『数据结构』树</a></li><li class="post-list-item"><a class="post-list-link" href="/hashTable.html">『数据结构』散列表</a></li><li class="post-list-item"><a class="post-list-link" href="/sort.html">『算法』排序</a></li><li class="post-list-item"><a class="post-list-link" href="/bus.html">『计算机组成原理』总线</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-device.html">『现代操作系统』IO设备</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-software.html">『现代操作系统』IO软件原理</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-hardware.html">『现代操作系统』IO硬件原理</a></li><li class="post-list-item"><a class="post-list-link" href="/os-general.html">『现代操作系统』操作系统引论</a></li><li class="post-list-item"><a class="post-list-link" href="/linux-file-io.html">『Unix环境高级编程』linux 文件 I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/multiprocessor.html">『现代操作系统』多处理机</a></li><li class="post-list-item"><a class="post-list-link" href="/simple-shell.html">『linux』c 语言实现一个简易的 shell</a></li><li class="post-list-item"><a class="post-list-link" href="/deadlock.html">『现代操作系统』死锁</a></li><li class="post-list-item"><a class="post-list-link" href="/comics-about-staying-up.html">『小仓鼠漫画』熬夜的危害与防护</a></li><li class="post-list-item"><a class="post-list-link" href="/ctf-basic.html">『CTF』网络信息安全攻防实验室之基础关 writeup</a></li><li class="post-list-item"><a class="post-list-link" href="/roommate.html">用机械键盘的室友</a></li><li class="post-list-item"><a class="post-list-link" href="/csapp-bomb-lab-report.html">CSAPP-BOMB-LAB</a></li><li class="post-list-item"><a class="post-list-link" href="/learning-and-forgetting.html">学习与遗忘</a></li><li class="post-list-item"><a class="post-list-link" href="/20-years-old-summary.html">2017 年，20 岁，大二寒假总结与感悟</a></li><li class="post-list-item"><a class="post-list-link" href="/decrypt-netease-music.html">『WEB』从网易云音乐缓存文件得到MP3</a></li><li class="post-list-item"><a class="post-list-link" href="/all-one-data-structure.html">『数据结构』inc,dec,getMin,getMax 均为 O(1) 并用于实现 LRU</a></li><li class="post-list-item"><a class="post-list-link" href="/video.html">影视作品观后感</a></li><li class="post-list-item"><a class="post-list-link" href="/books.html">书籍总结与推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/hacker-and-painter.html">『读书笔记』黑客与画家</a></li><li class="post-list-item"><a class="post-list-link" href="/from-chem-to-cs.html">从化院到计院</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017-2021 mbinary
+                <br>
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+            <div class="footer-right">             
+                <span>Site Updated: 2021-04-23 16:04 UTC+8</span>
+                <br>
+                <a href="https://github.com/mbinary"><img src="https://img.shields.io/github/followers/mbinary.svg?label=Followers&style=social"> </a>
+                <a href="https://github.com/mbinary/mbinary.github.io/"><img src="https://img.shields.io/github/stars/mbinary/mbinary.github.io.svg?label=Stars&style=social"> </a>
+            </div>
+        </div>
+        
+    </div>
+</footer>
+
+    </div>
+    
+    <script src="/js/GithubRepoWidget.js"></script>
+
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+             github: ".github-widget a", 
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

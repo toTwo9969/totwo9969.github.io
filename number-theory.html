@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="mbinary">
+
+
+
+<meta name="description" content="bezouts-identity, primality_test, miller-rabin, prime-sieve, pollards-rho-algorithm, modulo equation">
+<meta name="keywords" content="数学,数论">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Number-Theory">
+<meta property="og:url" content="https://mbinary.xyz/number-theory.html">
+<meta property="og:site_name" content="mbinary&#39;s blog">
+<meta property="og:description" content="bezouts-identity, primality_test, miller-rabin, prime-sieve, pollards-rho-algorithm, modulo equation">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/number-theory-1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/number-theory-2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/number-theory-3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/number-theory-4.png">
+<meta property="og:updated_time" content="2021-04-23T08:02:23.262Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Number-Theory">
+<meta name="twitter:description" content="bezouts-identity, primality_test, miller-rabin, prime-sieve, pollards-rho-algorithm, modulo equation">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/number-theory-1.png">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="mbinary&#39;s blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/yinyang.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Number-Theory | mbinary&#39;s blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+
+
+
+</head></html>
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">mbinary</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">淡泊明志, 宁静致远</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="Let me search for you>_<" class="search form-control" autocomplete="off" autocorrect="off" searchonload="false">
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class="no-result">No results found <i class="fa fa-spinner fa-pulse"></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/archives/">归档</a></li>
+                        
+                            <li><a href="/tags/">标签</a></li>
+                        
+                            <li><a href="/leetcode/">编程</a></li>
+                        
+                            <li><a href="/about/">关于</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:zhuheqin1@gmail.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/mbinary" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/B树/">B树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LRU/">LRU</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/">api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/common-lisp/">common lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/人际交往/">人际交往</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分享/">分享</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动态规划/">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/区块链/">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/图/">图</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/图像处理/">图像处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/娱乐/">娱乐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串匹配/">字符串匹配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/室友/">室友</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/影视/">影视</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/总结/">总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/惰性学习/">惰性学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序/">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/散列表/">散列表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数字货币/">数字货币</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数学/">数学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/斐波那契堆/">斐波那契堆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机械键盘/">机械键盘</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树/">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/比特币/">比特币</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编/">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/红黑树/">红黑树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机组成原理/">计算机组成原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逆向/">逆向</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/选择/">选择</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/黑客/">黑客</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://mbinary.xyz/links/">交换友链说明</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.4spaces.org">4spaces</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">mbinary</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">mbinary</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">淡泊明志, 宁静致远</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">归档</a></li>
+                
+                    <li><a href="/tags/">标签</a></li>
+                
+                    <li><a href="/leetcode/">编程</a></li>
+                
+                    <li><a href="/about/">关于</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:zhuheqin1@gmail.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/mbinary" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
+</nav>
+      <div class="body-wrap"><article id="post-number-theory" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/number-theory.html" class="article-date">
+      <time datetime="2018-12-16T16:56:00.000Z" itemprop="datePublished">2018-12-16</time>
+</a>
+
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Number-Theory
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/数据结构与算法/">数据结构与算法</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数学/">数学</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数论/">数论</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <!-- TOC -->
+<ul>
+<li><a href="#01-gcd-co-primes">0.1. gcd, co-primes</a><ul>
+<li><a href="#011-bezouts-identity">0.1.1. Bezout’s identity</a></li>
+</ul>
+</li>
+<li><a href="#02-primality_test">0.2. primality_test</a><ul>
+<li><a href="#021-prime-sieve">0.2.1. Prime Sieve</a></li>
+<li><a href="#022-miller-rabin">0.2.2. Miller-Rabin</a></li>
+</ul>
+</li>
+<li><a href="#03-factorization">0.3. Factorization</a><ul>
+<li><a href="#031-pollards-rho-algorithm">0.3.1. Pollard’s rho algorithm</a></li>
+</ul>
+</li>
+<li><a href="#04-euler-function">0.4. Euler function</a></li>
+<li><a href="#05-modulo-equation">0.5. Modulo equation</a></li>
+</ul>
+<!-- /TOC -->
+<p><a id="markdown-01-gcd-co-primes" name="01-gcd-co-primes"></a></p>
+<h2 id="0-1-gcd-co-primes"><a href="#0-1-gcd-co-primes" class="headerlink" title="0.1. gcd, co-primes"></a>0.1. gcd, co-primes</h2><p><code>gcd</code> is  short for  <code>greatest common divisor</code><br>If <code>a</code>,<code>b</code> are  co-primes, we denote as $(a,b)=1, \text{which means } gcd(a,b)=1 $<br>We can use <code>Euclid algorithm</code> to calculate <code>gcd</code> of two numbers.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gcd</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> b!=<span class="number">0</span>:</span><br><span class="line">        a,b=b,a%b</span><br><span class="line">    <span class="keyword">return</span> a</span><br></pre></td></tr></table></figure></p>
+<p><a id="markdown-011-bezouts-identity" name="011-bezouts-identity"></a></p>
+<h3 id="0-1-1-Bezout’s-identity"><a href="#0-1-1-Bezout’s-identity" class="headerlink" title="0.1.1. Bezout’s identity"></a>0.1.1. Bezout’s identity</h3><p> Let <em>a</em> and <em>b</em> be <a href="https://en.wikipedia.org/wiki/Integer" title="Integer" target="_blank" rel="noopener">integers</a> with <a href="https://en.wikipedia.org/wiki/Greatest_common_divisor" title="Greatest common divisor" target="_blank" rel="noopener">greatest common divisor</a> <em>d</em>. Then, there exist integers <em>x</em> and <em>y</em> such that <em>ax</em> + <em>by</em> = <em>d</em>. More generally, the integers of the form <em>ax</em> + <em>by</em> are exactly the multiples of <em>d</em>.</p>
+<p>we can use extended euclid algorithm to calculate x,y,gcd(a,b)<br><figure class="highlight python"><figcaption><span>gcd.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">xgcd</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    <span class="string">'''return gcd(a,b),  x,y  where  ax+by=gcd(a,b)'''</span></span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>:<span class="keyword">return</span> a,<span class="number">1</span>,<span class="number">0</span></span><br><span class="line">    g,x,y = xgcd(b,a%b)</span><br><span class="line">    <span class="keyword">return</span> g,y,x-a//b*y</span><br></pre></td></tr></table></figure></p>
+<p><a id="markdown-02-primality_test" name="02-primality_test"></a></p>
+<h2 id="0-2-primality-test"><a href="#0-2-primality-test" class="headerlink" title="0.2. primality_test"></a>0.2. primality_test</h2><p><a id="markdown-021-prime-sieve" name="021-prime-sieve"></a></p>
+<h3 id="0-2-1-Prime-Sieve"><a href="#0-2-1-Prime-Sieve" class="headerlink" title="0.2.1. Prime Sieve"></a>0.2.1. Prime Sieve</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">primeSieve</span>:</span></span><br><span class="line">    <span class="string">'''sieve of Eratosthenes, It will be more efficient when judging many times'''</span></span><br><span class="line">    primes = [<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">7</span>,<span class="number">11</span>,<span class="number">13</span>]</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isPrime</span><span class="params">(self,x)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> x&lt;=primes[<span class="number">-1</span>]:</span><br><span class="line">            <span class="keyword">return</span> twoDivideFind(x,self.primes)</span><br><span class="line">        <span class="keyword">while</span> x&gt;self.primes[<span class="number">-1</span>]:</span><br><span class="line">            left = self.primes[<span class="number">-1</span>]</span><br><span class="line">            right = (left+<span class="number">1</span>)**<span class="number">2</span></span><br><span class="line">            lst = []</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(left,right):</span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> self.primes:</span><br><span class="line">                    <span class="keyword">if</span> i%j==<span class="number">0</span>:<span class="keyword">break</span></span><br><span class="line">                <span class="keyword">else</span>:lst.append(i)</span><br><span class="line">            self.primes+=lst</span><br><span class="line">        <span class="keyword">return</span> twoDivideFind(x,lst)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">twoDivideFind</span><span class="params">(x,li)</span>:</span></span><br><span class="line">    a,b = <span class="number">0</span>, len(li)</span><br><span class="line">    <span class="keyword">while</span> a&lt;=b:</span><br><span class="line">        mid = (a+b)//<span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> li[mid]&lt;x:a=mid+<span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> li[mid]&gt;x: b= mid<span class="number">-1</span></span><br><span class="line">        <span class="keyword">else</span>:<span class="keyword">return</span> mid</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span></span><br></pre></td></tr></table></figure>
+<p><a id="markdown-022-miller-rabin" name="022-miller-rabin"></a></p>
+<h3 id="0-2-2-Miller-Rabin"><a href="#0-2-2-Miller-Rabin" class="headerlink" title="0.2.2. Miller-Rabin"></a>0.2.2. Miller-Rabin</h3><blockquote>
+<p>Excerpted from <a href="https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test" target="_blank" rel="noopener">wikipedia:Miller_Rabin_primality_test</a></p>
+</blockquote>
+<p>Just like the Fermat and Solovay–Strassen tests, the Miller–Rabin test relies on an equality or set of equalities that hold true for prime values, then checks whether or not they hold for a number that we want to test for primality.</p>
+<p>First, a <a href="https://en.wikipedia.org/wiki/Lemma_(mathematics" target="_blank" rel="noopener">lemma</a> “Lemma (mathematics)”) about square <a href="https://en.wikipedia.org/wiki/Root_of_unity" title="Root of unity" target="_blank" rel="noopener">roots of unity</a> in the <a href="https://en.wikipedia.org/wiki/Finite_field" title="Finite field" target="_blank" rel="noopener">finite field</a> <strong>Z</strong>/<em>p**</em>Z<em>*, where </em>p<em> is prime and </em>p<em> &gt; 2. Certainly 1 and −1 always yield 1 when squared modulo </em>p<em>; call these <a href="https://en.wikipedia.org/wiki/Trivial_(mathematics" target="_blank" rel="noopener">trivial</a> “Trivial (mathematics)”) <a href="https://en.wikipedia.org/wiki/Square_root" title="Square root" target="_blank" rel="noopener">square roots</a> of 1. There are no </em>nontrivial<em> square roots of 1 modulo </em>p<em> (a special case of the result that, in a field, a <a href="https://en.wikipedia.org/wiki/Polynomial" title="Polynomial" target="_blank" rel="noopener">polynomial</a> has no more zeroes than its degree). To show this, suppose that </em>x<em> is a square root of 1 modulo </em>p*. Then:</p>
+<script type="math/tex; mode=display">x^2\equiv1\ (mod\ p)</script><script type="math/tex; mode=display">(x-1)(x+1) \equiv 0\ (mod\ p)</script><p>In other words, prime <em>p</em> divides the product (<em>x</em> − 1)(<em>x</em> + 1). By <a href="https://en.wikipedia.org/wiki/Euclid%27s_lemma" title="Euclid&#39;s lemma" target="_blank" rel="noopener">Euclid’s lemma</a> it divides one of the factors <em>x</em> − 1 or <em>x</em> + 1, implying that <em>x</em> is congruent to either 1 or −1 modulo <em>p</em>.</p>
+<p>Now, let <em>n</em> be prime, and odd, with <em>n</em> &gt; 2. It follows that <em>n</em> − 1 is even and we can write it as 2<sup><em>s</em></sup>·<em>d</em>, where <em>s</em> and <em>d</em> are positive integers and <em>d</em> is odd. For each <em>a</em> in (<strong>Z</strong>/<em>n**</em>Z<em>*)</em>, either</p>
+<script type="math/tex; mode=display">a^d\equiv 1\ (mod\ n)</script><p>or</p>
+<script type="math/tex; mode=display">a^{2^r*d}\equiv -1\ (mod\ n), \text{where } 0\le r<s</script><p>To show that one of these must be true, recall <a href="https://en.wikipedia.org/wiki/Fermat%27s_little_theorem" title="Fermat&#39;s little theorem" target="_blank" rel="noopener">Fermat’s little theorem</a>, that for a prime number n:</p>
+<script type="math/tex; mode=display">a^{n-1}\equiv1\ (mod\ n)</script><p>By the lemma above, if we keep taking square roots of <em>a</em><sup><em>n</em>−1</sup>, we will get either 1 or −1. If we get −1 then the second equality holds and it is done. If we never get −1, then when we have taken out every power of 2, we are left with the first equality.</p>
+<p>The Miller–Rabin primality test is based on the <a href="https://en.wikipedia.org/wiki/Contrapositive" title="Contrapositive" target="_blank" rel="noopener">contrapositive</a> of the above claim. That is, if we can find an <em>a</em> such that</p>
+<script type="math/tex; mode=display">a^d\not\equiv 1\ (mod\ n)</script><p>and</p>
+<script type="math/tex; mode=display">a^{2^r*d}\not\equiv -1\ (mod\ n), \text{where } 0\le r<s</script><p> then <em>n</em> is not prime. We call <em>a</em> a <a href="https://en.wikipedia.org/wiki/Witness_(mathematics" target="_blank" rel="noopener">witness</a> “Witness (mathematics)”) for the compositeness of <em>n</em> (sometimes misleadingly called a <em>strong witness</em>, although it is a certain proof of this fact). Otherwise <em>a</em> is called a <em>strong liar</em>, and <em>n</em> is a <a href="https://en.wikipedia.org/wiki/Probable_prime" title="Probable prime" target="_blank" rel="noopener">strong probable prime</a> to base <em>a</em>. The term “strong liar” refers to the case where <em>n</em> is composite but nevertheless the equations hold as they would for a prime.</p>
+<p>Every odd composite <em>n</em> has many witnesses <em>a</em>, however, no simple way of generating such an <em>a</em> is known. The solution is to make the test <a href="https://en.wikipedia.org/wiki/Primality_test#Probabilistic_tests" title="Primality test" target="_blank" rel="noopener">probabilistic</a>: we choose a non-zero <em>a</em> in <strong>Z</strong>/<em>n**</em>Z<em>* randomly, and check whether or not it is a witness for the compositeness of </em>n<em>. If </em>n<em> is composite, most of the choices for </em>a<em> will be witnesses, and the test will detect </em>n<em> as composite with high probability. There is, nevertheless, a small chance that we are unlucky and hit an </em>a<em> which is a strong liar for </em>n<em>. We may reduce the probability of such error by repeating the test for several independently chosen </em>a*.</p>
+<p>For testing large numbers, it is common to choose random bases <em>a</em>, as, a priori, we don’t know the distribution of witnesses and liars among the numbers 1, 2, …, <em>n</em> − 1. In particular, Arnault <sup><a href="https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test#cite_note-Arnault397Digit-4" target="_blank" rel="noopener">[4]</a></sup> gave a 397-digit composite number for which all bases <em>a</em>less than 307 are strong liars. As expected this number was reported to be prime by the <a href="https://en.wikipedia.org/wiki/Maple_(software" target="_blank" rel="noopener">Maple</a> “Maple (software)”) <code>isprime()</code> function, which implemented the Miller–Rabin test by checking the specific bases 2,3,5,7, and 11. However, selection of a few specific small bases can guarantee identification of composites for <em>n</em> less than some maximum determined by said bases. This maximum is generally quite large compared to the bases. As random bases lack such determinism for small <em>n</em>, specific bases are better in some circumstances.</p>
+<p><img src="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/number-theory-1.png" alt="number-theory-1"></p>
+<p>python implementation<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> sample</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quickMulMod</span><span class="params">(a,b,m)</span>:</span></span><br><span class="line">    <span class="string">'''a*b%m,  quick'''</span></span><br><span class="line">    ret = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> b:</span><br><span class="line">        <span class="keyword">if</span> b&amp;<span class="number">1</span>:</span><br><span class="line">            ret = (a+ret)%m</span><br><span class="line">        b//=<span class="number">2</span></span><br><span class="line">        a = (a+a)%m</span><br><span class="line">    <span class="keyword">return</span> ret</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quickPowMod</span><span class="params">(a,b,m)</span>:</span></span><br><span class="line">    <span class="string">'''a^b %m, quick,  O(logn)'''</span></span><br><span class="line">    ret =<span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> b:</span><br><span class="line">        <span class="keyword">if</span> b&amp;<span class="number">1</span>:</span><br><span class="line">            ret =quickMulMod(ret,a,m)</span><br><span class="line">        b//=<span class="number">2</span></span><br><span class="line">        a = quickMulMod(a,a,m)</span><br><span class="line">    <span class="keyword">return</span> ret</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isPrime</span><span class="params">(n,t=<span class="number">5</span>)</span>:</span></span><br><span class="line">    <span class="string">'''miller rabin primality test,  a probability result</span></span><br><span class="line"><span class="string">        t is the number of iteration(witness)</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="keyword">if</span> n&lt;<span class="number">2</span>:</span><br><span class="line">        print(<span class="string">'[Error]: &#123;&#125; can\'t be classed with prime or composite'</span>.format(n))</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">if</span> n==<span class="number">2</span>: <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">    d = n<span class="number">-1</span></span><br><span class="line">    r = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> d%<span class="number">2</span>==<span class="number">0</span>:</span><br><span class="line">        r+=<span class="number">1</span></span><br><span class="line">        d//=<span class="number">2</span></span><br><span class="line">    t = min(n<span class="number">-3</span>,t)</span><br><span class="line">    <span class="keyword">for</span> a <span class="keyword">in</span> sample(range(<span class="number">2</span>,n<span class="number">-1</span>),t):</span><br><span class="line">        x= quickPowMod(a,d,n)</span><br><span class="line">        <span class="keyword">if</span> x==<span class="number">1</span> <span class="keyword">or</span> x==n<span class="number">-1</span>: <span class="keyword">continue</span>  <span class="comment">#success,</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(r<span class="number">-1</span>):</span><br><span class="line">            x= quickMulMod(x,x,n)</span><br><span class="line">            <span class="keyword">if</span> x==n<span class="number">-1</span>:<span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">True</span></span><br></pre></td></tr></table></figure></p>
+<p><a id="markdown-03-factorization" name="03-factorization"></a></p>
+<h2 id="0-3-Factorization"><a href="#0-3-Factorization" class="headerlink" title="0.3. Factorization"></a>0.3. Factorization</h2><p><a id="markdown-031-pollards-rho-algorithm" name="031-pollards-rho-algorithm"></a></p>
+<h3 id="0-3-1-Pollard’s-rho-algorithm"><a href="#0-3-1-Pollard’s-rho-algorithm" class="headerlink" title="0.3.1. Pollard’s rho algorithm"></a>0.3.1. Pollard’s rho algorithm</h3><blockquote>
+<p>Excerpted from <a href="https://en.wikipedia.org/wiki/Pollard%27s_rho_algorithm" target="_blank" rel="noopener">wikipedia:Pollard’s rho algorithm</a></p>
+</blockquote>
+<p>Suppose we need to factorize a number<br>$n=pq$, where $p$ is a non-trivial factor. A polynomial modulo $n$, called</p>
+<script type="math/tex; mode=display">g(x)=x^2+c\ mod\ n</script><p>where c is a chosen number ,eg 1.</p>
+<p>is used to generate a <a href="https://en.wikipedia.org/wiki/Pseudo-random_sequence" title="Pseudo-random sequence" target="_blank" rel="noopener">pseudo-random sequence</a>: A starting value, say 2, is chosen, and the sequence continues as  </p>
+<script type="math/tex; mode=display">x_1 = g(2),x_2=g(g(2)),\ldots, x_i =g^{(i)}(2) = g(x_{i-1})</script><p>,<br>The sequence is related to another sequence$\{x_k\ mod \ p\}$ . Since $p$ is not known beforehand, this sequence cannot be explicitly computed in the algorithm. Yet, in it lies the core idea of the algorithm.</p>
+<p>Because the number of possible values for these sequences are finite, both the$\{x_n\}$ sequence, which is mod $n$ , and $\{x_n\ mod\ p\}$ sequence will eventually repeat, even though we do not know the latter. Assume that the sequences behave like random numbers. Due to the <a href="https://en.wikipedia.org/wiki/Birthday_paradox" title="Birthday paradox" target="_blank" rel="noopener">birthday paradox</a>, the number of$x_k$before a repetition occurs is expected to be $O(\sqrt{N})$ , where $N$  is the number of possible values. So the sequence  $\{x_n\ mod\ p\}$  will likely repeat much earlier than the sequence $x_k$. Once a sequence has a repeated value, the sequence will cycle, because each value depends only on the one before it. This structure of eventual cycling gives rise to the name “Rho algorithm”, owing to similarity to the shape of the Greek character ρ when the values  $x_i\ mod \ p$  are represented as nodes in a <a href="https://en.wikipedia.org/wiki/Directed_graph" title="Directed graph" target="_blank" rel="noopener">directed graph</a>.</p>
+<p><img src="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/number-theory-2.png" alt="number-theory-2"><br>This is detected by the <a href="https://en.wikipedia.org/wiki/Floyd%27s_cycle-finding_algorithm" title="Floyd&#39;s cycle-finding algorithm" target="_blank" rel="noopener">Floyd’s cycle-finding algorithm</a>: two nodes$i,j$ are kept. In each step, one moves to the next node in the sequence and the other moves to the one after the next node. After that, it is checked whether $\text{gcd}(x_i-x_j,n)\neq 1$.<br>If it is not 1, then this implies that there ris a repetition in the $\{x_k\ mod\ p\}$ swquence</p>
+<p>This works because if the $x_i\ mod\ p$is the same as$x_j\ mod\ p$, the difference between$x_i,x_j$ is necessarily a multiple of $p$. Although this always happens eventually, the resulting GCD is a divisor of $n$ other than 1. This may be$n$ itself, since the two sequences might repeat at the same time. In this (uncommon) case the algorithm fails, and can be repeated with a different parameter.</p>
+<p><img src="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/number-theory-3.png" alt="number-theory-3"></p>
+<p>python implementation<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="keyword">from</span> isPrime <span class="keyword">import</span> isPrime</span><br><span class="line"><span class="keyword">from</span> gcd <span class="keyword">import</span> gcd</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">factor</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="string">'''pollard's rho algorithm'''</span></span><br><span class="line">    <span class="keyword">if</span> n==<span class="number">1</span>: <span class="keyword">return</span> []</span><br><span class="line">    <span class="keyword">if</span> isPrime(n):<span class="keyword">return</span> [n]</span><br><span class="line">    fact=<span class="number">1</span></span><br><span class="line">    cycle_size=<span class="number">2</span></span><br><span class="line">    x = x_fixed = <span class="number">2</span></span><br><span class="line">    c = randint(<span class="number">1</span>,n)</span><br><span class="line">    <span class="keyword">while</span> fact==<span class="number">1</span>:</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(cycle_size):</span><br><span class="line">            <span class="keyword">if</span> fact&gt;<span class="number">1</span>:<span class="keyword">break</span></span><br><span class="line">            x=(x*x+c)%n</span><br><span class="line">            <span class="keyword">if</span> x==x_fixed:</span><br><span class="line">                c = randint(<span class="number">1</span>,n)</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            fact = gcd(x-x_fixed,n)</span><br><span class="line">        cycle_size *=<span class="number">2</span></span><br><span class="line">        x_fixed = x</span><br><span class="line">    <span class="keyword">return</span> factor(fact)+factor(n//fact)</span><br></pre></td></tr></table></figure></p>
+<p><a id="markdown-04-euler-function" name="04-euler-function"></a></p>
+<h2 id="0-4-Euler-function"><a href="#0-4-Euler-function" class="headerlink" title="0.4. Euler function"></a>0.4. Euler function</h2><p>Euler function, denoted as $\phi(n)$, mapping  n as the number of number which is smaller than n and is the co-prime of n.</p>
+<p>e.g.: $\phi(3)=2$ since 1,2 are coprimes of 3 and smaller than 3,   $\phi(4)=2$ ,(1,3)</p>
+<p>Euler function is a kind of productive function and has two properties as follows:</p>
+<ol>
+<li>$\phi(p^k) = p^k-p^{k-1}$, where p is a prime</li>
+<li>$\phi(mn) = \phi(m)*\phi(n)$ where $(m,n)=1$</li>
+</ol>
+<p>Thus, for every narural number <em>n</em>, we can evaluate $\phi(n)$ using the following method.</p>
+<ol>
+<li>factorize n:<br><script type="math/tex">n = \prod _{i=1}^{l}  p_i^{k_i}</script>, where $p_i$ is a prime and $k_i,l &gt; 0$ .</li>
+<li>calculate $\phi(n) $ using the two properties.</li>
+</ol>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\phi(n) &=\phi( \prod _{i=1}^{l}  p_i^{k_i}) \\
+           &=\prod _{i=1}^{l} \phi(  p_i^{k_i}) \\ 
+           &=\prod _{i=1}^{l} ( p_i^{k_i}-p_i^{ {k_i}-1})\\ 
+           &=\prod _{i=1}^{l}p_i^{k_i} \prod _{i=1}^{l} ( 1-\frac{1}{p_i})\\ 
+           &=n \prod _{i=1}^{l} ( 1-\frac{1}{p_i})\\ 
+\end{aligned}</script><p>And , $\sigma(n)$ represents the sum of all factors of n.<br>e.g. : $\sigma(9) = 1+3+9 = 14$</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\sigma(n) &= \prod _{i=1}^{l} \sum_{j=0}^{k_i} p_i^j \\ 
+           &=\prod _{i=1}^{l} \frac{p_i^{k_i+1}-1}{p_i-1}\\ 
+\end{aligned}</script><p>A <code>perfect number</code> _n_ is defined as $\sigma(n) = 2n$<br>The following is the implementation of this two functions.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> factor <span class="keyword">import</span> factor</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> reduce</span><br><span class="line"><span class="keyword">from</span> operator <span class="keyword">import</span> mul</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">phi</span><span class="params">(n)</span>:</span></span><br><span class="line">    st  = set(factor(n))</span><br><span class="line">    <span class="keyword">return</span> round(reduce(mul,(<span class="number">1</span><span class="number">-1</span>/p <span class="keyword">for</span> p <span class="keyword">in</span> st),n))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sigma</span><span class="params">(n)</span>:</span></span><br><span class="line">    ct = Counter(factor(n))</span><br><span class="line">    <span class="keyword">return</span> reduce(mul,(round((p**(ct[p]+<span class="number">1</span>)<span class="number">-1</span>)/(p<span class="number">-1</span>)) <span class="keyword">for</span> p <span class="keyword">in</span> ct),<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p><a id="markdown-05-modulo-equation" name="05-modulo-equation"></a></p>
+<h2 id="0-5-Modulo-equation"><a href="#0-5-Modulo-equation" class="headerlink" title="0.5. Modulo equation"></a>0.5. Modulo equation</h2><p>The following codes can solve a linear, group modulo equation. More details and explanations will be supplied if I am not too busy.</p>
+<p>Note that I use <code>--</code> to represent $\equiv$ in the python codes.<br><img src="https://raw.githubusercontent.com/mbinary/mbinary.github.io/hexo/source/images/number-theory-4.png" alt="number-theory-4"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> gcd <span class="keyword">import</span> xgcd</span><br><span class="line"><span class="keyword">from</span> euler <span class="keyword">import</span> phi</span><br><span class="line"><span class="keyword">from</span> isPrime <span class="keyword">import</span> isPrime</span><br><span class="line"><span class="keyword">from</span> factor <span class="keyword">import</span> factor</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span>  <span class="title">ind</span><span class="params">(m,g)</span>:</span></span><br><span class="line">    <span class="string">''' mod m ,primary root g  -&gt;  &#123;n:indg n&#125;'''</span></span><br><span class="line">    <span class="keyword">return</span> &#123;j:i <span class="keyword">for</span> i <span class="keyword">in</span> range(m<span class="number">-1</span>) \</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(m) <span class="keyword">if</span> (g**i-j)%m==<span class="number">0</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gs</span><span class="params">(m,num=<span class="number">100</span>)</span>:</span></span><br><span class="line">    <span class="string">'''return list of  m's  primary roots below num'''</span></span><br><span class="line">    p = phi(m)</span><br><span class="line">    mp = factor(p)</span><br><span class="line">    checkLst = [p//i <span class="keyword">for</span> i <span class="keyword">in</span> mp]</span><br><span class="line">    <span class="keyword">return</span> [i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,num) <span class="keyword">if</span> all((i**n<span class="number">-1</span>)%m !=<span class="number">0</span>  <span class="keyword">for</span> n <span class="keyword">in</span> checkLst)]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">minG</span><span class="params">(m)</span>:</span></span><br><span class="line">    p = phi(m)</span><br><span class="line">    mp = factor(p)</span><br><span class="line">    checkLst = [p//i <span class="keyword">for</span> i <span class="keyword">in</span> mp]</span><br><span class="line">    i=<span class="number">2</span></span><br><span class="line">    <span class="keyword">while</span>  <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">if</span> all((i**n<span class="number">-1</span>)%m !=<span class="number">0</span>  <span class="keyword">for</span> n <span class="keyword">in</span> checkLst):<span class="keyword">return</span> i</span><br><span class="line">        i+=<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">solve</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,equ=None)</span>:</span></span><br><span class="line">        self.linearPat= re.compile(<span class="string">r'\s*(\d+)\s*--\s*(\d+)[\s\(]*mod\s*(\d+)'</span>)</span><br><span class="line">        self.sol  = []</span><br><span class="line">        <span class="comment">#self.m = m</span></span><br><span class="line">        <span class="comment">#self.ind_mp = ind(m,minG(m))</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">noSol</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'equation &#123;equ&#125; has no solution'</span>.format(equ=self.equ))</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">error</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"Error! The divisor m must be postive integer"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">solveLinear</span><span class="params">(self,a,b,m)</span>:</span></span><br><span class="line">        <span class="string">'''ax--b(mod m): solve linear equation with one unknown</span></span><br><span class="line"><span class="string">            return  ([x1,x2,...],m)</span></span><br><span class="line"><span class="string">        '''</span></span><br><span class="line">        a,b,m = self.check(a,b,m)</span><br><span class="line">        g,x,y=xgcd(a,m)</span><br><span class="line">        <span class="keyword">if</span> a*b%g!=<span class="number">0</span>:</span><br><span class="line">            self.noSol()</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line">        sol=x*b//g</span><br><span class="line">        m0 = m//g</span><br><span class="line">        sols = [(sol+i*m0)%m <span class="keyword">for</span> i <span class="keyword">in</span> range(g)]</span><br><span class="line">        print(<span class="string">'&#123;&#125;x--&#123;&#125;(mod &#123;&#125;), solution: &#123;&#125; mod &#123;&#125;'</span>.format(a,b,m,sols,m))</span><br><span class="line">        <span class="keyword">return</span> (sols,m)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">check</span><span class="params">(self,a,b,m)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> m&lt;=<span class="number">0</span>:</span><br><span class="line">            self.error()</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line">        <span class="keyword">if</span> a&lt;<span class="number">0</span>:a,b=-a,-b  <span class="comment">## important</span></span><br><span class="line">        <span class="keyword">if</span> b&lt;<span class="number">0</span>:b+= -b//m * m</span><br><span class="line">        <span class="keyword">return</span> a,b,m</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">solveHigh</span><span class="params">(self,a,n,b,m)</span>:</span></span><br><span class="line">        <span class="string">''' ax^n -- b (mod m)  ind_mp is a dict of  m's &#123;n: indg n&#125;'''</span></span><br><span class="line">        ind_mp = ind(m,minG(m))</span><br><span class="line">        tmp = ind_mp[b] - ind_mp[a]</span><br><span class="line">        <span class="keyword">if</span> tmp &lt; <span class="number">0</span>:tmp+=m</span><br><span class="line">        sol = self.solveLinear(n,tmp,phi(m))</span><br><span class="line">        re_mp = &#123;j:i <span class="keyword">for</span> i ,j <span class="keyword">in</span> ind_mp.items()&#125;</span><br><span class="line">        sols = [re_mp[i] <span class="keyword">for</span> i <span class="keyword">in</span> sol[<span class="number">0</span>]]</span><br><span class="line">        print(<span class="string">'&#123;&#125;x^&#123;&#125;--&#123;&#125;(mod &#123;&#125;),  solution: &#123;&#125; mod &#123;&#125;'</span>.format(a,n,b,m,sols,m))</span><br><span class="line">        <span class="keyword">return</span> sols,m</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">solveGroup</span><span class="params">(self,tups)</span>:</span></span><br><span class="line">        <span class="string">'''tups is a list of tongyu equation groups, like</span></span><br><span class="line"><span class="string">            [(a1,b1,m1),(a2,b2,m2)...]</span></span><br><span class="line"><span class="string">            and, m1,m2... are all primes</span></span><br><span class="line"><span class="string">        '''</span></span><br><span class="line">        mp = &#123;&#125;</span><br><span class="line">        print(<span class="string">'solving group of equations: '</span>)</span><br><span class="line">        <span class="keyword">for</span> a,b,m <span class="keyword">in</span> tups:</span><br><span class="line">            print(<span class="string">'&#123;&#125;x--&#123;&#125;(mod &#123;&#125;)'</span>.format(a,b,m))</span><br><span class="line">            <span class="keyword">if</span> m <span class="keyword">in</span> mp:</span><br><span class="line">                <span class="keyword">if</span> mp[m][<span class="number">0</span>]*b!=mp[m][<span class="number">1</span>]*a:</span><br><span class="line">                    self.noSol()</span><br><span class="line">                    <span class="keyword">return</span></span><br><span class="line">            <span class="keyword">else</span>:mp[m] = (a,b)</span><br><span class="line">        product = <span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> mp.keys():</span><br><span class="line">            product *=i</span><br><span class="line">        sol = [<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> mp:</span><br><span class="line">            xs,m = self.solveLinear(product//i*mp[i][<span class="number">0</span>],<span class="number">1</span>,i)</span><br><span class="line">            new = []</span><br><span class="line">            <span class="keyword">for</span> x <span class="keyword">in</span> xs:</span><br><span class="line">                cur = x*product//i*mp[i][<span class="number">1</span>]</span><br><span class="line">                <span class="keyword">for</span> old <span class="keyword">in</span> sol:</span><br><span class="line">                    new.append(old+cur)</span><br><span class="line">            sol = new</span><br><span class="line">        sol= [i%product <span class="keyword">for</span> i <span class="keyword">in</span> sol]</span><br><span class="line">        print(<span class="string">'final solution: &#123;&#125; mod &#123;&#125;'</span>.format(sol,product))</span><br><span class="line">        <span class="keyword">return</span> sol,product</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self)</span>:</span></span><br><span class="line">        s=input(<span class="string">'输入同余方程，用--代表同于号，形如3--5(mod 7)代表3x模7同余于5'</span>)</span><br><span class="line">        li= self.linearPat.findall(s)</span><br><span class="line">        li = [(int(a),int(b),int(m)) <span class="keyword">for</span> a,b,m <span class="keyword">in</span> li]</span><br><span class="line">        print(self.solveLinear(li[<span class="number">0</span>]))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    solver  = solve()</span><br><span class="line">    res = solver.solveLinear(<span class="number">3</span>,<span class="number">6</span>,<span class="number">9</span>)</span><br><span class="line">    print()</span><br><span class="line">    res = solver.solveHigh(<span class="number">1</span>,<span class="number">8</span>,<span class="number">3</span>,<span class="number">11</span>)</span><br><span class="line">    print()</span><br><span class="line">    res = solver.solveGroup([(<span class="number">5</span>,<span class="number">11</span>,<span class="number">2</span>),(<span class="number">3</span>,<span class="number">8</span>,<span class="number">5</span>),(<span class="number">4</span>,<span class="number">1</span>,<span class="number">7</span>)])</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/number-theory.html">Number-Theory</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">mbinary</a></p>
+        <p><span>发布时间:</span>2018-12-16, 16:56:00</p>
+        <p><span>最后更新:</span>2021-04-23, 08:02:23</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/number-theory.html" title="Number-Theory">https://mbinary.xyz/number-theory.html</a>
+            <span class="copy-path" data-clipboard-text="原文: https://mbinary.xyz/number-theory.html　　作者: mbinary" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/wsl-vim-clipboard.html">
+                    WSL 中的 VIM 与 Windwos 剪切板通信
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/string-matching.html">
+                    String-Mathching-Algorithm
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0-1-gcd-co-primes"><span class="toc-number">1.</span> <span class="toc-text">0.1. gcd, co-primes</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#0-1-1-Bezout’s-identity"><span class="toc-number">1.1.</span> <span class="toc-text">0.1.1. Bezout’s identity</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0-2-primality-test"><span class="toc-number">2.</span> <span class="toc-text">0.2. primality_test</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#0-2-1-Prime-Sieve"><span class="toc-number">2.1.</span> <span class="toc-text">0.2.1. Prime Sieve</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0-2-2-Miller-Rabin"><span class="toc-number">2.2.</span> <span class="toc-text">0.2.2. Miller-Rabin</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0-3-Factorization"><span class="toc-number">3.</span> <span class="toc-text">0.3. Factorization</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#0-3-1-Pollard’s-rho-algorithm"><span class="toc-number">3.1.</span> <span class="toc-text">0.3.1. Pollard’s rho algorithm</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0-4-Euler-function"><span class="toc-number">4.</span> <span class="toc-text">0.4. Euler function</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0-5-Modulo-equation"><span class="toc-number">5.</span> <span class="toc-text">0.5. Modulo equation</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-6 i,
+        .toc-level-6 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Number-Theory　| mbinary's blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+
+<!--<script src="//cdn.jsdelivr.net/npm/leancloud-storage@latest/dist/av-min.js"></script>
+<script src='//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js'></script>-->
+
+<div id="vcomments"></div>
+<script>
+    var notify = false == true ? true : false;
+    var verify = false == true ? true : false;
+    var visitor = true == true ? true : false;
+new Valine({
+    el: '#vcomments',
+    notify: notify,
+    verify: verify,
+    appId: 'ArpEYbLUBmpXK3f245hKNu4A-gzGzoHsz',
+    appKey: 'X5cHcMU1ATb8q0prtPGEqIPX',
+    lang: 'en',
+    placeholder: '请陈独秀同志发言^_^',
+    avatar: 'monsterid',
+    pageSize: 20,
+    visitor: visitor
+    });
+</script>
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/wsl-vim-clipboard.html" title="上一篇: WSL 中的 VIM 与 Windwos 剪切板通信">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/string-matching.html" title="下一篇: String-Mathching-Algorithm">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/poems.html">生活也要有诗和远方呀</a></li><li class="post-list-item"><a class="post-list-link" href="/dft.html">傅里叶变换</a></li><li class="post-list-item"><a class="post-list-link" href="/wsl-vim-clipboard.html">WSL 中的 VIM 与 Windwos 剪切板通信</a></li><li class="post-list-item"><a class="post-list-link" href="/number-theory.html">Number-Theory</a></li><li class="post-list-item"><a class="post-list-link" href="/string-matching.html">String-Mathching-Algorithm</a></li><li class="post-list-item"><a class="post-list-link" href="/graph.html">图算法</a></li><li class="post-list-item"><a class="post-list-link" href="/fib-heap.html">『数据结构』Fibonacci-heap</a></li><li class="post-list-item"><a class="post-list-link" href="/b-tree.html">『数据结构』B树(B-Tree)及其变体 B+树,B*树</a></li><li class="post-list-item"><a class="post-list-link" href="/introduction-to-bitcoin.html">『比特币』概述</a></li><li class="post-list-item"><a class="post-list-link" href="/introduction-to-blockchain.html">『区块链』简介</a></li><li class="post-list-item"><a class="post-list-link" href="/algorithm-general.html">『算法』概述</a></li><li class="post-list-item"><a class="post-list-link" href="/red-black-tree.html">『数据结构』红黑树(red-black tree)</a></li><li class="post-list-item"><a class="post-list-link" href="/tree.html">『数据结构』树</a></li><li class="post-list-item"><a class="post-list-link" href="/hashTable.html">『数据结构』散列表</a></li><li class="post-list-item"><a class="post-list-link" href="/sort.html">『算法』排序</a></li><li class="post-list-item"><a class="post-list-link" href="/bus.html">『计算机组成原理』总线</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-device.html">『现代操作系统』IO设备</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-software.html">『现代操作系统』IO软件原理</a></li><li class="post-list-item"><a class="post-list-link" href="/IO-hardware.html">『现代操作系统』IO硬件原理</a></li><li class="post-list-item"><a class="post-list-link" href="/os-general.html">『现代操作系统』操作系统引论</a></li><li class="post-list-item"><a class="post-list-link" href="/linux-file-io.html">『Unix环境高级编程』linux 文件 I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/multiprocessor.html">『现代操作系统』多处理机</a></li><li class="post-list-item"><a class="post-list-link" href="/simple-shell.html">『linux』c 语言实现一个简易的 shell</a></li><li class="post-list-item"><a class="post-list-link" href="/deadlock.html">『现代操作系统』死锁</a></li><li class="post-list-item"><a class="post-list-link" href="/comics-about-staying-up.html">『小仓鼠漫画』熬夜的危害与防护</a></li><li class="post-list-item"><a class="post-list-link" href="/ctf-basic.html">『CTF』网络信息安全攻防实验室之基础关 writeup</a></li><li class="post-list-item"><a class="post-list-link" href="/roommate.html">用机械键盘的室友</a></li><li class="post-list-item"><a class="post-list-link" href="/csapp-bomb-lab-report.html">CSAPP-BOMB-LAB</a></li><li class="post-list-item"><a class="post-list-link" href="/learning-and-forgetting.html">学习与遗忘</a></li><li class="post-list-item"><a class="post-list-link" href="/20-years-old-summary.html">2017 年，20 岁，大二寒假总结与感悟</a></li><li class="post-list-item"><a class="post-list-link" href="/decrypt-netease-music.html">『WEB』从网易云音乐缓存文件得到MP3</a></li><li class="post-list-item"><a class="post-list-link" href="/all-one-data-structure.html">『数据结构』inc,dec,getMin,getMax 均为 O(1) 并用于实现 LRU</a></li><li class="post-list-item"><a class="post-list-link" href="/video.html">影视作品观后感</a></li><li class="post-list-item"><a class="post-list-link" href="/books.html">书籍总结与推荐</a></li><li class="post-list-item"><a class="post-list-link" href="/hacker-and-painter.html">『读书笔记』黑客与画家</a></li><li class="post-list-item"><a class="post-list-link" href="/from-chem-to-cs.html">从化院到计院</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017-2021 mbinary
+                <br>
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+            <div class="footer-right">             
+                <span>Site Updated: 2021-04-23 16:04 UTC+8</span>
+                <br>
+                <a href="https://github.com/mbinary"><img src="https://img.shields.io/github/followers/mbinary.svg?label=Followers&style=social"> </a>
+                <a href="https://github.com/mbinary/mbinary.github.io/"><img src="https://img.shields.io/github/stars/mbinary/mbinary.github.io.svg?label=Stars&style=social"> </a>
+            </div>
+        </div>
+        
+    </div>
+</footer>
+
+    </div>
+    
+    <script src="/js/GithubRepoWidget.js"></script>
+
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+             github: ".github-widget a", 
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>
