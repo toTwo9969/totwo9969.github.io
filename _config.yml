@@ -3,10 +3,10 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: mbinary's blog
-subtitle: 淡泊明志, 宁静致远
-#subtitle: Free Costs Much
-#description: 淡泊明志, 宁静致远
+title: toTwo's blog
+subtitle: 忍辱负重，以待天时
+#subtitle: You are garbage
+#description: 忍辱负重，以待天时
 # Enthusiastic with skills and knowledge, I build this blog to trace down my learning expierence and to share ideas with you. 
 author: mbinary
 language: zh-Hans  #zh-CN
@@ -15,7 +15,7 @@ timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://mbinary.xyz
+url: https://totwo.xyz
 root: /
 permalink: :title.html     #:year/:month/:day/:title/
 permalink_defaults:
