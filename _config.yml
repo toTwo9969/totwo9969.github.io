@@ -96,8 +96,8 @@ theme: yelee
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
     - type: git
-      repo: https://gh_token@github.com/mbinary/mbinary.github.io.git,master #github
-      branch: master
+      repo: https://gh_token@github.com/mbinary/totwo9969.github.io.git,main #github
+      branch: main
       message: "Site Updated: UpdateTime"
 
 live2d:
